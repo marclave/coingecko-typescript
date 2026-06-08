@@ -2,9 +2,9 @@
 
 const castToError = (error: unknown): Error => (error instanceof Error ? error : new Error(String(error)));
 
-export class CoinGeckoApiError extends Error {}
+export class CoingeckoError extends Error {}
 
-export class APIError<TStatus extends number | undefined = number | undefined, THeaders extends Headers | undefined = Headers | undefined, TError extends object | undefined = object | undefined> extends CoinGeckoApiError {
+export class APIError<TStatus extends number | undefined = number | undefined, THeaders extends Headers | undefined = Headers | undefined, TError extends object | undefined = object | undefined> extends CoingeckoError {
   readonly status: TStatus;
   readonly headers: THeaders;
   readonly error: TError;

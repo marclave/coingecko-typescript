@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Scalar. See README.md for details.
 
 import { APIPromise, type APIResponseProps } from './api-promise';
-import { CoinGeckoApiError, APIError, APIConnectionError, APIConnectionTimeoutError, APIUserAbortError, NotFoundError, ConflictError, RateLimitError, BadRequestError, AuthenticationError, InternalServerError, PermissionDeniedError, UnprocessableEntityError } from './error';
+import { CoingeckoError, APIError, APIConnectionError, APIConnectionTimeoutError, APIUserAbortError, NotFoundError, ConflictError, RateLimitError, BadRequestError, AuthenticationError, InternalServerError, PermissionDeniedError, UnprocessableEntityError } from './error';
 import { readEnv } from './internal/utils/env';
 import type { Fetch, RequestInfo } from './internal/builtin-types';
 import type { HeadersLike } from './internal/headers';
@@ -133,10 +133,10 @@ export interface ClientOptions {
   logger?: Logger | undefined | null;
 }
 
-export type CoinGeckoApiOptions = ClientOptions;
+export type CoingeckoOptions = ClientOptions;
 
 /**
- * API Client for interfacing with the CoinGeckoApi API.
+ * API Client for interfacing with the Coingecko API.
  *
  * @param {string | AuthTokenProvider | undefined} [opts.proKeyAuth=process.env["PRO_KEY_AUTH"] ?? undefined]
  * @param {string | AuthTokenProvider | undefined} [opts.demoKeyAuth=process.env["DEMO_KEY_AUTH"] ?? undefined]
@@ -151,10 +151,10 @@ export type CoinGeckoApiOptions = ClientOptions;
  * @param {LogLevel | undefined | null} opts.logLevel - Set the log level.
  * @param {Logger | undefined | null} opts.logger - Set the logger implementation.
  */
-export class CoinGeckoApi {
-  static CoinGeckoApi = this;
+export class Coingecko {
+  static Coingecko = this;
   static DEFAULT_TIMEOUT = 60000;
-  static CoinGeckoApiError = CoinGeckoApiError;
+  static CoingeckoError = CoingeckoError;
   static APIError = APIError;
   static APIConnectionError = APIConnectionError;
   static APIConnectionTimeoutError = APIConnectionTimeoutError;
@@ -217,7 +217,7 @@ export class CoinGeckoApi {
   constructor(options: ClientOptions = {}) {
     const baseURL = options.baseURL === undefined ? readEnv("COIN-GECKO_BASE_URL") : options.baseURL;
     const environment = options.environment ?? "production";
-    if (baseURL && options.environment) throw new CoinGeckoApiError("Ambiguous URL; The `baseURL` option (or COIN-GECKO_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null");
+    if (baseURL && options.environment) throw new CoingeckoError("Ambiguous URL; The `baseURL` option (or COIN-GECKO_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null");
     this.baseURL = baseURL ?? environments[environment];
     this.timeout = options.timeout ?? 60000;
     this.maxRetries = options.maxRetries ?? 2;
@@ -457,19 +457,19 @@ export class CoinGeckoApi {
   private async resolveAuthOption(optionName: string, value: string | AuthTokenProvider | null | undefined): Promise<string | undefined> {
     if (value == null) return undefined;
     const token = typeof value === "function" ? await value() : value;
-    if (!token) throw new CoinGeckoApiError(`Expected '${optionName}' to resolve to a non-empty string.`);
+    if (!token) throw new CoingeckoError(`Expected '${optionName}' to resolve to a non-empty string.`);
     return token;
   }
 
   private resolveAuthOptionSync(optionName: string, value: string | AuthTokenProvider | null | undefined): string | undefined {
     if (value == null) return undefined;
     const token = typeof value === "function" ? value() : value;
-    if (typeof token !== "string" || !token) throw new CoinGeckoApiError(`Expected '${optionName}' to resolve to a non-empty string.`);
+    if (typeof token !== "string" || !token) throw new CoingeckoError(`Expected '${optionName}' to resolve to a non-empty string.`);
     return token;
   }
 }
 
-export declare namespace CoinGeckoApi {
+export declare namespace Coingecko {
   export type RequestOptions = import("./internal/request-options").RequestOptions;
   export type PingServer = import("./resources/ping").PingServer;
   export type ApiUsage = import("./resources/key").ApiUsage;
@@ -691,7 +691,7 @@ const isAbortError = (error: Error): boolean => error.name === "AbortError";
 const defaultFetch = (): Fetch => {
   const fetchImpl = globalThis.fetch;
   if (typeof fetchImpl !== "function") {
-    throw new CoinGeckoApiError('No fetch implementation found; pass `fetch` in client options.');
+    throw new CoingeckoError('No fetch implementation found; pass `fetch` in client options.');
   }
   return fetchImpl.bind(globalThis) as Fetch;
 };

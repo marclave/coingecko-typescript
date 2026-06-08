@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Scalar. See README.md for details.
 
-import type { CoinGeckoApi } from './client.js';
+import type { Coingecko } from './client.js';
 
 export class APIResource {
-  protected _client: CoinGeckoApi;
+  protected _client: Coingecko;
 
-  constructor(client: CoinGeckoApi) {
+  constructor(client: Coingecko) {
     this._client = client;
   }
 }

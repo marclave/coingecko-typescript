@@ -1,7 +1,7 @@
 {
   "name": "@coingecko/coingecko-typescript",
   "version": "0.1.0",
-  "description": "CoinGeckoApi TypeScript SDK",
+  "description": "Coingecko TypeScript SDK",
   "type": "module",
   "sideEffects": false,
   "main": "./dist/cjs/index.js",

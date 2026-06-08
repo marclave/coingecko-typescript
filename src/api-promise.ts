@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Scalar. See README.md for details.
 
-import type { CoinGeckoApi } from './client.js';
+import type { Coingecko } from './client.js';
 import type { FinalRequestOptions } from './internal/request-options';
 
 export type APIResponseProps = {
@@ -9,7 +9,7 @@ export type APIResponseProps = {
   readonly controller: AbortController;
 };
 
-export type ParseResponse<T> = (client: CoinGeckoApi, props: APIResponseProps) => T | Promise<T>;
+export type ParseResponse<T> = (client: Coingecko, props: APIResponseProps) => T | Promise<T>;
 
 export const defaultParseResponse = async <T>(_client: unknown, props: APIResponseProps): Promise<T> => {
   const { response } = props;
@@ -26,7 +26,7 @@ export class APIPromise<T> extends Promise<T> {
   private parsedPromise: Promise<T> | undefined;
 
   constructor(
-    private readonly client: CoinGeckoApi,
+    private readonly client: Coingecko,
     private readonly responsePromise: Promise<APIResponseProps>,
     private readonly parseResponse: ParseResponse<T> = defaultParseResponse,
   ) {

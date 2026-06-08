@@ -1,6 +1,6 @@
 {
-  "name": "CoinGeckoApi",
-  "slug": "coinGeckoApi",
+  "name": "Coingecko",
+  "slug": "coingecko",
   "version": "3.0.0",
   "servers": [
     "https://pro-api.coingecko.com/api/v3",
