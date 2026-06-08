@@ -31,9 +31,9 @@ npm install @coingecko/coingecko-typescript
 ## Quickstart
 
 ```ts
-import CoingeckoCoingeckoTypescript from "@coingecko/coingecko-typescript";
+import Coingecko from "@coingecko/coingecko-typescript";
 
-const client = new CoingeckoCoingeckoTypescript({
+const client = new Coingecko({
   proKeyAuth: process.env["PRO_KEY_AUTH"], // defaults to the PRO_KEY_AUTH env var
   environment: "pro",
 });
