@@ -1,6 +1,6 @@
 {
   "name": "@coingecko/coingecko-typescript",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Coingecko TypeScript SDK",
   "type": "module",
   "sideEffects": false,
