@@ -514,26 +514,6 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
   },
 
   {
-    operation: "getContractAddress",
-    method: "GET",
-    path: "/nfts/{asset_platform_id}/contract/{contract_address}",
-    run: async () => {
-      const nftData = await client.nfts.contract.getContractAddress("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/nfts/{asset_platform_id}/contract/{contract_address}/market_chart",
-    run: async () => {
-      const nftMarketChart = await client.nfts.contract.marketChart.get("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
-        days: "1",
-      });
-    },
-  },
-
-  {
     operation: "get",
     method: "GET",
     path: "/nfts/{id}/market_chart",
@@ -550,6 +530,26 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     path: "/nfts/{id}/tickers",
     run: async () => {
       const nftTickers = await client.nfts.tickers.get("pudgy-penguins");
+    },
+  },
+
+  {
+    operation: "getContractAddress",
+    method: "GET",
+    path: "/nfts/{asset_platform_id}/contract/{contract_address}",
+    run: async () => {
+      const nftData = await client.nfts.contract.getContractAddress("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8");
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/nfts/{asset_platform_id}/contract/{contract_address}/market_chart",
+    run: async () => {
+      const nftMarketChart = await client.nfts.contract.marketChart.get("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
+        days: "1",
+      });
     },
   },
 
@@ -597,6 +597,35 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
       const globalMarketCapChart = await client.global.marketCapChart.get({
         days: "1",
       });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/tokens/info_recently_updated",
+    run: async () => {
+      const tokenInfoRecentlyUpdated = await client.onchain.tokens.infoRecentlyUpdated.get();
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/search/pools",
+    run: async () => {
+      const search = await client.onchain.search.pools.get({
+        query: "weth",
+      });
+    },
+  },
+
+  {
+    operation: "getAddresses",
+    method: "GET",
+    path: "/onchain/simple/networks/{network}/token_price/{addresses}",
+    run: async () => {
+      const onchainSimplePrice = await client.onchain.simple.networks.tokenPrice.getAddresses("eth", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2");
     },
   },
 
@@ -819,15 +848,6 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
   {
     operation: "get",
     method: "GET",
-    path: "/onchain/tokens/info_recently_updated",
-    run: async () => {
-      const tokenInfoRecentlyUpdated = await client.onchain.tokens.infoRecentlyUpdated.get();
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
     path: "/onchain/categories",
     run: async () => {
       const onchainCategoriesList = await client.onchain.categories.get();
@@ -840,26 +860,6 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     path: "/onchain/categories/{category_id}/pools",
     run: async () => {
       const categoriesPools = await client.onchain.categories.getPools("pump-fun");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/search/pools",
-    run: async () => {
-      const search = await client.onchain.search.pools.get({
-        query: "weth",
-      });
-    },
-  },
-
-  {
-    operation: "getAddresses",
-    method: "GET",
-    path: "/onchain/simple/networks/{network}/token_price/{addresses}",
-    run: async () => {
-      const onchainSimplePrice = await client.onchain.simple.networks.tokenPrice.getAddresses("eth", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2");
     },
   },
 

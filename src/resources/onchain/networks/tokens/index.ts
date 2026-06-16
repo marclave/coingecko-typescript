@@ -15,6 +15,6 @@ export type { TopTokenHolders, TopHolderGetParams } from "./top-holders";
 export { HoldersChart } from "./holders-chart";
 export type { TokenHoldersChart, HoldersChartGetParams } from "./holders-chart";
 export { Ohlcv } from "./ohlcv";
-export type { Ohlcv as OhlcvOhlcv, OhlcvGetTimeframeParams } from "./ohlcv";
+export type { Ohlcv2 as OhlcvOhlcv, OhlcvGetTimeframeParams } from "./ohlcv";
 export { Trades } from "./trades";
 export type { TokenTrades, TradeGetParams } from "./trades";

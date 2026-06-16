@@ -11,16 +11,19 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class TokenLists extends APIResource {
   /**
    * To get full list of tokens of a blockchain network (asset platform) that is supported by [Ethereum token list standard](https://tokenlists.org/)
    */
-  getAllJson(asset_platform_id: string, options?: RequestOptions): APIPromise<TokenLists> {
+  getAllJson(asset_platform_id: string, options?: RequestOptions): APIPromise<TokenLists2> {
     return this._client.get(__scalarPath`/token_lists/${asset_platform_id}/all.json`, options);
   }
 }
 
-export interface TokenLists {
+export interface TokenLists2 {
   /**
    * Token list name
    */
@@ -47,6 +50,6 @@ export interface TokenLists {
   version: { major?: number; minor?: number; patch?: number };
 }
 export declare namespace TokenLists {
-  export { type TokenLists as TokenLists };
+  export { type TokenLists2 as TokenLists };
 }
 export { TokenLists as TokenListResource };

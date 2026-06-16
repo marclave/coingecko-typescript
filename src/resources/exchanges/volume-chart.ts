@@ -11,6 +11,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class VolumeChart extends APIResource {
   /**
    * To query the historical volume chart data with time in UNIX and trading volume data in BTC based on exchange's ID

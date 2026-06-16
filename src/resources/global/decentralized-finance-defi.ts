@@ -10,6 +10,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class DecentralizedFinanceDefi extends APIResource {
   /**
    * To query top 100 cryptocurrency global decentralized finance (DeFi) data including DeFi market cap, trading volume

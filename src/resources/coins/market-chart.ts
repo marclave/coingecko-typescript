@@ -11,6 +11,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class MarketChart extends APIResource {
   /**
    * To get the historical chart data of a coin including time in UNIX, price, market cap and 24hrs volume based on particular coin ID

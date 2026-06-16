@@ -13,6 +13,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Exchanges extends APIResource {
   tickers: Tickers = new Tickers(this._client);
   volumeChart: VolumeChart = new VolumeChart(this._client);
@@ -20,7 +23,7 @@ export class Exchanges extends APIResource {
   /**
    * To query all the supported exchanges with exchanges' data (ID, name, country, etc.) that have active trading volumes on CoinGecko
    */
-  get(params: ExchangeGetParams | null | undefined = {}, options?: RequestOptions): APIPromise<Exchanges> {
+  get(params: ExchangeGetParams | null | undefined = {}, options?: RequestOptions): APIPromise<Exchanges2> {
     const { per_page, page } = params ?? {};
     return this._client.get("/exchanges", { query: { per_page: per_page, page: page }, ...options });
   }
@@ -40,7 +43,7 @@ export class Exchanges extends APIResource {
   }
 }
 
-export type Exchanges = Array<{ id: string; name: string; year_established: number | null; country: string | null; description: string; url: string; image: string; has_trading_incentive: boolean; trust_score: number | null; trust_score_rank: number | null; trade_volume_24h_btc: number }>;
+export type Exchanges2 = Array<{ id: string; name: string; year_established: number | null; country: string | null; description: string; url: string; image: string; has_trading_incentive: boolean; trust_score: number | null; trust_score_rank: number | null; trade_volume_24h_btc: number }>;
 
 export type ExchangesList = Array<{ id: string; name: string }>;
 
@@ -178,6 +181,6 @@ export interface ExchangeGetIdParams {
 }
 export declare namespace Exchanges {
   export { Tickers as Tickers, VolumeChart as VolumeChart };
-  export { type Exchanges as Exchanges, type ExchangesList as ExchangesList, type ExchangesId as ExchangesId, type ExchangeGetParams as ExchangeGetParams, type ExchangeGetListParams as ExchangeGetListParams, type ExchangeGetIdParams as ExchangeGetIdParams };
+  export { type Exchanges2 as Exchanges, type ExchangesList as ExchangesList, type ExchangesId as ExchangesId, type ExchangeGetParams as ExchangeGetParams, type ExchangeGetListParams as ExchangeGetListParams, type ExchangeGetIdParams as ExchangeGetIdParams };
 }
 export { Exchanges as ExchangeResource };

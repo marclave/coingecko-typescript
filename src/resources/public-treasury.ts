@@ -11,11 +11,14 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class PublicTreasury extends APIResource {
   /**
    * To query public companies' and governments' cryptocurrency holdings by coin ID
    */
-  getCoinId(entity: "companies" | "governments", coin_id: string, params: PublicTreasuryGetCoinIdParams | null | undefined = {}, options?: RequestOptions): APIPromise<PublicTreasury> {
+  getCoinId(entity: "companies" | "governments", coin_id: string, params: PublicTreasuryGetCoinIdParams | null | undefined = {}, options?: RequestOptions): APIPromise<PublicTreasury2> {
     const { per_page, page, order } = params ?? {};
     return this._client.get(__scalarPath`/${entity}/public_treasury/${coin_id}`, { query: { per_page: per_page, page: page, order: order }, ...options });
   }
@@ -42,7 +45,7 @@ export class PublicTreasury extends APIResource {
   }
 }
 
-export type PublicTreasury = { total_holdings: number; total_value_usd: number; market_cap_dominance: number; companies: Array<{ name: string; symbol: string | null; country: string; total_holdings: number; total_entry_value_usd: number; total_current_value_usd: number; percentage_of_total_supply: number }> } | { total_holdings: number; total_value_usd: number; market_cap_dominance: number; governments: Array<{ name: string; symbol: string | null; country: string; total_holdings: number; total_entry_value_usd: number; total_current_value_usd: number; percentage_of_total_supply: number }> };
+export type PublicTreasury2 = { total_holdings: number; total_value_usd: number; market_cap_dominance: number; companies: Array<{ name: string; symbol: string | null; country: string; total_holdings: number; total_entry_value_usd: number; total_current_value_usd: number; percentage_of_total_supply: number }> } | { total_holdings: number; total_value_usd: number; market_cap_dominance: number; governments: Array<{ name: string; symbol: string | null; country: string; total_holdings: number; total_entry_value_usd: number; total_current_value_usd: number; percentage_of_total_supply: number }> };
 
 export interface PublicTreasuryEntity {
   /**
@@ -190,6 +193,6 @@ export interface PublicTreasuryGetTransactionHistoryParams {
 
 }
 export declare namespace PublicTreasury {
-  export { type PublicTreasury as PublicTreasury, type PublicTreasuryEntity as PublicTreasuryEntity, type PublicTreasuryEntityChart as PublicTreasuryEntityChart, type PublicTreasuryTransactionHistory as PublicTreasuryTransactionHistory, type PublicTreasuryGetCoinIdParams as PublicTreasuryGetCoinIdParams, type PublicTreasuryGetEntityIdParams as PublicTreasuryGetEntityIdParams, type PublicTreasuryGetHoldingChartParams as PublicTreasuryGetHoldingChartParams, type PublicTreasuryGetTransactionHistoryParams as PublicTreasuryGetTransactionHistoryParams };
+  export { type PublicTreasury2 as PublicTreasury, type PublicTreasuryEntity as PublicTreasuryEntity, type PublicTreasuryEntityChart as PublicTreasuryEntityChart, type PublicTreasuryTransactionHistory as PublicTreasuryTransactionHistory, type PublicTreasuryGetCoinIdParams as PublicTreasuryGetCoinIdParams, type PublicTreasuryGetEntityIdParams as PublicTreasuryGetEntityIdParams, type PublicTreasuryGetHoldingChartParams as PublicTreasuryGetHoldingChartParams, type PublicTreasuryGetTransactionHistoryParams as PublicTreasuryGetTransactionHistoryParams };
 }
 export { PublicTreasury as PublicTreasuryResource };

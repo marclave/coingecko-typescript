@@ -22,6 +22,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Coins extends APIResource {
   topGainersLosers: TopGainersLosers = new TopGainersLosers(this._client);
   markets: Markets = new Markets(this._client);
@@ -44,7 +47,7 @@ export class Coins extends APIResource {
   }
 }
 
-export interface TopGainersLosers {
+export interface TopGainersLosers2 {
   top_gainers: Array<TopGainersLosersItem>;
   top_losers: Array<TopGainersLosersItem>;
 }
@@ -232,6 +235,6 @@ export interface CoinGetIdParams {
 }
 export declare namespace Coins {
   export { TopGainersLosers as TopGainersLosers, Markets as Markets, Tickers as Tickers, History as History, MarketChart as MarketChart, Ohlc as Ohlc, Contract as Contract, CirculatingSupplyChart as CirculatingSupplyChart, TotalSupplyChart as TotalSupplyChart, List as List, Categories as Categories };
-  export { type TopGainersLosers as TopGainersLosers, type CoinsId as CoinsId, type CoinGetIdParams as CoinGetIdParams };
+  export { type TopGainersLosers2 as TopGainersLosers, type CoinsId as CoinsId, type CoinGetIdParams as CoinGetIdParams };
 }
 export { Coins as CoinResource };

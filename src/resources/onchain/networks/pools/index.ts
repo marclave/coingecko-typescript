@@ -5,8 +5,8 @@ export type { PoolAddressItem, PoolAddressData, Pool, PoolGetAddressParams, Pool
 export { Info } from "./info";
 export type { PoolTokensInfo, InfoGetParams } from "./info";
 export { Ohlcv } from "./ohlcv";
-export type { Ohlcv as OhlcvOhlcv, OhlcvGetTimeframeParams } from "./ohlcv";
+export type { Ohlcv2 as OhlcvOhlcv, OhlcvGetTimeframeParams } from "./ohlcv";
 export { Trades } from "./trades";
-export type { Trades as TradeTrades, TradeGetParams } from "./trades";
+export type { Trades2 as TradeTrades, TradeGetParams } from "./trades";
 export { Multi } from "./multi";
 export type { MultiPoolAddressData, MultiGetAddressesParams } from "./multi";

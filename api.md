@@ -82,14 +82,14 @@ Complete reference of every operation, grouped by resource. See [the README](./R
   - [NFTs List](#nfts-list)
   - [NFTs Collection Data by ID](#nfts-collection-data-by-id)
   - [NFTs List with Market Data](#nfts-list-with-market-data)
-  - [`Nfts Contract`](#nfts-contract)
-    - [NFTs Collection Data by Contract Address](#nfts-collection-data-by-contract-address)
-    - [`Nfts Contract MarketChart`](#nfts-contract-marketchart)
-      - [NFTs Collection Historical Chart Data by Contract Address](#nfts-collection-historical-chart-data-by-contract-address)
   - [`Nfts MarketChart`](#nfts-marketchart)
     - [NFTs Collection Historical Chart Data by ID](#nfts-collection-historical-chart-data-by-id)
   - [`Nfts Tickers`](#nfts-tickers)
     - [NFTs Collection Tickers by ID](#nfts-collection-tickers-by-id)
+  - [`Nfts Contract`](#nfts-contract)
+    - [NFTs Collection Data by Contract Address](#nfts-collection-data-by-contract-address)
+    - [`Nfts Contract MarketChart`](#nfts-contract-marketchart)
+      - [NFTs Collection Historical Chart Data by Contract Address](#nfts-collection-historical-chart-data-by-contract-address)
 - [`ExchangeRates`](#exchangerates)
   - [BTC-to-Currency Exchange Rates](#btc-to-currency-exchange-rates)
 - [`News`](#news)
@@ -101,6 +101,16 @@ Complete reference of every operation, grouped by resource. See [the README](./R
   - [`Global MarketCapChart`](#global-marketcapchart)
     - [Global Market Cap Chart Data](#global-market-cap-chart-data)
 - [`Onchain`](#onchain)
+  - [`Onchain Tokens`](#onchain-tokens)
+    - [`Onchain Tokens InfoRecentlyUpdated`](#onchain-tokens-inforecentlyupdated)
+      - [Most Recently Updated Tokens List](#most-recently-updated-tokens-list)
+  - [`Onchain Search`](#onchain-search)
+    - [`Onchain Search Pools`](#onchain-search-pools)
+      - [Search Pools & Tokens](#search-pools--tokens)
+  - [`Onchain Simple`](#onchain-simple)
+    - [`Onchain Simple Networks`](#onchain-simple-networks)
+      - [`Onchain Simple Networks TokenPrice`](#onchain-simple-networks-tokenprice)
+        - [Token Price by Token Addresses](#token-price-by-token-addresses)
   - [`Onchain Networks`](#onchain-networks)
     - [Networks List](#networks-list)
     - [`Onchain Networks Pools`](#onchain-networks-pools)
@@ -146,19 +156,9 @@ Complete reference of every operation, grouped by resource. See [the README](./R
       - [Megafilter for Pools](#megafilter-for-pools)
     - [`Onchain Pools TrendingSearch`](#onchain-pools-trendingsearch)
       - [Trending Search Pools](#trending-search-pools)
-  - [`Onchain Tokens`](#onchain-tokens)
-    - [`Onchain Tokens InfoRecentlyUpdated`](#onchain-tokens-inforecentlyupdated)
-      - [Most Recently Updated Tokens List](#most-recently-updated-tokens-list)
   - [`Onchain Categories`](#onchain-categories)
     - [Categories List](#categories-list)
     - [Pools by Category ID](#pools-by-category-id)
-  - [`Onchain Search`](#onchain-search)
-    - [`Onchain Search Pools`](#onchain-search-pools)
-      - [Search Pools & Tokens](#search-pools--tokens)
-  - [`Onchain Simple`](#onchain-simple)
-    - [`Onchain Simple Networks`](#onchain-simple-networks)
-      - [`Onchain Simple Networks TokenPrice`](#onchain-simple-networks-tokenprice)
-        - [Token Price by Token Addresses](#token-price-by-token-addresses)
 
 ## Setup
 
@@ -262,7 +262,7 @@ To search for coins, categories and markets listed on CoinGecko
 | Direction | Type |
 | --- | --- |
 | Request | [`SearchGetParams`](./src/resources/search/search.ts) |
-| Response | [`Search`](./src/resources/search/search.ts) |
+| Response | [`Search2`](./src/resources/search/search.ts) |
 
 ```ts
 const search = await client.search.get({
@@ -309,7 +309,7 @@ To query the top 30 coins with largest price gain and loss by a specific time du
 | Direction | Type |
 | --- | --- |
 | Request | [`TopGainersLoserGetParams`](./src/resources/coins/top-gainers-losers.ts) |
-| Response | [`TopGainersLosers`](./src/resources/coins/top-gainers-losers.ts) |
+| Response | [`TopGainersLosers2`](./src/resources/coins/top-gainers-losers.ts) |
 
 ```ts
 const s = await client.coins.topGainersLosers.get({
@@ -498,7 +498,7 @@ To query historical circulating supply of a coin by number of days away from now
 | Direction | Type |
 | --- | --- |
 | Request | [`CirculatingSupplyChartGetParams`](./src/resources/coins/circulating-supply-chart.ts) |
-| Response | [`CirculatingSupplyChart`](./src/resources/coins/circulating-supply-chart.ts) |
+| Response | [`CirculatingSupplyChart2`](./src/resources/coins/circulating-supply-chart.ts) |
 
 ```ts
 const circulatingSupplyChart = await client.coins.circulatingSupplyChart.get("bitcoin", {
@@ -513,7 +513,7 @@ To query historical circulating supply of a coin, within a range of timestamp ba
 | Direction | Type |
 | --- | --- |
 | Request | [`CirculatingSupplyChartGetRangeParams`](./src/resources/coins/circulating-supply-chart.ts) |
-| Response | [`CirculatingSupplyChart`](./src/resources/coins/circulating-supply-chart.ts) |
+| Response | [`CirculatingSupplyChart2`](./src/resources/coins/circulating-supply-chart.ts) |
 
 ```ts
 const circulatingSupplyChart = await client.coins.circulatingSupplyChart.getRange("bitcoin", {
@@ -531,7 +531,7 @@ To query historical total supply of a coin by number of days away from now based
 | Direction | Type |
 | --- | --- |
 | Request | [`TotalSupplyChartGetParams`](./src/resources/coins/total-supply-chart.ts) |
-| Response | [`TotalSupplyChart`](./src/resources/coins/total-supply-chart.ts) |
+| Response | [`TotalSupplyChart2`](./src/resources/coins/total-supply-chart.ts) |
 
 ```ts
 const totalSupplyChart = await client.coins.totalSupplyChart.get("bitcoin", {
@@ -546,7 +546,7 @@ To query historical total supply of a coin, within a range of timestamp based on
 | Direction | Type |
 | --- | --- |
 | Request | [`TotalSupplyChartGetRangeParams`](./src/resources/coins/total-supply-chart.ts) |
-| Response | [`TotalSupplyChart`](./src/resources/coins/total-supply-chart.ts) |
+| Response | [`TotalSupplyChart2`](./src/resources/coins/total-supply-chart.ts) |
 
 ```ts
 const totalSupplyChart = await client.coins.totalSupplyChart.getRange("bitcoin", {
@@ -603,7 +603,7 @@ To query all the coins categories with market data (market cap, volume, etc.) on
 | Direction | Type |
 | --- | --- |
 | Request | [`CategoryGetParams`](./src/resources/coins/categories.ts) |
-| Response | [`Categories`](./src/resources/coins/categories.ts) |
+| Response | [`Categories2`](./src/resources/coins/categories.ts) |
 
 ```ts
 const categories = await client.coins.categories.get();
@@ -618,7 +618,7 @@ To query all the supported asset platforms (blockchain networks) on CoinGecko
 | Direction | Type |
 | --- | --- |
 | Request | [`AssetPlatformGetParams`](./src/resources/asset-platforms.ts) |
-| Response | [`AssetPlatforms`](./src/resources/asset-platforms.ts) |
+| Response | [`AssetPlatforms2`](./src/resources/asset-platforms.ts) |
 
 ```ts
 const s = await client.assetPlatforms.get();
@@ -632,7 +632,7 @@ To get full list of tokens of a blockchain network (asset platform) that is supp
 
 | Direction | Type |
 | --- | --- |
-| Response | [`TokenLists`](./src/resources/token-lists.ts) |
+| Response | [`TokenLists2`](./src/resources/token-lists.ts) |
 
 ```ts
 const s = await client.tokenLists.getAllJson("ethereum");
@@ -647,7 +647,7 @@ To query all the supported exchanges with exchanges' data (ID, name, country, et
 | Direction | Type |
 | --- | --- |
 | Request | [`ExchangeGetParams`](./src/resources/exchanges/exchanges.ts) |
-| Response | [`Exchanges`](./src/resources/exchanges/exchanges.ts) |
+| Response | [`Exchanges2`](./src/resources/exchanges/exchanges.ts) |
 
 ```ts
 const s = await client.exchanges.get();
@@ -805,7 +805,7 @@ To query public companies' and governments' cryptocurrency holdings by coin ID
 | Direction | Type |
 | --- | --- |
 | Request | [`PublicTreasuryGetCoinIdParams`](./src/resources/public-treasury.ts) |
-| Response | [`PublicTreasury`](./src/resources/public-treasury.ts) |
+| Response | [`PublicTreasury2`](./src/resources/public-treasury.ts) |
 
 ```ts
 const publicTreasury = await client.publicTreasury.getCoinId("companies", "bitcoin");
@@ -892,37 +892,6 @@ To query all the supported NFT collections with floor price, market cap, volume 
 const nfTsMarkets = await client.nfts.getMarkets();
 ```
 
-### `Nfts Contract`
-
-#### NFTs Collection Data by Contract Address
-
-To query all the NFT data (name, floor price, 24hr volume, ...) based on the NFT collection contract address and respective asset platform
-
-| Direction | Type |
-| --- | --- |
-| Response | [`NftData`](./src/resources/nfts/contract/contract.ts) |
-
-```ts
-const nftData = await client.nfts.contract.getContractAddress("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8");
-```
-
-#### `Nfts Contract MarketChart`
-
-##### NFTs Collection Historical Chart Data by Contract Address
-
-To query historical market data of a NFT collection, including floor price, market cap, and 24hr volume, by number of days away from now based on the provided contract address
-
-| Direction | Type |
-| --- | --- |
-| Request | [`MarketChartGetParams`](./src/resources/nfts/contract/market-chart.ts) |
-| Response | [`NftMarketChart`](./src/resources/nfts/contract/market-chart.ts) |
-
-```ts
-const nftMarketChart = await client.nfts.contract.marketChart.get("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
-  days: "1",
-});
-```
-
 ### `Nfts MarketChart`
 
 #### NFTs Collection Historical Chart Data by ID
@@ -954,6 +923,37 @@ To query the latest floor price and 24hr volume of a NFT collection, on each NFT
 const nftTickers = await client.nfts.tickers.get("pudgy-penguins");
 ```
 
+### `Nfts Contract`
+
+#### NFTs Collection Data by Contract Address
+
+To query all the NFT data (name, floor price, 24hr volume, ...) based on the NFT collection contract address and respective asset platform
+
+| Direction | Type |
+| --- | --- |
+| Response | [`NftData`](./src/resources/nfts/contract/contract.ts) |
+
+```ts
+const nftData = await client.nfts.contract.getContractAddress("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8");
+```
+
+#### `Nfts Contract MarketChart`
+
+##### NFTs Collection Historical Chart Data by Contract Address
+
+To query historical market data of a NFT collection, including floor price, market cap, and 24hr volume, by number of days away from now based on the provided contract address
+
+| Direction | Type |
+| --- | --- |
+| Request | [`MarketChartGetParams`](./src/resources/nfts/contract/market-chart.ts) |
+| Response | [`NftMarketChart`](./src/resources/nfts/contract/market-chart.ts) |
+
+```ts
+const nftMarketChart = await client.nfts.contract.marketChart.get("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
+  days: "1",
+});
+```
+
 ## `ExchangeRates`
 
 ### BTC-to-Currency Exchange Rates
@@ -962,7 +962,7 @@ To query BTC exchange rates with other currencies
 
 | Direction | Type |
 | --- | --- |
-| Response | [`ExchangeRates`](./src/resources/exchange-rates.ts) |
+| Response | [`ExchangeRates2`](./src/resources/exchange-rates.ts) |
 
 ```ts
 const s = await client.exchangeRates.get();
@@ -977,7 +977,7 @@ To query the latest crypto news and guides on CoinGecko
 | Direction | Type |
 | --- | --- |
 | Request | [`NewGetParams`](./src/resources/news.ts) |
-| Response | [`News`](./src/resources/news.ts) |
+| Response | [`News2`](./src/resources/news.ts) |
 
 ```ts
 const s = await client.news.get();
@@ -991,7 +991,7 @@ To query cryptocurrency global data including active cryptocurrencies, markets, 
 
 | Direction | Type |
 | --- | --- |
-| Response | [`Global`](./src/resources/global/global.ts) |
+| Response | [`Global2`](./src/resources/global/global.ts) |
 
 ```ts
 const global = await client.global.get();
@@ -1029,6 +1029,61 @@ const globalMarketCapChart = await client.global.marketCapChart.get({
 ```
 
 ## `Onchain`
+
+### `Onchain Tokens`
+
+#### `Onchain Tokens InfoRecentlyUpdated`
+
+##### Most Recently Updated Tokens List
+
+To query 100 most recently updated tokens info of a specific network or across all networks on GeckoTerminal
+
+| Direction | Type |
+| --- | --- |
+| Request | [`InfoRecentlyUpdatedGetParams`](./src/resources/onchain/tokens/info-recently-updated.ts) |
+| Response | [`TokenInfoRecentlyUpdated`](./src/resources/onchain/tokens/info-recently-updated.ts) |
+
+```ts
+const tokenInfoRecentlyUpdated = await client.onchain.tokens.infoRecentlyUpdated.get();
+```
+
+### `Onchain Search`
+
+#### `Onchain Search Pools`
+
+##### Search Pools & Tokens
+
+To search for pools across all networks by pool address, token name, token symbol, or token contract address
+
+| Direction | Type |
+| --- | --- |
+| Request | [`PoolGetParams`](./src/resources/onchain/search/pools.ts) |
+| Response | [`PoolSearch`](./src/resources/onchain/search/pools.ts) |
+
+```ts
+const search = await client.onchain.search.pools.get({
+  query: "weth",
+});
+```
+
+### `Onchain Simple`
+
+#### `Onchain Simple Networks`
+
+##### `Onchain Simple Networks TokenPrice`
+
+###### Token Price by Token Addresses
+
+To get token price based on the provided token contract address on a network
+
+| Direction | Type |
+| --- | --- |
+| Request | [`TokenPriceGetAddressesParams`](./src/resources/onchain/simple/networks/token-price.ts) |
+| Response | [`OnchainSimplePrice`](./src/resources/onchain/simple/networks/token-price.ts) |
+
+```ts
+const onchainSimplePrice = await client.onchain.simple.networks.tokenPrice.getAddresses("eth", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2");
+```
 
 ### `Onchain Networks`
 
@@ -1097,7 +1152,7 @@ To get the OHLCV chart (Open, High, Low, Close, Volume) of a pool based on the p
 | Direction | Type |
 | --- | --- |
 | Request | [`OhlcvGetTimeframeParams`](./src/resources/onchain/networks/pools/ohlcv.ts) |
-| Response | [`Ohlcv`](./src/resources/onchain/networks/pools/ohlcv.ts) |
+| Response | [`Ohlcv2`](./src/resources/onchain/networks/pools/ohlcv.ts) |
 
 ```ts
 const ohlcv = await client.onchain.networks.pools.ohlcv.getTimeframe("eth", "0x06da0fd433c1a5d7a4faa01111c044910a184553", "day");
@@ -1112,7 +1167,7 @@ To query the last 300 trades in the past 24 hours based on the provided pool add
 | Direction | Type |
 | --- | --- |
 | Request | [`TradeGetParams`](./src/resources/onchain/networks/pools/trades.ts) |
-| Response | [`Trades`](./src/resources/onchain/networks/pools/trades.ts) |
+| Response | [`Trades2`](./src/resources/onchain/networks/pools/trades.ts) |
 
 ```ts
 const s = await client.onchain.networks.pools.trades.get("eth", "0x06da0fd433c1a5d7a4faa01111c044910a184553");
@@ -1302,7 +1357,7 @@ To get the OHLCV chart (Open, High, Low, Close, Volume) of a token based on the 
 | Direction | Type |
 | --- | --- |
 | Request | [`OhlcvGetTimeframeParams`](./src/resources/onchain/networks/tokens/ohlcv.ts) |
-| Response | [`Ohlcv`](./src/resources/onchain/networks/tokens/ohlcv.ts) |
+| Response | [`Ohlcv2`](./src/resources/onchain/networks/tokens/ohlcv.ts) |
 
 ```ts
 const ohlcv = await client.onchain.networks.tokens.ohlcv.getTimeframe("solana", "So11111111111111111111111111111111111111112", "day");
@@ -1383,23 +1438,6 @@ To query all the trending search pools across all networks on GeckoTerminal
 const pools = await client.onchain.pools.trendingSearch.get();
 ```
 
-### `Onchain Tokens`
-
-#### `Onchain Tokens InfoRecentlyUpdated`
-
-##### Most Recently Updated Tokens List
-
-To query 100 most recently updated tokens info of a specific network or across all networks on GeckoTerminal
-
-| Direction | Type |
-| --- | --- |
-| Request | [`InfoRecentlyUpdatedGetParams`](./src/resources/onchain/tokens/info-recently-updated.ts) |
-| Response | [`TokenInfoRecentlyUpdated`](./src/resources/onchain/tokens/info-recently-updated.ts) |
-
-```ts
-const tokenInfoRecentlyUpdated = await client.onchain.tokens.infoRecentlyUpdated.get();
-```
-
 ### `Onchain Categories`
 
 #### Categories List
@@ -1426,42 +1464,4 @@ To query all the pools based on the provided category ID
 
 ```ts
 const categoriesPools = await client.onchain.categories.getPools("pump-fun");
-```
-
-### `Onchain Search`
-
-#### `Onchain Search Pools`
-
-##### Search Pools & Tokens
-
-To search for pools across all networks by pool address, token name, token symbol, or token contract address
-
-| Direction | Type |
-| --- | --- |
-| Request | [`PoolGetParams`](./src/resources/onchain/search/pools.ts) |
-| Response | [`PoolSearch`](./src/resources/onchain/search/pools.ts) |
-
-```ts
-const search = await client.onchain.search.pools.get({
-  query: "weth",
-});
-```
-
-### `Onchain Simple`
-
-#### `Onchain Simple Networks`
-
-##### `Onchain Simple Networks TokenPrice`
-
-###### Token Price by Token Addresses
-
-To get token price based on the provided token contract address on a network
-
-| Direction | Type |
-| --- | --- |
-| Request | [`TokenPriceGetAddressesParams`](./src/resources/onchain/simple/networks/token-price.ts) |
-| Response | [`OnchainSimplePrice`](./src/resources/onchain/simple/networks/token-price.ts) |
-
-```ts
-const onchainSimplePrice = await client.onchain.simple.networks.tokenPrice.getAddresses("eth", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2");
 ```

@@ -11,24 +11,27 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class CirculatingSupplyChart extends APIResource {
   /**
    * To query historical circulating supply of a coin by number of days away from now based on provided coin ID
    */
-  get(id: string, params: CirculatingSupplyChartGetParams, options?: RequestOptions): APIPromise<CirculatingSupplyChart> {
+  get(id: string, params: CirculatingSupplyChartGetParams, options?: RequestOptions): APIPromise<CirculatingSupplyChart2> {
     const { days, interval } = params ?? {};
     return this._client.get(__scalarPath`/coins/${id}/circulating_supply_chart`, { query: { days: days, interval: interval }, ...options });
   }
   /**
    * To query historical circulating supply of a coin, within a range of timestamp based on the provided coin ID
    */
-  getRange(id: string, params: CirculatingSupplyChartGetRangeParams, options?: RequestOptions): APIPromise<CirculatingSupplyChart> {
+  getRange(id: string, params: CirculatingSupplyChartGetRangeParams, options?: RequestOptions): APIPromise<CirculatingSupplyChart2> {
     const { from, to } = params ?? {};
     return this._client.get(__scalarPath`/coins/${id}/circulating_supply_chart/range`, { query: { from: from, to: to }, ...options });
   }
 }
 
-export interface CirculatingSupplyChart {
+export interface CirculatingSupplyChart2 {
   /**
    * Circulating supply data points as [timestamp, supply] pairs
    */
@@ -64,6 +67,6 @@ export interface CirculatingSupplyChartGetRangeParams {
 
 }
 export declare namespace CirculatingSupplyChart {
-  export { type CirculatingSupplyChart as CirculatingSupplyChart, type CirculatingSupplyChartGetParams as CirculatingSupplyChartGetParams, type CirculatingSupplyChartGetRangeParams as CirculatingSupplyChartGetRangeParams };
+  export { type CirculatingSupplyChart2 as CirculatingSupplyChart, type CirculatingSupplyChartGetParams as CirculatingSupplyChartGetParams, type CirculatingSupplyChartGetRangeParams as CirculatingSupplyChartGetRangeParams };
 }
 export { CirculatingSupplyChart as CirculatingSupplyChartResource };

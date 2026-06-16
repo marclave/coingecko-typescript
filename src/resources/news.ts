@@ -10,17 +10,20 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class News extends APIResource {
   /**
    * To query the latest crypto news and guides on CoinGecko
    */
-  get(params: NewGetParams | null | undefined = {}, options?: RequestOptions): APIPromise<News> {
+  get(params: NewGetParams | null | undefined = {}, options?: RequestOptions): APIPromise<News2> {
     const { page, per_page, coin_id, language, type } = params ?? {};
     return this._client.get("/news", { query: { page: page, per_page: per_page, coin_id: coin_id, language: language, type: type }, ...options });
   }
 }
 
-export type News = Array<{ title: string; url: string; image: string; author: string; posted_at: string; type: "news" | "guide"; source_name: string; related_coin_ids: Array<string> }>;
+export type News2 = Array<{ title: string; url: string; image: string; author: string; posted_at: string; type: "news" | "guide"; source_name: string; related_coin_ids: Array<string> }>;
 
 export interface NewGetParams {
 /**
@@ -58,6 +61,6 @@ export interface NewGetParams {
 
 }
 export declare namespace News {
-  export { type News as News, type NewGetParams as NewGetParams };
+  export { type News2 as News, type NewGetParams as NewGetParams };
 }
 export { News as NewResource };

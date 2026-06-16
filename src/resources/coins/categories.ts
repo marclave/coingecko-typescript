@@ -10,6 +10,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Categories extends APIResource {
   /**
    * To query all the supported coins categories on CoinGecko
@@ -20,13 +23,13 @@ export class Categories extends APIResource {
   /**
    * To query all the coins categories with market data (market cap, volume, etc.) on CoinGecko
    */
-  get(params: CategoryGetParams | null | undefined = {}, options?: RequestOptions): APIPromise<Categories> {
+  get(params: CategoryGetParams | null | undefined = {}, options?: RequestOptions): APIPromise<Categories2> {
     const { order } = params ?? {};
     return this._client.get("/coins/categories", { query: { order: order }, ...options });
   }
 }
 
-export type Categories = Array<{ id: string; name: string; market_cap: number; market_cap_change_24h: number; content: string; top_3_coins_id: Array<string>; top_3_coins: Array<string>; volume_24h: number; updated_at: string }>;
+export type Categories2 = Array<{ id: string; name: string; market_cap: number; market_cap_change_24h: number; content: string; top_3_coins_id: Array<string>; top_3_coins: Array<string>; volume_24h: number; updated_at: string }>;
 
 export type CategoriesList = Array<{ category_id: string; name: string }>;
 
@@ -39,6 +42,6 @@ export interface CategoryGetParams {
 
 }
 export declare namespace Categories {
-  export { type Categories as Categories, type CategoriesList as CategoriesList, type CategoryGetParams as CategoryGetParams };
+  export { type Categories2 as Categories, type CategoriesList as CategoriesList, type CategoryGetParams as CategoryGetParams };
 }
 export { Categories as CategoryResource };

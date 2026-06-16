@@ -11,17 +11,20 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Ohlcv extends APIResource {
   /**
    * To get the OHLCV chart (Open, High, Low, Close, Volume) of a token based on the provided token address on a network
    */
-  getTimeframe(network: string, token_address: string, timeframe: "day" | "hour" | "minute" | "second", params: OhlcvGetTimeframeParams | null | undefined = {}, options?: RequestOptions): APIPromise<Ohlcv> {
+  getTimeframe(network: string, token_address: string, timeframe: "day" | "hour" | "minute" | "second", params: OhlcvGetTimeframeParams | null | undefined = {}, options?: RequestOptions): APIPromise<Ohlcv2> {
     const { aggregate, before_timestamp, limit, currency, include_empty_intervals, include_inactive_source } = params ?? {};
     return this._client.get(__scalarPath`/onchain/networks/${network}/tokens/${token_address}/ohlcv/${timeframe}`, { query: { aggregate: aggregate, before_timestamp: before_timestamp, limit: limit, currency: currency, include_empty_intervals: include_empty_intervals, include_inactive_source: include_inactive_source }, ...options });
   }
 }
 
-export interface Ohlcv {
+export interface Ohlcv2 {
   data: { id: string; type: string; attributes: { ohlcv_list: Array<Array<number>> } };
   meta: { base?: { name?: string; symbol?: string; coingecko_coin_id?: string | null; address?: string }; quote?: { name?: string; symbol?: string; coingecko_coin_id?: string | null; address?: string } };
 }
@@ -68,6 +71,6 @@ export interface OhlcvGetTimeframeParams {
 
 }
 export declare namespace Ohlcv {
-  export { type Ohlcv as Ohlcv, type OhlcvGetTimeframeParams as OhlcvGetTimeframeParams };
+  export { type Ohlcv2 as Ohlcv, type OhlcvGetTimeframeParams as OhlcvGetTimeframeParams };
 }
 export { Ohlcv as OhlcvResource };

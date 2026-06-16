@@ -11,19 +11,22 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Search extends APIResource {
   trending: Trending = new Trending(this._client);
 
   /**
    * To search for coins, categories and markets listed on CoinGecko
    */
-  get(params: SearchGetParams, options?: RequestOptions): APIPromise<Search> {
+  get(params: SearchGetParams, options?: RequestOptions): APIPromise<Search2> {
     const { query } = params ?? {};
     return this._client.get("/search", { query: { query: query }, ...options });
   }
 }
 
-export interface Search {
+export interface Search2 {
   coins: Array<{ id: string; name: string; api_symbol: string; symbol: string; market_cap_rank: number | null; thumb: string; large: string }>;
   exchanges: Array<{ id: string; name: string; market_type: string; thumb: string; large: string }>;
   icos: Array<Record<string, unknown>>;
@@ -40,6 +43,6 @@ export interface SearchGetParams {
 }
 export declare namespace Search {
   export { Trending as Trending };
-  export { type Search as Search, type SearchGetParams as SearchGetParams };
+  export { type Search2 as Search, type SearchGetParams as SearchGetParams };
 }
 export { Search as SearchResource };

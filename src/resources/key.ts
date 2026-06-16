@@ -10,6 +10,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Key extends APIResource {
   /**
    * To monitor your account's API usage, including rate limits, monthly total credits, remaining credits, and more

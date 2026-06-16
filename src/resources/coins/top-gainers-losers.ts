@@ -10,11 +10,14 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class TopGainersLosers extends APIResource {
   /**
    * To query the top 30 coins with largest price gain and loss by a specific time duration
    */
-  get(params: TopGainersLoserGetParams, options?: RequestOptions): APIPromise<TopGainersLosers> {
+  get(params: TopGainersLoserGetParams, options?: RequestOptions): APIPromise<TopGainersLosers2> {
     const { vs_currency, duration, price_change_percentage, top_coins } = params ?? {};
     return this._client.get("/coins/top_gainers_losers", { query: { vs_currency: vs_currency, duration: duration, price_change_percentage: price_change_percentage, top_coins: top_coins }, ...options });
   }
@@ -83,7 +86,7 @@ export interface TopGainersLosersItem {
   usd_1y_change?: number | null;
 }
 
-export interface TopGainersLosers {
+export interface TopGainersLosers2 {
   top_gainers: Array<TopGainersLosersItem>;
   top_losers: Array<TopGainersLosersItem>;
 }
@@ -115,6 +118,6 @@ export interface TopGainersLoserGetParams {
 
 }
 export declare namespace TopGainersLosers {
-  export { type TopGainersLosersItem as TopGainersLosersItem, type TopGainersLosers as TopGainersLosers, type TopGainersLoserGetParams as TopGainersLoserGetParams };
+  export { type TopGainersLosersItem as TopGainersLosersItem, type TopGainersLosers2 as TopGainersLosers, type TopGainersLoserGetParams as TopGainersLoserGetParams };
 }
 export { TopGainersLosers as TopGainersLoserResource };

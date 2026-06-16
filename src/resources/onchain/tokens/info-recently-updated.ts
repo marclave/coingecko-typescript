@@ -10,6 +10,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class InfoRecentlyUpdated extends APIResource {
   /**
    * To query 100 most recently updated tokens info of a specific network or across all networks on GeckoTerminal

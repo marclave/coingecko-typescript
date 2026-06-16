@@ -4,9 +4,9 @@ import { APIResource } from "../../resource";
 import { APIPromise } from "../../api-promise";
 import type { RequestOptions } from "../../internal/request-options";
 import { path as __scalarPath } from "../../internal/utils/path";
-import { Contract } from "./contract/contract";
 import { MarketChart } from "./market-chart";
 import { Tickers } from "./tickers";
+import { Contract } from "./contract/contract";
 
 const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
   const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
@@ -14,10 +14,13 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Nfts extends APIResource {
-  contract: Contract = new Contract(this._client);
   marketChart: MarketChart = new MarketChart(this._client);
   tickers: Tickers = new Tickers(this._client);
+  contract: Contract = new Contract(this._client);
 
   /**
    * To query all supported NFTs with ID, contract address, name, asset platform ID and symbol on CoinGecko
@@ -247,7 +250,7 @@ export interface NftGetMarketsParams {
 
 }
 export declare namespace Nfts {
-  export { Contract as Contract, MarketChart as MarketChart, Tickers as Tickers };
+  export { MarketChart as MarketChart, Tickers as Tickers, Contract as Contract };
   export { type NfTsList as NfTsList, type NftData as NftData, type NfTsMarkets as NfTsMarkets, type NftGetListParams as NftGetListParams, type NftGetMarketsParams as NftGetMarketsParams };
 }
 export { Nfts as NftResource };

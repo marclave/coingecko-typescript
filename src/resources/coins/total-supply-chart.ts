@@ -11,24 +11,27 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class TotalSupplyChart extends APIResource {
   /**
    * To query historical total supply of a coin by number of days away from now based on provided coin ID
    */
-  get(id: string, params: TotalSupplyChartGetParams, options?: RequestOptions): APIPromise<TotalSupplyChart> {
+  get(id: string, params: TotalSupplyChartGetParams, options?: RequestOptions): APIPromise<TotalSupplyChart2> {
     const { days, interval } = params ?? {};
     return this._client.get(__scalarPath`/coins/${id}/total_supply_chart`, { query: { days: days, interval: interval }, ...options });
   }
   /**
    * To query historical total supply of a coin, within a range of timestamp based on the provided coin ID
    */
-  getRange(id: string, params: TotalSupplyChartGetRangeParams, options?: RequestOptions): APIPromise<TotalSupplyChart> {
+  getRange(id: string, params: TotalSupplyChartGetRangeParams, options?: RequestOptions): APIPromise<TotalSupplyChart2> {
     const { from, to } = params ?? {};
     return this._client.get(__scalarPath`/coins/${id}/total_supply_chart/range`, { query: { from: from, to: to }, ...options });
   }
 }
 
-export interface TotalSupplyChart {
+export interface TotalSupplyChart2 {
   /**
    * Total supply data points as [timestamp, supply] pairs
    */
@@ -64,6 +67,6 @@ export interface TotalSupplyChartGetRangeParams {
 
 }
 export declare namespace TotalSupplyChart {
-  export { type TotalSupplyChart as TotalSupplyChart, type TotalSupplyChartGetParams as TotalSupplyChartGetParams, type TotalSupplyChartGetRangeParams as TotalSupplyChartGetRangeParams };
+  export { type TotalSupplyChart2 as TotalSupplyChart, type TotalSupplyChartGetParams as TotalSupplyChartGetParams, type TotalSupplyChartGetRangeParams as TotalSupplyChartGetRangeParams };
 }
 export { TotalSupplyChart as TotalSupplyChartResource };

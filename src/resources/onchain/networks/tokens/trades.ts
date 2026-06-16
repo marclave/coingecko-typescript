@@ -11,6 +11,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Trades extends APIResource {
   /**
    * To query the last 300 trades in the past 24 hours, across all pools, based on the provided token contract address on a network

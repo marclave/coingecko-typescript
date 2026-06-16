@@ -295,6 +295,10 @@ export class Coingecko {
       headers.set(this.idempotencyHeader, idempotencyKey);
     }
     const body = serializeBody(options.body);
+    // A JSON body must declare its Content-Type, or fetch omits it and the server can't tell the
+    // request is JSON. Never override a content-type the caller already set.
+    const contentType = bodyContentType(options.body);
+    if (contentType && !headers.has('content-type')) headers.set('content-type', contentType);
     const req: FinalizedRequestInit = {
       ...(options.signal ? { signal: options.signal } : {}),
       ...(body !== undefined ? { body } : {}),
@@ -324,6 +328,9 @@ export class Coingecko {
       headers.set(this.idempotencyHeader, idempotencyKey);
     }
     const body = serializeBody(finalOptions.body);
+    // Match buildRequest: JSON bodies need an explicit Content-Type; don't clobber a caller's.
+    const contentType = bodyContentType(finalOptions.body);
+    if (contentType && !headers.has('content-type')) headers.set('content-type', contentType);
     const controller = new AbortController();
     if (finalOptions.signal) finalOptions.signal.addEventListener("abort", () => controller.abort());
     const init: RequestInit = {
@@ -477,11 +484,11 @@ export declare namespace Coingecko {
   export type PriceGetParams = import("./resources/simple/price").PriceGetParams;
   export type SupportedCurrencies = import("./resources/simple/supported-vs-currencies").SupportedCurrencies;
   export type TokenPriceGetIdParams = import("./resources/simple/token-price").TokenPriceGetIdParams;
-  export type SearchSearch = import("./resources/search/search").Search;
+  export type SearchSearch = import("./resources/search/search").Search2;
   export type SearchGetParams = import("./resources/search/search").SearchGetParams;
   export type TrendingSearch = import("./resources/search/trending").TrendingSearch;
   export type TrendingGetParams = import("./resources/search/trending").TrendingGetParams;
-  export type TopGainersLosers = import("./resources/coins/coins").TopGainersLosers;
+  export type TopGainersLosers = import("./resources/coins/coins").TopGainersLosers2;
   export type CoinsId = import("./resources/coins/coins").CoinsId;
   export type CoinGetIdParams = import("./resources/coins/coins").CoinGetIdParams;
   export type TopGainersLosersItem = import("./resources/coins/top-gainers-losers").TopGainersLosersItem;
@@ -499,22 +506,22 @@ export declare namespace Coingecko {
   export type OhlcGetParams = import("./resources/coins/ohlc").OhlcGetParams;
   export type OhlcGetRangeParams = import("./resources/coins/ohlc").OhlcGetRangeParams;
   export type CoinsContractAddress = import("./resources/coins/contract/contract").CoinsContractAddress;
-  export type CirculatingSupplyChart = import("./resources/coins/circulating-supply-chart").CirculatingSupplyChart;
+  export type CirculatingSupplyChart = import("./resources/coins/circulating-supply-chart").CirculatingSupplyChart2;
   export type CirculatingSupplyChartGetParams = import("./resources/coins/circulating-supply-chart").CirculatingSupplyChartGetParams;
   export type CirculatingSupplyChartGetRangeParams = import("./resources/coins/circulating-supply-chart").CirculatingSupplyChartGetRangeParams;
-  export type TotalSupplyChart = import("./resources/coins/total-supply-chart").TotalSupplyChart;
+  export type TotalSupplyChart = import("./resources/coins/total-supply-chart").TotalSupplyChart2;
   export type TotalSupplyChartGetParams = import("./resources/coins/total-supply-chart").TotalSupplyChartGetParams;
   export type TotalSupplyChartGetRangeParams = import("./resources/coins/total-supply-chart").TotalSupplyChartGetRangeParams;
   export type CoinsListNew = import("./resources/coins/list").CoinsListNew;
   export type CoinsList = import("./resources/coins/list").CoinsList;
   export type ListGetParams = import("./resources/coins/list").ListGetParams;
-  export type Categories = import("./resources/coins/categories").Categories;
+  export type Categories = import("./resources/coins/categories").Categories2;
   export type CategoriesList = import("./resources/coins/categories").CategoriesList;
   export type CategoryGetParams = import("./resources/coins/categories").CategoryGetParams;
-  export type AssetPlatformAssetPlatforms = import("./resources/asset-platforms").AssetPlatforms;
+  export type AssetPlatformAssetPlatforms = import("./resources/asset-platforms").AssetPlatforms2;
   export type AssetPlatformGetParams = import("./resources/asset-platforms").AssetPlatformGetParams;
-  export type TokenListTokenLists = import("./resources/token-lists").TokenLists;
-  export type ExchangeExchanges = import("./resources/exchanges/exchanges").Exchanges;
+  export type TokenListTokenLists = import("./resources/token-lists").TokenLists2;
+  export type ExchangeExchanges = import("./resources/exchanges/exchanges").Exchanges2;
   export type ExchangesList = import("./resources/exchanges/exchanges").ExchangesList;
   export type ExchangesId = import("./resources/exchanges/exchanges").ExchangesId;
   export type ExchangeGetParams = import("./resources/exchanges/exchanges").ExchangeGetParams;
@@ -532,7 +539,7 @@ export declare namespace Coingecko {
   export type ExchangeExchangeGetIdParams = import("./resources/derivatives/exchanges").ExchangeGetIdParams;
   export type EntitiesList = import("./resources/entities").EntitiesList;
   export type EntityGetListParams = import("./resources/entities").EntityGetListParams;
-  export type PublicTreasuryPublicTreasury = import("./resources/public-treasury").PublicTreasury;
+  export type PublicTreasuryPublicTreasury = import("./resources/public-treasury").PublicTreasury2;
   export type PublicTreasuryEntity = import("./resources/public-treasury").PublicTreasuryEntity;
   export type PublicTreasuryEntityChart = import("./resources/public-treasury").PublicTreasuryEntityChart;
   export type PublicTreasuryTransactionHistory = import("./resources/public-treasury").PublicTreasuryTransactionHistory;
@@ -545,28 +552,34 @@ export declare namespace Coingecko {
   export type NfTsMarkets = import("./resources/nfts/nfts").NfTsMarkets;
   export type NftGetListParams = import("./resources/nfts/nfts").NftGetListParams;
   export type NftGetMarketsParams = import("./resources/nfts/nfts").NftGetMarketsParams;
-  export type NftMarketChart = import("./resources/nfts/contract/market-chart").NftMarketChart;
-  export type MarketChartMarketChartGetParams = import("./resources/nfts/contract/market-chart").MarketChartGetParams;
+  export type NftMarketChart = import("./resources/nfts/market-chart").NftMarketChart;
+  export type MarketChartMarketChartGetParams = import("./resources/nfts/market-chart").MarketChartGetParams;
   export type NftTickers = import("./resources/nfts/tickers").NftTickers;
-  export type ExchangeRateExchangeRates = import("./resources/exchange-rates").ExchangeRates;
-  export type NewNews = import("./resources/news").News;
+  export type ExchangeRateExchangeRates = import("./resources/exchange-rates").ExchangeRates2;
+  export type NewNews = import("./resources/news").News2;
   export type NewGetParams = import("./resources/news").NewGetParams;
-  export type GlobalGlobal = import("./resources/global/global").Global;
+  export type GlobalGlobal = import("./resources/global/global").Global2;
   export type GlobalDeFi = import("./resources/global/decentralized-finance-defi").GlobalDeFi;
   export type GlobalMarketCapChart = import("./resources/global/market-cap-chart").GlobalMarketCapChart;
   export type MarketCapChartGetParams = import("./resources/global/market-cap-chart").MarketCapChartGetParams;
+  export type TokenInfoRecentlyUpdated = import("./resources/onchain/tokens/info-recently-updated").TokenInfoRecentlyUpdated;
+  export type InfoRecentlyUpdatedGetParams = import("./resources/onchain/tokens/info-recently-updated").InfoRecentlyUpdatedGetParams;
+  export type PoolSearch = import("./resources/onchain/search/pools").PoolSearch;
+  export type PoolGetParams = import("./resources/onchain/search/pools").PoolGetParams;
+  export type OnchainSimplePrice = import("./resources/onchain/simple/networks/token-price").OnchainSimplePrice;
+  export type TokenPriceGetAddressesParams = import("./resources/onchain/simple/networks/token-price").TokenPriceGetAddressesParams;
   export type NetworksList = import("./resources/onchain/networks/networks").NetworksList;
   export type NetworkGetParams = import("./resources/onchain/networks/networks").NetworkGetParams;
   export type PoolAddressItem = import("./resources/onchain/networks/pools/pools").PoolAddressItem;
   export type PoolAddressData = import("./resources/onchain/networks/pools/pools").PoolAddressData;
   export type Pool = import("./resources/onchain/networks/pools/pools").Pool;
   export type PoolGetAddressParams = import("./resources/onchain/networks/pools/pools").PoolGetAddressParams;
-  export type PoolGetParams = import("./resources/onchain/networks/pools/pools").PoolGetParams;
+  export type PoolPoolGetParams = import("./resources/onchain/networks/pools/pools").PoolGetParams;
   export type PoolTokensInfo = import("./resources/onchain/networks/pools/info").PoolTokensInfo;
   export type InfoGetParams = import("./resources/onchain/networks/pools/info").InfoGetParams;
-  export type Ohlcv = import("./resources/onchain/networks/pools/ohlcv").Ohlcv;
+  export type Ohlcv = import("./resources/onchain/networks/pools/ohlcv").Ohlcv2;
   export type OhlcvGetTimeframeParams = import("./resources/onchain/networks/pools/ohlcv").OhlcvGetTimeframeParams;
-  export type Trades = import("./resources/onchain/networks/pools/trades").Trades;
+  export type Trades = import("./resources/onchain/networks/pools/trades").Trades2;
   export type TradeGetParams = import("./resources/onchain/networks/pools/trades").TradeGetParams;
   export type MultiPoolAddressData = import("./resources/onchain/networks/pools/multi").MultiPoolAddressData;
   export type MultiGetAddressesParams = import("./resources/onchain/networks/pools/multi").MultiGetAddressesParams;
@@ -578,7 +591,7 @@ export declare namespace Coingecko {
   export type TokenItem = import("./resources/onchain/networks/tokens/tokens").TokenItem;
   export type TokenData = import("./resources/onchain/networks/tokens/tokens").TokenData;
   export type TokenGetAddressParams = import("./resources/onchain/networks/tokens/tokens").TokenGetAddressParams;
-  export type PoolPoolGetParams = import("./resources/onchain/networks/tokens/pools").PoolGetParams;
+  export type PoolPoolGetParams2 = import("./resources/onchain/networks/tokens/pools").PoolGetParams;
   export type MultiTokenData = import("./resources/onchain/networks/tokens/multi").MultiTokenData;
   export type MultiMultiGetAddressesParams = import("./resources/onchain/networks/tokens/multi").MultiGetAddressesParams;
   export type TokenInfo = import("./resources/onchain/networks/tokens/info").TokenInfo;
@@ -597,16 +610,10 @@ export declare namespace Coingecko {
   export type MegafilterGetParams = import("./resources/onchain/pools/megafilter").MegafilterGetParams;
   export type TrendingSearchPools = import("./resources/onchain/pools/trending-search").TrendingSearchPools;
   export type TrendingSearchGetParams = import("./resources/onchain/pools/trending-search").TrendingSearchGetParams;
-  export type TokenInfoRecentlyUpdated = import("./resources/onchain/tokens/info-recently-updated").TokenInfoRecentlyUpdated;
-  export type InfoRecentlyUpdatedGetParams = import("./resources/onchain/tokens/info-recently-updated").InfoRecentlyUpdatedGetParams;
   export type OnchainCategoriesList = import("./resources/onchain/categories").OnchainCategoriesList;
   export type CategoriesPools = import("./resources/onchain/categories").CategoriesPools;
   export type CategoryCategoryGetParams = import("./resources/onchain/categories").CategoryGetParams;
   export type CategoryGetPoolsParams = import("./resources/onchain/categories").CategoryGetPoolsParams;
-  export type PoolSearch = import("./resources/onchain/search/pools").PoolSearch;
-  export type PoolPoolGetParams2 = import("./resources/onchain/search/pools").PoolGetParams;
-  export type OnchainSimplePrice = import("./resources/onchain/simple/networks/token-price").OnchainSimplePrice;
-  export type TokenPriceGetAddressesParams = import("./resources/onchain/simple/networks/token-price").TokenPriceGetAddressesParams;
 }
 
 
@@ -614,6 +621,16 @@ const serializeBody = (body: unknown): BodyInit | undefined => {
   if (body === undefined) return undefined;
   if (typeof body === 'string' || body instanceof Blob || body instanceof FormData || body instanceof URLSearchParams) return body;
   return JSON.stringify(body);
+};
+
+// The Content-Type implied by a serialized body. Mirrors `serializeBody`: only plain values
+// (objects/arrays) are JSON-encoded and need `application/json`; string/Blob/FormData/
+// URLSearchParams bodies carry or self-assign their own type (e.g. fetch sets the multipart
+// boundary for FormData), so we leave those alone.
+const bodyContentType = (body: unknown): string | undefined => {
+  if (body === undefined) return undefined;
+  if (typeof body === 'string' || body instanceof Blob || body instanceof FormData || body instanceof URLSearchParams) return undefined;
+  return 'application/json';
 };
 
 const buildUrl = (baseURL: string, path: string): URL => {

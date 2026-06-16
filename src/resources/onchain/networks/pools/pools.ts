@@ -15,6 +15,9 @@ const omitParams = (params: object, names: readonly string[]): Record<string, un
   return out;
 };
 
+const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
+  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+
 export class Pools extends APIResource {
   info: Info = new Info(this._client);
   ohlcv: Ohlcv = new Ohlcv(this._client);
