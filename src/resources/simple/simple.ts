@@ -3,15 +3,9 @@
 import { APIResource } from "../../resource";
 import { APIPromise } from "../../api-promise";
 import type { RequestOptions } from "../../internal/request-options";
-import { Price } from "./price";
-import { SupportedVsCurrencies } from "./supported-vs-currencies";
-import { TokenPrice } from "./token-price";
-
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
+import { Price, type PriceGetResponse, type PriceGetParams } from "./price";
+import { SupportedVsCurrencies, type SupportedVsCurrencyGetResponse } from "./supported-vs-currencies";
+import { TokenPrice, type TokenPriceGetIDResponse, type TokenPriceGetIDParams } from "./token-price";
 
 export class Simple extends APIResource {
   price: Price = new Price(this._client);
@@ -20,7 +14,26 @@ export class Simple extends APIResource {
 
 }
 
+Simple.Price = Price;
+Simple.SupportedVsCurrencies = SupportedVsCurrencies;
+Simple.TokenPrice = TokenPrice;
+
 export declare namespace Simple {
-  export { Price as Price, SupportedVsCurrencies as SupportedVsCurrencies, TokenPrice as TokenPrice };
+  export {
+    Price as Price,
+    type PriceGetResponse as PriceGetResponse,
+    type PriceGetParams as PriceGetParams,
+  };
+
+  export {
+    SupportedVsCurrencies as SupportedVsCurrencies,
+    type SupportedVsCurrencyGetResponse as SupportedVsCurrencyGetResponse,
+  };
+
+  export {
+    TokenPrice as TokenPrice,
+    type TokenPriceGetIDResponse as TokenPriceGetIDResponse,
+    type TokenPriceGetIDParams as TokenPriceGetIDParams,
+  };
 }
 export { Simple as SimpleResource };

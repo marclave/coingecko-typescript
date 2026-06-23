@@ -3,22 +3,29 @@
 import { APIResource } from "../../../resource";
 import { APIPromise } from "../../../api-promise";
 import type { RequestOptions } from "../../../internal/request-options";
-import { Megafilter } from "./megafilter";
-import { TrendingSearch } from "./trending-search";
+import { Megafilter, type MegafilterGetResponse, type MegafilterGetParams } from "./megafilter";
+import { TrendingSearch, type TrendingSearchGetResponse, type TrendingSearchGetParams } from "./trending-search";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-export class Pools extends APIResource {
+export class Pools3 extends APIResource {
   megafilter: Megafilter = new Megafilter(this._client);
   trendingSearch: TrendingSearch = new TrendingSearch(this._client);
 
 }
 
-export declare namespace Pools {
-  export { Megafilter as Megafilter, TrendingSearch as TrendingSearch };
+Pools3.Megafilter = Megafilter;
+Pools3.TrendingSearch = TrendingSearch;
+
+export declare namespace Pools3 {
+  export {
+    Megafilter as Megafilter,
+    type MegafilterGetResponse as MegafilterGetResponse,
+    type MegafilterGetParams as MegafilterGetParams,
+  };
+
+  export {
+    TrendingSearch as TrendingSearch,
+    type TrendingSearchGetResponse as TrendingSearchGetResponse,
+    type TrendingSearchGetParams as TrendingSearchGetParams,
+  };
 }
-export { Pools as PoolResource };
+export { Pools3 as PoolResource };

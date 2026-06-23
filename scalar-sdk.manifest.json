@@ -1,7 +1,7 @@
 {
   "name": "Coingecko",
   "slug": "coingecko",
-  "version": "3.0.0",
+  "version": "0.1.1",
   "servers": [
     "https://pro-api.coingecko.com/api/v3",
     "https://api.coingecko.com/api/v3"
@@ -9328,8 +9328,8 @@
           }
         ],
         "variantNames": [
-          null,
-          null
+          "CompanyTreasury",
+          "GovernmentTreasury"
         ]
       }
     },
@@ -10960,8 +10960,8 @@
       }
     },
     {
-      "name": "NfTsMarkets",
-      "source": "NfTsMarkets",
+      "name": "NftsMarkets",
+      "source": "NftsMarkets",
       "publicAliases": [],
       "deprecated": false,
       "type": {
@@ -11417,8 +11417,8 @@
       }
     },
     {
-      "name": "NfTsList",
-      "source": "NfTsList",
+      "name": "NftsList",
+      "source": "NftsList",
       "publicAliases": [],
       "deprecated": false,
       "type": {
@@ -22630,10 +22630,6 @@
     "search",
     "search.trending",
     "coins",
-    "coins.topGainersLosers",
-    "coins.markets",
-    "coins.tickers",
-    "coins.history",
     "coins.marketChart",
     "coins.ohlc",
     "coins.contract",
@@ -22642,11 +22638,15 @@
     "coins.totalSupplyChart",
     "coins.list",
     "coins.categories",
+    "coins.history",
+    "coins.markets",
+    "coins.tickers",
+    "coins.topGainersLosers",
     "assetPlatforms",
     "tokenLists",
     "exchanges",
-    "exchanges.tickers",
     "exchanges.volumeChart",
+    "exchanges.tickers",
     "derivatives",
     "derivatives.exchanges",
     "entities",
@@ -22663,34 +22663,34 @@
     "global.marketCapChart",
     "onchain",
     "onchain.networks",
+    "onchain.networks.dexes",
+    "onchain.networks.newPools",
     "onchain.networks.pools",
     "onchain.networks.pools.info",
+    "onchain.networks.pools.multi",
     "onchain.networks.pools.ohlcv",
     "onchain.networks.pools.trades",
-    "onchain.networks.pools.multi",
-    "onchain.networks.trendingPools",
-    "onchain.networks.dexes",
     "onchain.networks.tokens",
-    "onchain.networks.tokens.pools",
-    "onchain.networks.tokens.multi",
-    "onchain.networks.tokens.info",
-    "onchain.networks.tokens.topTraders",
-    "onchain.networks.tokens.topHolders",
     "onchain.networks.tokens.holdersChart",
+    "onchain.networks.tokens.info",
+    "onchain.networks.tokens.multi",
     "onchain.networks.tokens.ohlcv",
+    "onchain.networks.tokens.pools",
+    "onchain.networks.tokens.topHolders",
+    "onchain.networks.tokens.topTraders",
     "onchain.networks.tokens.trades",
-    "onchain.networks.newPools",
+    "onchain.networks.trendingPools",
     "onchain.pools",
     "onchain.pools.megafilter",
     "onchain.pools.trendingSearch",
-    "onchain.tokens",
-    "onchain.tokens.infoRecentlyUpdated",
     "onchain.categories",
     "onchain.search",
     "onchain.search.pools",
     "onchain.simple",
     "onchain.simple.networks",
-    "onchain.simple.networks.tokenPrice"
+    "onchain.simple.networks.tokenPrice",
+    "onchain.tokens",
+    "onchain.tokens.infoRecentlyUpdated"
   ],
   "publicResources": [
     "ping",
@@ -22702,10 +22702,6 @@
     "search",
     "search.trending",
     "coins",
-    "coins.topGainersLosers",
-    "coins.markets",
-    "coins.tickers",
-    "coins.history",
     "coins.marketChart",
     "coins.ohlc",
     "coins.contract",
@@ -22714,11 +22710,15 @@
     "coins.totalSupplyChart",
     "coins.list",
     "coins.categories",
+    "coins.history",
+    "coins.markets",
+    "coins.tickers",
+    "coins.topGainersLosers",
     "assetPlatforms",
     "tokenLists",
     "exchanges",
-    "exchanges.tickers",
     "exchanges.volumeChart",
+    "exchanges.tickers",
     "derivatives",
     "derivatives.exchanges",
     "entities",
@@ -22735,34 +22735,34 @@
     "global.marketCapChart",
     "onchain",
     "onchain.networks",
+    "onchain.networks.dexes",
+    "onchain.networks.newPools",
     "onchain.networks.pools",
     "onchain.networks.pools.info",
+    "onchain.networks.pools.multi",
     "onchain.networks.pools.ohlcv",
     "onchain.networks.pools.trades",
-    "onchain.networks.pools.multi",
-    "onchain.networks.trendingPools",
-    "onchain.networks.dexes",
     "onchain.networks.tokens",
-    "onchain.networks.tokens.pools",
-    "onchain.networks.tokens.multi",
-    "onchain.networks.tokens.info",
-    "onchain.networks.tokens.topTraders",
-    "onchain.networks.tokens.topHolders",
     "onchain.networks.tokens.holdersChart",
+    "onchain.networks.tokens.info",
+    "onchain.networks.tokens.multi",
     "onchain.networks.tokens.ohlcv",
+    "onchain.networks.tokens.pools",
+    "onchain.networks.tokens.topHolders",
+    "onchain.networks.tokens.topTraders",
     "onchain.networks.tokens.trades",
-    "onchain.networks.newPools",
+    "onchain.networks.trendingPools",
     "onchain.pools",
     "onchain.pools.megafilter",
     "onchain.pools.trendingSearch",
-    "onchain.tokens",
-    "onchain.tokens.infoRecentlyUpdated",
     "onchain.categories",
     "onchain.search",
     "onchain.search.pools",
     "onchain.simple",
     "onchain.simple.networks",
-    "onchain.simple.networks.tokenPrice"
+    "onchain.simple.networks.tokenPrice",
+    "onchain.tokens",
+    "onchain.tokens.infoRecentlyUpdated"
   ],
   "operations": [
     {
@@ -22787,9 +22787,6 @@
       "cookieParams": [],
       "publicCookieParams": [],
       "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -22831,9 +22828,6 @@
       "cookieParams": [],
       "publicCookieParams": [],
       "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -22965,9 +22959,6 @@
       "paramsModel": {
         "publicName": "PriceGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -23009,9 +23000,6 @@
       "cookieParams": [],
       "publicCookieParams": [],
       "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -23129,9 +23117,6 @@
       "paramsModel": {
         "publicName": "TokenPriceGetIdParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -23187,9 +23172,6 @@
       "paramsModel": {
         "publicName": "SearchGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -23244,9 +23226,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "TrendingGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -23371,9 +23350,6 @@
       "paramsModel": {
         "publicName": "CoinGetIdParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -23394,32 +23370,44 @@
       "transport": "http"
     },
     {
-      "resource": "coins.topGainersLosers",
-      "publicResource": "coins.topGainersLosers",
+      "resource": "coins.marketChart",
+      "publicResource": "coins.marketChart",
       "operation": "get",
       "publicOperation": "get",
       "deprecated": false,
       "method": "GET",
-      "path": "/coins/top_gainers_losers",
-      "pathParams": [],
-      "publicPathParams": [],
+      "path": "/coins/{id}/market_chart",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
       "queryParams": [
         "vs_currency",
-        "duration",
-        "price_change_percentage",
-        "top_coins"
+        "days",
+        "interval",
+        "precision"
       ],
       "publicQueryParams": [
         "vs_currency",
-        "duration",
-        "price_change_percentage",
-        "top_coins"
+        "days",
+        "interval",
+        "precision"
       ],
       "headerParams": [],
       "publicHeaderParams": [],
       "bodyParams": [],
       "publicBodyParams": [],
-      "pathParamDetails": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
       "queryParamDetails": [
         {
           "name": "vs_currency",
@@ -23429,19 +23417,20 @@
           "defaultValue": "usd"
         },
         {
-          "name": "duration",
+          "name": "days",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "1"
+        },
+        {
+          "name": "interval",
           "required": false,
           "style": "form",
           "explode": true
         },
         {
-          "name": "price_change_percentage",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "top_coins",
+          "name": "precision",
           "required": false,
           "style": "form",
           "explode": true
@@ -23452,10 +23441,7 @@
       "publicCookieParams": [],
       "cookieParamDetails": [],
       "paramsModel": {
-        "publicName": "TopGainersLoserGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
+        "publicName": "MarketChartGetParams"
       },
       "response": {
         "status": "200",
@@ -23469,7 +23455,1157 @@
         ]
       },
       "responseModel": {
-        "name": "TopGainersLosers",
+        "name": "CoinsMarketChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.marketChart",
+      "publicResource": "coins.marketChart",
+      "operation": "getRange",
+      "publicOperation": "getRange",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/market_chart/range",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "vs_currency",
+        "from",
+        "to",
+        "interval",
+        "precision"
+      ],
+      "publicQueryParams": [
+        "vs_currency",
+        "from",
+        "to",
+        "interval",
+        "precision"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "vs_currency",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "usd"
+        },
+        {
+          "name": "from",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-01-01"
+        },
+        {
+          "name": "to",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-12-31"
+        },
+        {
+          "name": "interval",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "precision",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "MarketChartGetRangeParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsMarketChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.ohlc",
+      "publicResource": "coins.ohlc",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/ohlc",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "vs_currency",
+        "days",
+        "interval",
+        "precision"
+      ],
+      "publicQueryParams": [
+        "vs_currency",
+        "days",
+        "interval",
+        "precision"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "vs_currency",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "usd"
+        },
+        {
+          "name": "days",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "1"
+        },
+        {
+          "name": "interval",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "precision",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "OhlcGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsOhlc",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.ohlc",
+      "publicResource": "coins.ohlc",
+      "operation": "getRange",
+      "publicOperation": "getRange",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/ohlc/range",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "vs_currency",
+        "from",
+        "to",
+        "interval"
+      ],
+      "publicQueryParams": [
+        "vs_currency",
+        "from",
+        "to",
+        "interval"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "vs_currency",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "usd"
+        },
+        {
+          "name": "from",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-12-01"
+        },
+        {
+          "name": "to",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-12-31"
+        },
+        {
+          "name": "interval",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "daily"
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "OhlcGetRangeParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsOhlc",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.contract",
+      "publicResource": "coins.contract",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/contract/{contract_address}",
+      "pathParams": [
+        "id",
+        "contract_address"
+      ],
+      "publicPathParams": [
+        "id",
+        "contract_address"
+      ],
+      "queryParams": [],
+      "publicQueryParams": [],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "ethereum"
+        },
+        {
+          "name": "contract_address",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        }
+      ],
+      "queryParamDetails": [],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "ContractGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsContractAddress",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.contract.marketChart",
+      "publicResource": "coins.contract.marketChart",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/contract/{contract_address}/market_chart",
+      "pathParams": [
+        "id",
+        "contract_address"
+      ],
+      "publicPathParams": [
+        "id",
+        "contract_address"
+      ],
+      "queryParams": [
+        "vs_currency",
+        "days",
+        "interval",
+        "precision"
+      ],
+      "publicQueryParams": [
+        "vs_currency",
+        "days",
+        "interval",
+        "precision"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "ethereum"
+        },
+        {
+          "name": "contract_address",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "vs_currency",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "usd"
+        },
+        {
+          "name": "days",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "1"
+        },
+        {
+          "name": "interval",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "precision",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "MarketChartGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsMarketChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.contract.marketChart",
+      "publicResource": "coins.contract.marketChart",
+      "operation": "getRange",
+      "publicOperation": "getRange",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/contract/{contract_address}/market_chart/range",
+      "pathParams": [
+        "id",
+        "contract_address"
+      ],
+      "publicPathParams": [
+        "id",
+        "contract_address"
+      ],
+      "queryParams": [
+        "vs_currency",
+        "from",
+        "to",
+        "interval",
+        "precision"
+      ],
+      "publicQueryParams": [
+        "vs_currency",
+        "from",
+        "to",
+        "interval",
+        "precision"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "ethereum"
+        },
+        {
+          "name": "contract_address",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "vs_currency",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "usd"
+        },
+        {
+          "name": "from",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-01-01"
+        },
+        {
+          "name": "to",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-12-31"
+        },
+        {
+          "name": "interval",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "precision",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "MarketChartGetRangeParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsMarketChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.circulatingSupplyChart",
+      "publicResource": "coins.circulatingSupplyChart",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/circulating_supply_chart",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "days",
+        "interval"
+      ],
+      "publicQueryParams": [
+        "days",
+        "interval"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "days",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "1"
+        },
+        {
+          "name": "interval",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "CirculatingSupplyChartGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CirculatingSupplyChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.circulatingSupplyChart",
+      "publicResource": "coins.circulatingSupplyChart",
+      "operation": "getRange",
+      "publicOperation": "getRange",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/circulating_supply_chart/range",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "from",
+        "to"
+      ],
+      "publicQueryParams": [
+        "from",
+        "to"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "from",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-01-01"
+        },
+        {
+          "name": "to",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-12-31"
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "CirculatingSupplyChartGetRangeParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CirculatingSupplyChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.totalSupplyChart",
+      "publicResource": "coins.totalSupplyChart",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/total_supply_chart",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "days",
+        "interval"
+      ],
+      "publicQueryParams": [
+        "days",
+        "interval"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "days",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "1"
+        },
+        {
+          "name": "interval",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "TotalSupplyChartGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "TotalSupplyChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.totalSupplyChart",
+      "publicResource": "coins.totalSupplyChart",
+      "operation": "getRange",
+      "publicOperation": "getRange",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/total_supply_chart/range",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "from",
+        "to"
+      ],
+      "publicQueryParams": [
+        "from",
+        "to"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "from",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-01-01"
+        },
+        {
+          "name": "to",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-12-31"
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "TotalSupplyChartGetRangeParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "TotalSupplyChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.list",
+      "publicResource": "coins.list",
+      "operation": "getNew",
+      "publicOperation": "getNew",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/list/new",
+      "pathParams": [],
+      "publicPathParams": [],
+      "queryParams": [],
+      "publicQueryParams": [],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [],
+      "queryParamDetails": [],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsListNew",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.list",
+      "publicResource": "coins.list",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/list",
+      "pathParams": [],
+      "publicPathParams": [],
+      "queryParams": [
+        "include_platform",
+        "status"
+      ],
+      "publicQueryParams": [
+        "include_platform",
+        "status"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [],
+      "queryParamDetails": [
+        {
+          "name": "include_platform",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "status",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "ListGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsList",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.categories",
+      "publicResource": "coins.categories",
+      "operation": "getList",
+      "publicOperation": "getList",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/categories/list",
+      "pathParams": [],
+      "publicPathParams": [],
+      "queryParams": [],
+      "publicQueryParams": [],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [],
+      "queryParamDetails": [],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CategoriesList",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.categories",
+      "publicResource": "coins.categories",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/categories",
+      "pathParams": [],
+      "publicPathParams": [],
+      "queryParams": [
+        "order"
+      ],
+      "publicQueryParams": [
+        "order"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [],
+      "queryParamDetails": [
+        {
+          "name": "order",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "CategoryGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "Categories",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "coins.history",
+      "publicResource": "coins.history",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/coins/{id}/history",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "date",
+        "localization"
+      ],
+      "publicQueryParams": [
+        "date",
+        "localization"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "bitcoin"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "date",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "2025-12-30"
+        },
+        {
+          "name": "localization",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "HistoryGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "CoinsIdHistory",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -23620,9 +24756,6 @@
       "paramsModel": {
         "publicName": "MarketGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -23730,9 +24863,6 @@
       "paramsModel": {
         "publicName": "TickerGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -23753,1145 +24883,26 @@
       "transport": "http"
     },
     {
-      "resource": "coins.history",
-      "publicResource": "coins.history",
+      "resource": "coins.topGainersLosers",
+      "publicResource": "coins.topGainersLosers",
       "operation": "get",
       "publicOperation": "get",
       "deprecated": false,
       "method": "GET",
-      "path": "/coins/{id}/history",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "date",
-        "localization"
-      ],
-      "publicQueryParams": [
-        "date",
-        "localization"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "date",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-12-30"
-        },
-        {
-          "name": "localization",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "HistoryGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsIdHistory",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.marketChart",
-      "publicResource": "coins.marketChart",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/market_chart",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "vs_currency",
-        "days",
-        "interval",
-        "precision"
-      ],
-      "publicQueryParams": [
-        "vs_currency",
-        "days",
-        "interval",
-        "precision"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "vs_currency",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "usd"
-        },
-        {
-          "name": "days",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "1"
-        },
-        {
-          "name": "interval",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "precision",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "MarketChartGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsMarketChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.marketChart",
-      "publicResource": "coins.marketChart",
-      "operation": "getRange",
-      "publicOperation": "getRange",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/market_chart/range",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "vs_currency",
-        "from",
-        "to",
-        "interval",
-        "precision"
-      ],
-      "publicQueryParams": [
-        "vs_currency",
-        "from",
-        "to",
-        "interval",
-        "precision"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "vs_currency",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "usd"
-        },
-        {
-          "name": "from",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-01-01"
-        },
-        {
-          "name": "to",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-12-31"
-        },
-        {
-          "name": "interval",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "precision",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "MarketChartGetRangeParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsMarketChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.ohlc",
-      "publicResource": "coins.ohlc",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/ohlc",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "vs_currency",
-        "days",
-        "interval",
-        "precision"
-      ],
-      "publicQueryParams": [
-        "vs_currency",
-        "days",
-        "interval",
-        "precision"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "vs_currency",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "usd"
-        },
-        {
-          "name": "days",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "1"
-        },
-        {
-          "name": "interval",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "precision",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "OhlcGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsOhlc",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.ohlc",
-      "publicResource": "coins.ohlc",
-      "operation": "getRange",
-      "publicOperation": "getRange",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/ohlc/range",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "vs_currency",
-        "from",
-        "to",
-        "interval"
-      ],
-      "publicQueryParams": [
-        "vs_currency",
-        "from",
-        "to",
-        "interval"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "vs_currency",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "usd"
-        },
-        {
-          "name": "from",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-12-01"
-        },
-        {
-          "name": "to",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-12-31"
-        },
-        {
-          "name": "interval",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "daily"
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "OhlcGetRangeParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsOhlc",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.contract",
-      "publicResource": "coins.contract",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/contract/{contract_address}",
-      "pathParams": [
-        "id",
-        "contract_address"
-      ],
-      "publicPathParams": [
-        "id",
-        "contract_address"
-      ],
-      "queryParams": [],
-      "publicQueryParams": [],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "ethereum"
-        },
-        {
-          "name": "contract_address",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-        }
-      ],
-      "queryParamDetails": [],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "ContractGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsContractAddress",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.contract.marketChart",
-      "publicResource": "coins.contract.marketChart",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/contract/{contract_address}/market_chart",
-      "pathParams": [
-        "id",
-        "contract_address"
-      ],
-      "publicPathParams": [
-        "id",
-        "contract_address"
-      ],
-      "queryParams": [
-        "vs_currency",
-        "days",
-        "interval",
-        "precision"
-      ],
-      "publicQueryParams": [
-        "vs_currency",
-        "days",
-        "interval",
-        "precision"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "ethereum"
-        },
-        {
-          "name": "contract_address",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "vs_currency",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "usd"
-        },
-        {
-          "name": "days",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "1"
-        },
-        {
-          "name": "interval",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "precision",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "MarketChartGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsMarketChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.contract.marketChart",
-      "publicResource": "coins.contract.marketChart",
-      "operation": "getRange",
-      "publicOperation": "getRange",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/contract/{contract_address}/market_chart/range",
-      "pathParams": [
-        "id",
-        "contract_address"
-      ],
-      "publicPathParams": [
-        "id",
-        "contract_address"
-      ],
-      "queryParams": [
-        "vs_currency",
-        "from",
-        "to",
-        "interval",
-        "precision"
-      ],
-      "publicQueryParams": [
-        "vs_currency",
-        "from",
-        "to",
-        "interval",
-        "precision"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "ethereum"
-        },
-        {
-          "name": "contract_address",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "vs_currency",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "usd"
-        },
-        {
-          "name": "from",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-01-01"
-        },
-        {
-          "name": "to",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-12-31"
-        },
-        {
-          "name": "interval",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "precision",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "MarketChartGetRangeParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsMarketChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.circulatingSupplyChart",
-      "publicResource": "coins.circulatingSupplyChart",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/circulating_supply_chart",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "days",
-        "interval"
-      ],
-      "publicQueryParams": [
-        "days",
-        "interval"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "days",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "1"
-        },
-        {
-          "name": "interval",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "CirculatingSupplyChartGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CirculatingSupplyChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.circulatingSupplyChart",
-      "publicResource": "coins.circulatingSupplyChart",
-      "operation": "getRange",
-      "publicOperation": "getRange",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/circulating_supply_chart/range",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "from",
-        "to"
-      ],
-      "publicQueryParams": [
-        "from",
-        "to"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "from",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-01-01"
-        },
-        {
-          "name": "to",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-12-31"
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "CirculatingSupplyChartGetRangeParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CirculatingSupplyChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.totalSupplyChart",
-      "publicResource": "coins.totalSupplyChart",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/total_supply_chart",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "days",
-        "interval"
-      ],
-      "publicQueryParams": [
-        "days",
-        "interval"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "days",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "1"
-        },
-        {
-          "name": "interval",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "TotalSupplyChartGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "TotalSupplyChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.totalSupplyChart",
-      "publicResource": "coins.totalSupplyChart",
-      "operation": "getRange",
-      "publicOperation": "getRange",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/{id}/total_supply_chart/range",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "from",
-        "to"
-      ],
-      "publicQueryParams": [
-        "from",
-        "to"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "bitcoin"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "from",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-01-01"
-        },
-        {
-          "name": "to",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "2025-12-31"
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "TotalSupplyChartGetRangeParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "TotalSupplyChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.list",
-      "publicResource": "coins.list",
-      "operation": "getNew",
-      "publicOperation": "getNew",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/list/new",
-      "pathParams": [],
-      "publicPathParams": [],
-      "queryParams": [],
-      "publicQueryParams": [],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [],
-      "queryParamDetails": [],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsListNew",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.list",
-      "publicResource": "coins.list",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/list",
+      "path": "/coins/top_gainers_losers",
       "pathParams": [],
       "publicPathParams": [],
       "queryParams": [
-        "include_platform",
-        "status"
+        "vs_currency",
+        "duration",
+        "price_change_percentage",
+        "top_coins"
       ],
       "publicQueryParams": [
-        "include_platform",
-        "status"
+        "vs_currency",
+        "duration",
+        "price_change_percentage",
+        "top_coins"
       ],
       "headerParams": [],
       "publicHeaderParams": [],
@@ -24900,115 +24911,26 @@
       "pathParamDetails": [],
       "queryParamDetails": [
         {
-          "name": "include_platform",
+          "name": "vs_currency",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "usd"
+        },
+        {
+          "name": "duration",
           "required": false,
           "style": "form",
           "explode": true
         },
         {
-          "name": "status",
+          "name": "price_change_percentage",
           "required": false,
           "style": "form",
           "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "ListGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CoinsList",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.categories",
-      "publicResource": "coins.categories",
-      "operation": "getList",
-      "publicOperation": "getList",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/categories/list",
-      "pathParams": [],
-      "publicPathParams": [],
-      "queryParams": [],
-      "publicQueryParams": [],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [],
-      "queryParamDetails": [],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "CategoriesList",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "coins.categories",
-      "publicResource": "coins.categories",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/coins/categories",
-      "pathParams": [],
-      "publicPathParams": [],
-      "queryParams": [
-        "order"
-      ],
-      "publicQueryParams": [
-        "order"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [],
-      "queryParamDetails": [
+        },
         {
-          "name": "order",
+          "name": "top_coins",
           "required": false,
           "style": "form",
           "explode": true
@@ -25019,10 +24941,7 @@
       "publicCookieParams": [],
       "cookieParamDetails": [],
       "paramsModel": {
-        "publicName": "CategoryGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
+        "publicName": "TopGainersLoserGetParams"
       },
       "response": {
         "status": "200",
@@ -25036,7 +24955,7 @@
         ]
       },
       "responseModel": {
-        "name": "Categories",
+        "name": "TopGainersLosers",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -25078,9 +24997,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "AssetPlatformGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -25137,9 +25053,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "TokenListGetAllJsonParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -25204,9 +25117,6 @@
       "paramsModel": {
         "publicName": "ExchangeGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -25261,9 +25171,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "ExchangeGetListParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -25332,9 +25239,6 @@
       "paramsModel": {
         "publicName": "ExchangeGetIdParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -25348,6 +25252,151 @@
       },
       "responseModel": {
         "name": "ExchangesId",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "exchanges.volumeChart",
+      "publicResource": "exchanges.volumeChart",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/exchanges/{id}/volume_chart",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "days"
+      ],
+      "publicQueryParams": [
+        "days"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "binance"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "days",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "1"
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "VolumeChartGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "ExchangeVolumeChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "exchanges.volumeChart",
+      "publicResource": "exchanges.volumeChart",
+      "operation": "getRange",
+      "publicOperation": "getRange",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/exchanges/{id}/volume_chart/range",
+      "pathParams": [
+        "id"
+      ],
+      "publicPathParams": [
+        "id"
+      ],
+      "queryParams": [
+        "from",
+        "to"
+      ],
+      "publicQueryParams": [
+        "from",
+        "to"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "binance"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "from",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "1767196800"
+        },
+        {
+          "name": "to",
+          "required": true,
+          "style": "form",
+          "explode": true,
+          "defaultValue": "1769702400"
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "VolumeChartGetRangeParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "ExchangeVolumeChart",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -25442,9 +25491,6 @@
       "paramsModel": {
         "publicName": "TickerGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -25458,157 +25504,6 @@
       },
       "responseModel": {
         "name": "CoinsIdTickers",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "exchanges.volumeChart",
-      "publicResource": "exchanges.volumeChart",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/exchanges/{id}/volume_chart",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "days"
-      ],
-      "publicQueryParams": [
-        "days"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "binance"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "days",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "1"
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "VolumeChartGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "ExchangeVolumeChart",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "exchanges.volumeChart",
-      "publicResource": "exchanges.volumeChart",
-      "operation": "getRange",
-      "publicOperation": "getRange",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/exchanges/{id}/volume_chart/range",
-      "pathParams": [
-        "id"
-      ],
-      "publicPathParams": [
-        "id"
-      ],
-      "queryParams": [
-        "from",
-        "to"
-      ],
-      "publicQueryParams": [
-        "from",
-        "to"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "binance"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "from",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "1767196800"
-        },
-        {
-          "name": "to",
-          "required": true,
-          "style": "form",
-          "explode": true,
-          "defaultValue": "1769702400"
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "VolumeChartGetRangeParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "ExchangeVolumeChart",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -25637,9 +25532,6 @@
       "cookieParams": [],
       "publicCookieParams": [],
       "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -25711,9 +25603,6 @@
       "paramsModel": {
         "publicName": "ExchangeGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -25781,9 +25670,6 @@
       "paramsModel": {
         "publicName": "ExchangeGetIdParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -25825,9 +25711,6 @@
       "cookieParams": [],
       "publicCookieParams": [],
       "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -25898,9 +25781,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "EntityGetListParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -25994,9 +25874,6 @@
       "paramsModel": {
         "publicName": "PublicTreasuryGetCoinIdParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26071,9 +25948,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "PublicTreasuryGetEntityIdParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -26159,9 +26033,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "PublicTreasuryGetHoldingChartParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -26254,9 +26125,6 @@
       "paramsModel": {
         "publicName": "PublicTreasuryGetTransactionHistoryParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26328,9 +26196,6 @@
       "paramsModel": {
         "publicName": "NftGetListParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26343,7 +26208,7 @@
         ]
       },
       "responseModel": {
-        "name": "NfTsList",
+        "name": "NftsList",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -26386,9 +26251,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "NftGetIdParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -26469,9 +26331,6 @@
       "paramsModel": {
         "publicName": "NftGetMarketsParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26484,7 +26343,7 @@
         ]
       },
       "responseModel": {
-        "name": "NfTsMarkets",
+        "name": "NftsMarkets",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -26536,9 +26395,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "ContractGetContractAddressParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -26617,9 +26473,6 @@
       "paramsModel": {
         "publicName": "MarketChartGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26688,9 +26541,6 @@
       "paramsModel": {
         "publicName": "MarketChartGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26747,9 +26597,6 @@
       "paramsModel": {
         "publicName": "TickerGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26791,9 +26638,6 @@
       "cookieParams": [],
       "publicCookieParams": [],
       "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26881,9 +26725,6 @@
       "paramsModel": {
         "publicName": "NewGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26925,9 +26766,6 @@
       "cookieParams": [],
       "publicCookieParams": [],
       "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -26969,9 +26807,6 @@
       "cookieParams": [],
       "publicCookieParams": [],
       "cookieParamDetails": [],
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -27036,9 +26871,6 @@
       "paramsModel": {
         "publicName": "MarketCapChartGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -27094,9 +26926,6 @@
       "paramsModel": {
         "publicName": "NetworkGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -27110,6 +26939,327 @@
       },
       "responseModel": {
         "name": "NetworksList",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.dexes",
+      "publicResource": "onchain.networks.dexes",
+      "operation": "getPools",
+      "publicOperation": "getPools",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/{network}/dexes/{dex}/pools",
+      "pathParams": [
+        "network",
+        "dex"
+      ],
+      "publicPathParams": [
+        "network",
+        "dex"
+      ],
+      "queryParams": [
+        "include",
+        "page",
+        "sort",
+        "include_gt_community_data"
+      ],
+      "publicQueryParams": [
+        "include",
+        "page",
+        "sort",
+        "include_gt_community_data"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "network",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "eth"
+        },
+        {
+          "name": "dex",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "sushiswap"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "include",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "page",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "sort",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_gt_community_data",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "DexGetPoolsParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "Pool",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.dexes",
+      "publicResource": "onchain.networks.dexes",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/{network}/dexes",
+      "pathParams": [
+        "network"
+      ],
+      "publicPathParams": [
+        "network"
+      ],
+      "queryParams": [
+        "page"
+      ],
+      "publicQueryParams": [
+        "page"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "network",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "eth"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "page",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "DexGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "DexesList",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.newPools",
+      "publicResource": "onchain.networks.newPools",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/new_pools",
+      "pathParams": [],
+      "publicPathParams": [],
+      "queryParams": [
+        "include",
+        "page",
+        "include_gt_community_data"
+      ],
+      "publicQueryParams": [
+        "include",
+        "page",
+        "include_gt_community_data"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [],
+      "queryParamDetails": [
+        {
+          "name": "include",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "page",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_gt_community_data",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "NewPoolGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "Pool",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.newPools",
+      "publicResource": "onchain.networks.newPools",
+      "operation": "getNetwork",
+      "publicOperation": "getNetwork",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/{network}/new_pools",
+      "pathParams": [
+        "network"
+      ],
+      "publicPathParams": [
+        "network"
+      ],
+      "queryParams": [
+        "include",
+        "page",
+        "include_gt_community_data"
+      ],
+      "publicQueryParams": [
+        "include",
+        "page",
+        "include_gt_community_data"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "network",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "eth"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "include",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "page",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_gt_community_data",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "NewPoolGetNetworkParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "Pool",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -27188,9 +27338,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "PoolGetAddressParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -27283,9 +27430,6 @@
       "paramsModel": {
         "publicName": "PoolGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -27362,9 +27506,6 @@
       "paramsModel": {
         "publicName": "InfoGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -27378,6 +27519,98 @@
       },
       "responseModel": {
         "name": "PoolTokensInfo",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.pools.multi",
+      "publicResource": "onchain.networks.pools.multi",
+      "operation": "getAddresses",
+      "publicOperation": "getAddresses",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/{network}/pools/multi/{addresses}",
+      "pathParams": [
+        "network",
+        "addresses"
+      ],
+      "publicPathParams": [
+        "network",
+        "addresses"
+      ],
+      "queryParams": [
+        "include",
+        "include_volume_breakdown",
+        "include_composition"
+      ],
+      "publicQueryParams": [
+        "include",
+        "include_volume_breakdown",
+        "include_composition"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "network",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "eth"
+        },
+        {
+          "name": "addresses",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "include",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_volume_breakdown",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_composition",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "MultiGetAddressesParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "MultiPoolAddressData",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -27490,9 +27723,6 @@
       "paramsModel": {
         "publicName": "OhlcvGetTimeframeParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -27577,9 +27807,6 @@
       "paramsModel": {
         "publicName": "TradeGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -27593,450 +27820,6 @@
       },
       "responseModel": {
         "name": "Trades",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.pools.multi",
-      "publicResource": "onchain.networks.pools.multi",
-      "operation": "getAddresses",
-      "publicOperation": "getAddresses",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/{network}/pools/multi/{addresses}",
-      "pathParams": [
-        "network",
-        "addresses"
-      ],
-      "publicPathParams": [
-        "network",
-        "addresses"
-      ],
-      "queryParams": [
-        "include",
-        "include_volume_breakdown",
-        "include_composition"
-      ],
-      "publicQueryParams": [
-        "include",
-        "include_volume_breakdown",
-        "include_composition"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "network",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "eth"
-        },
-        {
-          "name": "addresses",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "include",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_volume_breakdown",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_composition",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "MultiGetAddressesParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "MultiPoolAddressData",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.trendingPools",
-      "publicResource": "onchain.networks.trendingPools",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/trending_pools",
-      "pathParams": [],
-      "publicPathParams": [],
-      "queryParams": [
-        "include",
-        "page",
-        "duration",
-        "include_gt_community_data"
-      ],
-      "publicQueryParams": [
-        "include",
-        "page",
-        "duration",
-        "include_gt_community_data"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [],
-      "queryParamDetails": [
-        {
-          "name": "include",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "page",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "duration",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_gt_community_data",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "TrendingPoolGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "Pool",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.trendingPools",
-      "publicResource": "onchain.networks.trendingPools",
-      "operation": "getNetwork",
-      "publicOperation": "getNetwork",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/{network}/trending_pools",
-      "pathParams": [
-        "network"
-      ],
-      "publicPathParams": [
-        "network"
-      ],
-      "queryParams": [
-        "include",
-        "page",
-        "duration",
-        "include_gt_community_data"
-      ],
-      "publicQueryParams": [
-        "include",
-        "page",
-        "duration",
-        "include_gt_community_data"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "network",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "eth"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "include",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "page",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "duration",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_gt_community_data",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "TrendingPoolGetNetworkParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "Pool",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.dexes",
-      "publicResource": "onchain.networks.dexes",
-      "operation": "getPools",
-      "publicOperation": "getPools",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/{network}/dexes/{dex}/pools",
-      "pathParams": [
-        "network",
-        "dex"
-      ],
-      "publicPathParams": [
-        "network",
-        "dex"
-      ],
-      "queryParams": [
-        "include",
-        "page",
-        "sort",
-        "include_gt_community_data"
-      ],
-      "publicQueryParams": [
-        "include",
-        "page",
-        "sort",
-        "include_gt_community_data"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "network",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "eth"
-        },
-        {
-          "name": "dex",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "sushiswap"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "include",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "page",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "sort",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_gt_community_data",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "DexGetPoolsParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "Pool",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.dexes",
-      "publicResource": "onchain.networks.dexes",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/{network}/dexes",
-      "pathParams": [
-        "network"
-      ],
-      "publicPathParams": [
-        "network"
-      ],
-      "queryParams": [
-        "page"
-      ],
-      "publicQueryParams": [
-        "page"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "network",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "eth"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "page",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "DexGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "DexesList",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -28116,9 +27899,6 @@
       "paramsModel": {
         "publicName": "TokenGetAddressParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -28139,13 +27919,13 @@
       "transport": "http"
     },
     {
-      "resource": "onchain.networks.tokens.pools",
-      "publicResource": "onchain.networks.tokens.pools",
+      "resource": "onchain.networks.tokens.holdersChart",
+      "publicResource": "onchain.networks.tokens.holdersChart",
       "operation": "get",
       "publicOperation": "get",
       "deprecated": false,
       "method": "GET",
-      "path": "/onchain/networks/{network}/tokens/{token_address}/pools",
+      "path": "/onchain/networks/{network}/tokens/{token_address}/holders_chart",
       "pathParams": [
         "network",
         "token_address"
@@ -28155,18 +27935,10 @@
         "token_address"
       ],
       "queryParams": [
-        "include",
-        "include_inactive_source",
-        "page",
-        "sort",
-        "include_gt_community_data"
+        "days"
       ],
       "publicQueryParams": [
-        "include",
-        "include_inactive_source",
-        "page",
-        "sort",
-        "include_gt_community_data"
+        "days"
       ],
       "headerParams": [],
       "publicHeaderParams": [],
@@ -28178,43 +27950,19 @@
           "required": true,
           "style": "simple",
           "explode": false,
-          "defaultValue": "eth"
+          "defaultValue": "solana"
         },
         {
           "name": "token_address",
           "required": true,
           "style": "simple",
           "explode": false,
-          "defaultValue": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+          "defaultValue": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump"
         }
       ],
       "queryParamDetails": [
         {
-          "name": "include",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_inactive_source",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "page",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "sort",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_gt_community_data",
+          "name": "days",
           "required": false,
           "style": "form",
           "explode": true
@@ -28225,10 +27973,7 @@
       "publicCookieParams": [],
       "cookieParamDetails": [],
       "paramsModel": {
-        "publicName": "PoolGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
+        "publicName": "HoldersChartGetParams"
       },
       "response": {
         "status": "200",
@@ -28242,7 +27987,72 @@
         ]
       },
       "responseModel": {
-        "name": "Pool",
+        "name": "TokenHoldersChart",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.tokens.info",
+      "publicResource": "onchain.networks.tokens.info",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/{network}/tokens/{address}/info",
+      "pathParams": [
+        "network",
+        "address"
+      ],
+      "publicPathParams": [
+        "network",
+        "address"
+      ],
+      "queryParams": [],
+      "publicQueryParams": [],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "network",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "solana"
+        },
+        {
+          "name": "address",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump"
+        }
+      ],
+      "queryParamDetails": [],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "InfoGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "TokenInfo",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -28322,9 +28132,6 @@
       "paramsModel": {
         "publicName": "MultiGetAddressesParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -28338,335 +28145,6 @@
       },
       "responseModel": {
         "name": "MultiTokenData",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.tokens.info",
-      "publicResource": "onchain.networks.tokens.info",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/{network}/tokens/{address}/info",
-      "pathParams": [
-        "network",
-        "address"
-      ],
-      "publicPathParams": [
-        "network",
-        "address"
-      ],
-      "queryParams": [],
-      "publicQueryParams": [],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "network",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "solana"
-        },
-        {
-          "name": "address",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump"
-        }
-      ],
-      "queryParamDetails": [],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "InfoGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "TokenInfo",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.tokens.topTraders",
-      "publicResource": "onchain.networks.tokens.topTraders",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/{network_id}/tokens/{token_address}/top_traders",
-      "pathParams": [
-        "network_id",
-        "token_address"
-      ],
-      "publicPathParams": [
-        "network_id",
-        "token_address"
-      ],
-      "queryParams": [
-        "traders",
-        "sort",
-        "include_address_label"
-      ],
-      "publicQueryParams": [
-        "traders",
-        "sort",
-        "include_address_label"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "network_id",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "solana"
-        },
-        {
-          "name": "token_address",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "traders",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "sort",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_address_label",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "TopTraderGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "TopTokenTraders",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.tokens.topHolders",
-      "publicResource": "onchain.networks.tokens.topHolders",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/{network}/tokens/{address}/top_holders",
-      "pathParams": [
-        "network",
-        "address"
-      ],
-      "publicPathParams": [
-        "network",
-        "address"
-      ],
-      "queryParams": [
-        "holders",
-        "include_pnl_details"
-      ],
-      "publicQueryParams": [
-        "holders",
-        "include_pnl_details"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "network",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "solana"
-        },
-        {
-          "name": "address",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "holders",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "include_pnl_details",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "TopHolderGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "TopTokenHolders",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.networks.tokens.holdersChart",
-      "publicResource": "onchain.networks.tokens.holdersChart",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/networks/{network}/tokens/{token_address}/holders_chart",
-      "pathParams": [
-        "network",
-        "token_address"
-      ],
-      "publicPathParams": [
-        "network",
-        "token_address"
-      ],
-      "queryParams": [
-        "days"
-      ],
-      "publicQueryParams": [
-        "days"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [
-        {
-          "name": "network",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "solana"
-        },
-        {
-          "name": "token_address",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "defaultValue": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump"
-        }
-      ],
-      "queryParamDetails": [
-        {
-          "name": "days",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "HoldersChartGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "TokenHoldersChart",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -28779,9 +28257,6 @@
       "paramsModel": {
         "publicName": "OhlcvGetTimeframeParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -28795,6 +28270,290 @@
       },
       "responseModel": {
         "name": "Ohlcv",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.tokens.pools",
+      "publicResource": "onchain.networks.tokens.pools",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/{network}/tokens/{token_address}/pools",
+      "pathParams": [
+        "network",
+        "token_address"
+      ],
+      "publicPathParams": [
+        "network",
+        "token_address"
+      ],
+      "queryParams": [
+        "include",
+        "include_inactive_source",
+        "page",
+        "sort",
+        "include_gt_community_data"
+      ],
+      "publicQueryParams": [
+        "include",
+        "include_inactive_source",
+        "page",
+        "sort",
+        "include_gt_community_data"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "network",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "eth"
+        },
+        {
+          "name": "token_address",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "include",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_inactive_source",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "page",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "sort",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_gt_community_data",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "PoolGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "Pool",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.tokens.topHolders",
+      "publicResource": "onchain.networks.tokens.topHolders",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/{network}/tokens/{address}/top_holders",
+      "pathParams": [
+        "network",
+        "address"
+      ],
+      "publicPathParams": [
+        "network",
+        "address"
+      ],
+      "queryParams": [
+        "holders",
+        "include_pnl_details"
+      ],
+      "publicQueryParams": [
+        "holders",
+        "include_pnl_details"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "network",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "solana"
+        },
+        {
+          "name": "address",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "holders",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_pnl_details",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "TopHolderGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "TopTokenHolders",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.networks.tokens.topTraders",
+      "publicResource": "onchain.networks.tokens.topTraders",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/networks/{network_id}/tokens/{token_address}/top_traders",
+      "pathParams": [
+        "network_id",
+        "token_address"
+      ],
+      "publicPathParams": [
+        "network_id",
+        "token_address"
+      ],
+      "queryParams": [
+        "traders",
+        "sort",
+        "include_address_label"
+      ],
+      "publicQueryParams": [
+        "traders",
+        "sort",
+        "include_address_label"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [
+        {
+          "name": "network_id",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "solana"
+        },
+        {
+          "name": "token_address",
+          "required": true,
+          "style": "simple",
+          "explode": false,
+          "defaultValue": "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump"
+        }
+      ],
+      "queryParamDetails": [
+        {
+          "name": "traders",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "sort",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "include_address_label",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "TopTraderGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "TopTokenTraders",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -28858,9 +28617,6 @@
       "paramsModel": {
         "publicName": "TradeGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -28881,23 +28637,25 @@
       "transport": "http"
     },
     {
-      "resource": "onchain.networks.newPools",
-      "publicResource": "onchain.networks.newPools",
+      "resource": "onchain.networks.trendingPools",
+      "publicResource": "onchain.networks.trendingPools",
       "operation": "get",
       "publicOperation": "get",
       "deprecated": false,
       "method": "GET",
-      "path": "/onchain/networks/new_pools",
+      "path": "/onchain/networks/trending_pools",
       "pathParams": [],
       "publicPathParams": [],
       "queryParams": [
         "include",
         "page",
+        "duration",
         "include_gt_community_data"
       ],
       "publicQueryParams": [
         "include",
         "page",
+        "duration",
         "include_gt_community_data"
       ],
       "headerParams": [],
@@ -28919,6 +28677,12 @@
           "explode": true
         },
         {
+          "name": "duration",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
           "name": "include_gt_community_data",
           "required": false,
           "style": "form",
@@ -28930,10 +28694,7 @@
       "publicCookieParams": [],
       "cookieParamDetails": [],
       "paramsModel": {
-        "publicName": "NewPoolGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
+        "publicName": "TrendingPoolGetParams"
       },
       "response": {
         "status": "200",
@@ -28955,13 +28716,13 @@
       "transport": "http"
     },
     {
-      "resource": "onchain.networks.newPools",
-      "publicResource": "onchain.networks.newPools",
+      "resource": "onchain.networks.trendingPools",
+      "publicResource": "onchain.networks.trendingPools",
       "operation": "getNetwork",
       "publicOperation": "getNetwork",
       "deprecated": false,
       "method": "GET",
-      "path": "/onchain/networks/{network}/new_pools",
+      "path": "/onchain/networks/{network}/trending_pools",
       "pathParams": [
         "network"
       ],
@@ -28971,11 +28732,13 @@
       "queryParams": [
         "include",
         "page",
+        "duration",
         "include_gt_community_data"
       ],
       "publicQueryParams": [
         "include",
         "page",
+        "duration",
         "include_gt_community_data"
       ],
       "headerParams": [],
@@ -29005,6 +28768,12 @@
           "explode": true
         },
         {
+          "name": "duration",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
           "name": "include_gt_community_data",
           "required": false,
           "style": "form",
@@ -29016,10 +28785,7 @@
       "publicCookieParams": [],
       "cookieParamDetails": [],
       "paramsModel": {
-        "publicName": "NewPoolGetNetworkParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
+        "publicName": "TrendingPoolGetNetworkParams"
       },
       "response": {
         "status": "200",
@@ -29316,9 +29082,6 @@
       "paramsModel": {
         "publicName": "MegafilterGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -29382,9 +29145,6 @@
       "paramsModel": {
         "publicName": "TrendingSearchGetParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -29398,72 +29158,6 @@
       },
       "responseModel": {
         "name": "TrendingSearchPools",
-        "publicAliases": []
-      },
-      "errorResponses": [],
-      "responseLinks": [],
-      "transport": "http"
-    },
-    {
-      "resource": "onchain.tokens.infoRecentlyUpdated",
-      "publicResource": "onchain.tokens.infoRecentlyUpdated",
-      "operation": "get",
-      "publicOperation": "get",
-      "deprecated": false,
-      "method": "GET",
-      "path": "/onchain/tokens/info_recently_updated",
-      "pathParams": [],
-      "publicPathParams": [],
-      "queryParams": [
-        "include",
-        "network"
-      ],
-      "publicQueryParams": [
-        "include",
-        "network"
-      ],
-      "headerParams": [],
-      "publicHeaderParams": [],
-      "bodyParams": [],
-      "publicBodyParams": [],
-      "pathParamDetails": [],
-      "queryParamDetails": [
-        {
-          "name": "include",
-          "required": false,
-          "style": "form",
-          "explode": true
-        },
-        {
-          "name": "network",
-          "required": false,
-          "style": "form",
-          "explode": true
-        }
-      ],
-      "headerParamDetails": [],
-      "cookieParams": [],
-      "publicCookieParams": [],
-      "cookieParamDetails": [],
-      "paramsModel": {
-        "publicName": "InfoRecentlyUpdatedGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
-      "response": {
-        "status": "200",
-        "contentType": "application/json",
-        "encoding": "json",
-        "contents": [
-          {
-            "contentType": "application/json",
-            "encoding": "json"
-          }
-        ]
-      },
-      "responseModel": {
-        "name": "TokenInfoRecentlyUpdated",
         "publicAliases": []
       },
       "errorResponses": [],
@@ -29513,9 +29207,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "CategoryGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -29600,9 +29291,6 @@
       "paramsModel": {
         "publicName": "CategoryGetPoolsParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -29682,9 +29370,6 @@
       "cookieParamDetails": [],
       "paramsModel": {
         "publicName": "PoolGetParams"
-      },
-      "defaultRequestOptions": {
-        "headers": {}
       },
       "response": {
         "status": "200",
@@ -29802,9 +29487,6 @@
       "paramsModel": {
         "publicName": "TokenPriceGetAddressesParams"
       },
-      "defaultRequestOptions": {
-        "headers": {}
-      },
       "response": {
         "status": "200",
         "contentType": "application/json",
@@ -29818,6 +29500,69 @@
       },
       "responseModel": {
         "name": "OnchainSimplePrice",
+        "publicAliases": []
+      },
+      "errorResponses": [],
+      "responseLinks": [],
+      "transport": "http"
+    },
+    {
+      "resource": "onchain.tokens.infoRecentlyUpdated",
+      "publicResource": "onchain.tokens.infoRecentlyUpdated",
+      "operation": "get",
+      "publicOperation": "get",
+      "deprecated": false,
+      "method": "GET",
+      "path": "/onchain/tokens/info_recently_updated",
+      "pathParams": [],
+      "publicPathParams": [],
+      "queryParams": [
+        "include",
+        "network"
+      ],
+      "publicQueryParams": [
+        "include",
+        "network"
+      ],
+      "headerParams": [],
+      "publicHeaderParams": [],
+      "bodyParams": [],
+      "publicBodyParams": [],
+      "pathParamDetails": [],
+      "queryParamDetails": [
+        {
+          "name": "include",
+          "required": false,
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "network",
+          "required": false,
+          "style": "form",
+          "explode": true
+        }
+      ],
+      "headerParamDetails": [],
+      "cookieParams": [],
+      "publicCookieParams": [],
+      "cookieParamDetails": [],
+      "paramsModel": {
+        "publicName": "InfoRecentlyUpdatedGetParams"
+      },
+      "response": {
+        "status": "200",
+        "contentType": "application/json",
+        "encoding": "json",
+        "contents": [
+          {
+            "contentType": "application/json",
+            "encoding": "json"
+          }
+        ]
+      },
+      "responseModel": {
+        "name": "TokenInfoRecentlyUpdated",
         "publicAliases": []
       },
       "errorResponses": [],

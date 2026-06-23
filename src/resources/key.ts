@@ -4,22 +4,24 @@ import { APIResource } from "../resource";
 import { APIPromise } from "../api-promise";
 import type { RequestOptions } from "../internal/request-options";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
 export class Key extends APIResource {
   /**
    * To monitor your account's API usage, including rate limits, monthly total credits, remaining credits, and more
+   *
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<KeyGetResponse>} API usage
+   *
+   * @example
+   * ```ts
+   * const get_ = await client.key.get();
+   * ```
    */
-  get(options?: RequestOptions): APIPromise<ApiUsage> {
+  get(options?: RequestOptions): APIPromise<KeyGetResponse> {
     return this._client.get("/key", options);
   }
 }
 
-export interface ApiUsage {
+export interface KeyGetResponse {
   /**
    * Current subscription plan
    */
@@ -54,6 +56,8 @@ export interface ApiUsage {
   api_key_current_total_monthly_calls: number;
 }
 export declare namespace Key {
-  export { type ApiUsage as ApiUsage };
+  export {
+    type KeyGetResponse as KeyGetResponse,
+  };
 }
 export { Key as KeyResource };

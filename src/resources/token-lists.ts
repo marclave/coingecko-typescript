@@ -5,22 +5,25 @@ import { APIPromise } from "../api-promise";
 import type { RequestOptions } from "../internal/request-options";
 import { path as __scalarPath } from "../internal/utils/path";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
 export class TokenLists extends APIResource {
   /**
    * To get full list of tokens of a blockchain network (asset platform) that is supported by [Ethereum token list standard](https://tokenlists.org/)
+   *
+   * @param {string} asset_platform_id - Asset platform ID.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<TokenListGetAllJSONResponse>} Token list by asset platform
+   *
+   * @example
+   * ```ts
+   * const getAllJSON = await client.tokenLists.getAllJSON("ethereum");
+   * ```
    */
-  getAllJson(asset_platform_id: string, options?: RequestOptions): APIPromise<TokenLists> {
+  getAllJSON(asset_platform_id: string, options?: RequestOptions): APIPromise<TokenListGetAllJSONResponse> {
     return this._client.get(__scalarPath`/token_lists/${asset_platform_id}/all.json`, options);
   }
 }
 
-export interface TokenLists {
+export interface TokenListGetAllJSONResponse {
   /**
    * Token list name
    */
@@ -35,18 +38,65 @@ export interface TokenLists {
   keywords: Array<string>;
   /**
    * Token list generation timestamp
+   * @format date-time
    */
   timestamp: string;
   /**
    * List of tokens
    */
-  tokens: Array<{ chainId: number; address: string; name: string; symbol: string; decimals: number; logoURI: string }>;
+  tokens: Array<TokenListGetAllJSONResponse.Token>;
   /**
    * Token list version
    */
-  version: { major?: number; minor?: number; patch?: number };
+  version: TokenListGetAllJSONResponse.Version;
+}
+
+export namespace TokenListGetAllJSONResponse {
+  export interface Token {
+    /**
+     * Chainlist's chain ID
+     */
+    chainId: number;
+    /**
+     * Token contract address
+     */
+    address: string;
+    /**
+     * Token name
+     */
+    name: string;
+    /**
+     * Token symbol
+     */
+    symbol: string;
+    /**
+     * Token decimals
+     */
+    decimals: number;
+    /**
+     * Token image URL
+     */
+    logoURI: string;
+  }
+
+  export interface Version {
+    /**
+     * Major version
+     */
+    major?: number;
+    /**
+     * Minor version
+     */
+    minor?: number;
+    /**
+     * Patch version
+     */
+    patch?: number;
+  }
 }
 export declare namespace TokenLists {
-  export { type TokenLists as TokenLists };
+  export {
+    type TokenListGetAllJSONResponse as TokenListGetAllJSONResponse,
+  };
 }
 export { TokenLists as TokenListResource };

@@ -2,7 +2,7 @@
 
 export { Coingecko as default } from './client.js';
 
-export { type Uploadable, toFile } from './uploads';
+export { type Uploadable, toFile } from './core/uploads';
 export { APIPromise } from './api-promise';
 export { Coingecko, type ClientOptions, type CoingeckoOptions, type Logger, type LogLevel } from './client.js';
 export {

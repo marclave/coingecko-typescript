@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Scalar. See README.md for details.
 
-export { Exchanges } from "./exchanges";
-export type { Exchanges as ExchangeExchanges, ExchangesList, ExchangesId, ExchangeGetParams, ExchangeGetListParams, ExchangeGetIdParams } from "./exchanges";
-export { Tickers } from "./tickers";
-export type { CoinsIdTickers, TickerGetParams } from "./tickers";
+export { ExchangeResource } from "./exchanges";
+export type { Exchanges, ExchangeGetParams, ExchangeGetListParams, ExchangeGetListResponse, ExchangeGetIDParams, ExchangeGetIDResponse } from "./exchanges";
 export { VolumeChart } from "./volume-chart";
-export type { ExchangeVolumeChart, VolumeChartGetParams, VolumeChartGetRangeParams } from "./volume-chart";
+export type { VolumeChartGetParams, VolumeChartGetResponse, VolumeChartGetRangeParams, VolumeChartGetRangeResponse } from "./volume-chart";
+export { Tickers2 } from "./tickers";
+export type { TickerGetParams, TickerGetResponse } from "./tickers";

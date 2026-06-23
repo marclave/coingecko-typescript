@@ -2,10 +2,10 @@
 
 export { Onchain } from "./onchain";
 export { Networks } from "./networks/networks";
-export type { NetworksList, NetworkGetParams } from "./networks/networks";
-export { Pools } from "./pools/pools";
-export { Tokens } from "./tokens/tokens";
+export type { NetworkGetParams, NetworkGetResponse } from "./networks/networks";
+export { Pools3 } from "./pools/pools";
 export { Categories } from "./categories";
-export type { OnchainCategoriesList, CategoriesPools, CategoryGetParams, CategoryGetPoolsParams } from "./categories";
+export type { CategoryGetParams, CategoryGetResponse, CategoryGetPoolsParams, CategoryGetPoolsResponse } from "./categories";
 export { Search } from "./search/search";
-export { Simple } from "./simple/simple";
+export { Simple2 } from "./simple/simple";
+export { Tokens2 } from "./tokens/tokens";

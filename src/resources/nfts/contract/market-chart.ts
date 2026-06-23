@@ -5,23 +5,45 @@ import { APIPromise } from "../../../api-promise";
 import type { RequestOptions } from "../../../internal/request-options";
 import { path as __scalarPath } from "../../../internal/utils/path";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-export class MarketChart extends APIResource {
+export class MarketChart3 extends APIResource {
   /**
    * To query historical market data of a NFT collection, including floor price, market cap, and 24hr volume, by number of days away from now based on the provided contract address
+   *
+   * @param {string} contract_address - Contract address of the NFT collection.
+   * @param {MarketChartGetParams} params - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<MarketChartGetResponse>} NFT collection historical chart data
+   *
+   * @example
+   * ```ts
+   * const get_ = await client.nfts.contract.marketChart.get("0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
+   *   asset_platform_id: "ethereum",
+   *   days: "1",
+   * });
+   * ```
    */
-  get(asset_platform_id: string, contract_address: string, params: MarketChartGetParams, options?: RequestOptions): APIPromise<NftMarketChart> {
-    const { days } = params ?? {};
+  get(contract_address: string, params: MarketChartGetParams, options?: RequestOptions): APIPromise<MarketChartGetResponse> {
+    const { asset_platform_id, days } = params ?? {};
     return this._client.get(__scalarPath`/nfts/${asset_platform_id}/contract/${contract_address}/market_chart`, { query: { days: days }, ...options });
   }
 }
 
-export interface NftMarketChart {
+export interface MarketChartGetParams {
+  /**
+   * Path param: Asset platform ID.
+   * *refers to [`/asset_platforms`](/reference/asset-platforms-list).
+   * @default ethereum
+   */
+  asset_platform_id: string;
+  /**
+   * Query param: Data up to number of days ago.
+   * Valid values: any integer or `max`
+   * @default 1
+   */
+  days: string;
+}
+
+export interface MarketChartGetResponse {
   /**
    * NFT collection floor price in USD as [timestamp, price] pairs
    */
@@ -47,16 +69,10 @@ export interface NftMarketChart {
    */
   market_cap_native: Array<Array<number>>;
 }
-
-export interface MarketChartGetParams {
-/**
- * Data up to number of days ago.
- * Valid values: any integer or `max`
- */
-  days: string;
-
+export declare namespace MarketChart3 {
+  export {
+    type MarketChartGetResponse as MarketChartGetResponse,
+    type MarketChartGetParams as MarketChartGetParams,
+  };
 }
-export declare namespace MarketChart {
-  export { type NftMarketChart as NftMarketChart, type MarketChartGetParams as MarketChartGetParams };
-}
-export { MarketChart as MarketChartResource };
+export { MarketChart3 as MarketChartResource };

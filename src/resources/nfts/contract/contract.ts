@@ -4,26 +4,42 @@ import { APIResource } from "../../../resource";
 import { APIPromise } from "../../../api-promise";
 import type { RequestOptions } from "../../../internal/request-options";
 import { path as __scalarPath } from "../../../internal/utils/path";
-import { MarketChart } from "./market-chart";
+import { MarketChart3, type MarketChartGetResponse, type MarketChartGetParams } from "./market-chart";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-export class Contract extends APIResource {
-  marketChart: MarketChart = new MarketChart(this._client);
+export class Contract2 extends APIResource {
+  marketChart: MarketChart3 = new MarketChart3(this._client);
 
   /**
    * To query all the NFT data (name, floor price, 24hr volume, ...) based on the NFT collection contract address and respective asset platform
+   *
+   * @param {string} contract_address - Contract address of the NFT collection.
+   * @param {ContractGetContractAddressParams} params - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<ContractGetContractAddressResponse>} NFT collection data
+   *
+   * @example
+   * ```ts
+   * const getContractAddress = await client.nfts.contract.getContractAddress("0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
+   *   asset_platform_id: "ethereum",
+   * });
+   * ```
    */
-  getContractAddress(asset_platform_id: string, contract_address: string, options?: RequestOptions): APIPromise<NftData> {
+  getContractAddress(contract_address: string, params: ContractGetContractAddressParams, options?: RequestOptions): APIPromise<ContractGetContractAddressResponse> {
+    const { asset_platform_id } = params ?? {};
     return this._client.get(__scalarPath`/nfts/${asset_platform_id}/contract/${contract_address}`, options);
   }
 }
 
-export interface NftData {
+export interface ContractGetContractAddressParams {
+  /**
+   * Asset platform ID.
+   * *refers to [`/asset_platforms`](/reference/asset-platforms-list).
+   * @default ethereum
+   */
+  asset_platform_id: string;
+}
+
+export interface ContractGetContractAddressResponse {
   /**
    * NFT collection ID
    */
@@ -51,7 +67,7 @@ export interface NftData {
   /**
    * NFT collection image URLs
    */
-  image: { small?: string; small_2x?: string };
+  image: ContractGetContractAddressResponse.Image;
   /**
    * NFT collection banner image URL
    */
@@ -75,15 +91,15 @@ export interface NftData {
   /**
    * NFT collection floor price
    */
-  floor_price: { native_currency?: number; usd?: number };
+  floor_price: ContractGetContractAddressResponse.FloorPrice;
   /**
    * NFT collection market cap
    */
-  market_cap: { native_currency?: number; usd?: number };
+  market_cap: ContractGetContractAddressResponse.MarketCap;
   /**
    * NFT collection volume in 24 hours
    */
-  volume_24h: { native_currency?: number; usd?: number };
+  volume_24h: ContractGetContractAddressResponse.Volume24h;
   /**
    * NFT collection floor price in USD 24 hours percentage change
    */
@@ -91,15 +107,15 @@ export interface NftData {
   /**
    * NFT collection floor price 24 hours percentage change
    */
-  floor_price_24h_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_24h_percentage_change: ContractGetContractAddressResponse.FloorPrice24hPercentageChange;
   /**
    * NFT collection market cap 24 hours percentage change
    */
-  market_cap_24h_percentage_change: { usd?: number; native_currency?: number };
+  market_cap_24h_percentage_change: ContractGetContractAddressResponse.MarketCap24hPercentageChange;
   /**
    * NFT collection volume in 24 hours percentage change
    */
-  volume_24h_percentage_change: { usd?: number; native_currency?: number };
+  volume_24h_percentage_change: ContractGetContractAddressResponse.Volume24hPercentageChange;
   /**
    * Number of unique addresses owning the NFTs
    */
@@ -135,31 +151,31 @@ export interface NftData {
   /**
    * NFT collection links
    */
-  links: { homepage?: string; twitter?: string; discord?: string };
+  links: ContractGetContractAddressResponse.Links;
   /**
    * NFT collection floor price 7 days percentage change
    */
-  floor_price_7d_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_7d_percentage_change: ContractGetContractAddressResponse.FloorPrice7dPercentageChange;
   /**
    * NFT collection floor price 14 days percentage change
    */
-  floor_price_14d_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_14d_percentage_change: ContractGetContractAddressResponse.FloorPrice14dPercentageChange;
   /**
    * NFT collection floor price 30 days percentage change
    */
-  floor_price_30d_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_30d_percentage_change: ContractGetContractAddressResponse.FloorPrice30dPercentageChange;
   /**
    * NFT collection floor price 60 days percentage change
    */
-  floor_price_60d_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_60d_percentage_change: ContractGetContractAddressResponse.FloorPrice60dPercentageChange;
   /**
    * NFT collection floor price 1 year percentage change
    */
-  floor_price_1y_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_1y_percentage_change: ContractGetContractAddressResponse.FloorPrice1yPercentageChange;
   /**
    * NFT collection block explorer links
    */
-  explorers: Array<{ name?: string; link?: string }>;
+  explorers: Array<ContractGetContractAddressResponse.Explorer>;
   /**
    * NFT collection user favorites count
    */
@@ -167,18 +183,122 @@ export interface NftData {
   /**
    * NFT collection all time highs
    */
-  ath: { native_currency?: number; usd?: number };
+  ath: ContractGetContractAddressResponse.Ath;
   /**
    * NFT collection all time highs change percentage
    */
-  ath_change_percentage: { native_currency?: number; usd?: number };
+  ath_change_percentage: ContractGetContractAddressResponse.AthChangePercentage;
   /**
    * NFT collection all time highs date
    */
-  ath_date: { native_currency?: string; usd?: string };
+  ath_date: ContractGetContractAddressResponse.AthDate;
 }
-export declare namespace Contract {
-  export { MarketChart as MarketChart };
-  export { type NftData as NftData };
+
+export namespace ContractGetContractAddressResponse {
+  export interface Image {
+    small?: string;
+    small_2x?: string;
+  }
+
+  export interface FloorPrice {
+    native_currency?: number;
+    usd?: number;
+  }
+
+  export interface MarketCap {
+    native_currency?: number;
+    usd?: number;
+  }
+
+  export interface Volume24h {
+    native_currency?: number;
+    usd?: number;
+  }
+
+  export interface FloorPrice24hPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface MarketCap24hPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface Volume24hPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface Links {
+    homepage?: string;
+    twitter?: string;
+    discord?: string;
+  }
+
+  export interface FloorPrice7dPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface FloorPrice14dPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface FloorPrice30dPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface FloorPrice60dPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface FloorPrice1yPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface Explorer {
+    name?: string;
+    link?: string;
+  }
+
+  export interface Ath {
+    native_currency?: number;
+    usd?: number;
+  }
+
+  export interface AthChangePercentage {
+    native_currency?: number;
+    usd?: number;
+  }
+
+  export interface AthDate {
+    /**
+     * @format date-time
+     */
+    native_currency?: string;
+    /**
+     * @format date-time
+     */
+    usd?: string;
+  }
 }
-export { Contract as ContractResource };
+Contract2.MarketChart3 = MarketChart3;
+
+export declare namespace Contract2 {
+  export {
+    type ContractGetContractAddressResponse as ContractGetContractAddressResponse,
+    type ContractGetContractAddressParams as ContractGetContractAddressParams,
+  };
+
+  export {
+    MarketChart3 as MarketChart3,
+    type MarketChartGetResponse as MarketChartGetResponse,
+    type MarketChartGetParams as MarketChartGetParams,
+  };
+}
+export { Contract2 as ContractResource };

@@ -3,20 +3,20 @@
 import { APIResource } from "../../../resource";
 import { APIPromise } from "../../../api-promise";
 import type { RequestOptions } from "../../../internal/request-options";
-import { InfoRecentlyUpdated } from "./info-recently-updated";
+import { InfoRecentlyUpdated, type InfoRecentlyUpdatedGetResponse, type InfoRecentlyUpdatedGetParams } from "./info-recently-updated";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-export class Tokens extends APIResource {
+export class Tokens2 extends APIResource {
   infoRecentlyUpdated: InfoRecentlyUpdated = new InfoRecentlyUpdated(this._client);
 
 }
 
-export declare namespace Tokens {
-  export { InfoRecentlyUpdated as InfoRecentlyUpdated };
+Tokens2.InfoRecentlyUpdated = InfoRecentlyUpdated;
+
+export declare namespace Tokens2 {
+  export {
+    InfoRecentlyUpdated as InfoRecentlyUpdated,
+    type InfoRecentlyUpdatedGetResponse as InfoRecentlyUpdatedGetResponse,
+    type InfoRecentlyUpdatedGetParams as InfoRecentlyUpdatedGetParams,
+  };
 }
-export { Tokens as TokenResource };
+export { Tokens2 as TokenResource };

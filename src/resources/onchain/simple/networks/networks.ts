@@ -3,20 +3,20 @@
 import { APIResource } from "../../../../resource";
 import { APIPromise } from "../../../../api-promise";
 import type { RequestOptions } from "../../../../internal/request-options";
-import { TokenPrice } from "./token-price";
+import { TokenPrice2, type TokenPriceGetAddressesResponse, type TokenPriceGetAddressesParams } from "./token-price";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-export class Networks extends APIResource {
-  tokenPrice: TokenPrice = new TokenPrice(this._client);
+export class Networks2 extends APIResource {
+  tokenPrice: TokenPrice2 = new TokenPrice2(this._client);
 
 }
 
-export declare namespace Networks {
-  export { TokenPrice as TokenPrice };
+Networks2.TokenPrice2 = TokenPrice2;
+
+export declare namespace Networks2 {
+  export {
+    TokenPrice2 as TokenPrice2,
+    type TokenPriceGetAddressesResponse as TokenPriceGetAddressesResponse,
+    type TokenPriceGetAddressesParams as TokenPriceGetAddressesParams,
+  };
 }
-export { Networks as NetworkResource };
+export { Networks2 as NetworkResource };

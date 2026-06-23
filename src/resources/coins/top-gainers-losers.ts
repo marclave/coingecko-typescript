@@ -4,17 +4,22 @@ import { APIResource } from "../../resource";
 import { APIPromise } from "../../api-promise";
 import type { RequestOptions } from "../../internal/request-options";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
 export class TopGainersLosers extends APIResource {
   /**
    * To query the top 30 coins with largest price gain and loss by a specific time duration
+   *
+   * @param {TopGainersLoserGetParams} params - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<TopGainersLosers2>} Top gainers and losers
+   *
+   * @example
+   * ```ts
+   * const s = await client.coins.topGainersLosers.get({
+   *   vs_currency: "usd",
+   * });
+   * ```
    */
-  get(params: TopGainersLoserGetParams, options?: RequestOptions): APIPromise<TopGainersLosers> {
+  get(params: TopGainersLoserGetParams, options?: RequestOptions): APIPromise<TopGainersLosers2> {
     const { vs_currency, duration, price_change_percentage, top_coins } = params ?? {};
     return this._client.get("/coins/top_gainers_losers", { query: { vs_currency: vs_currency, duration: duration, price_change_percentage: price_change_percentage, top_coins: top_coins }, ...options });
   }
@@ -83,38 +88,39 @@ export interface TopGainersLosersItem {
   usd_1y_change?: number | null;
 }
 
-export interface TopGainersLosers {
+export interface TopGainersLosers2 {
   top_gainers: Array<TopGainersLosersItem>;
   top_losers: Array<TopGainersLosersItem>;
 }
 
 export interface TopGainersLoserGetParams {
-/**
- * Target currency of coins.
- * *refers to [`/simple/supported_vs_currencies`](/reference/simple-supported-currencies)
- */
+  /**
+   * Target currency of coins.
+   * *refers to [`/simple/supported_vs_currencies`](/reference/simple-supported-currencies)
+   * @default usd
+   */
   vs_currency: string;
-
-/**
- * Filter result by time range.
- * Default: `24h`
- */
+  /**
+   * Filter result by time range.
+   * Default: `24h`
+   */
   duration?: "1h" | "24h" | "7d" | "14d" | "30d" | "60d" | "1y";
-
-/**
- * Include price change percentage timeframe, comma-separated if querying more than 1 timeframe.
- * Valid values: `1h`, `24h`, `7d`, `14d`, `30d`, `60d`, `200d`, `1y`
- */
+  /**
+   * Include price change percentage timeframe, comma-separated if querying more than 1 timeframe.
+   * Valid values: `1h`, `24h`, `7d`, `14d`, `30d`, `60d`, `200d`, `1y`
+   */
   price_change_percentage?: string;
-
-/**
- * Filter result by market cap ranking (top 300 to 1000) or all coins (including coins that do not have market cap).
- * Default: `1000`
- */
+  /**
+   * Filter result by market cap ranking (top 300 to 1000) or all coins (including coins that do not have market cap).
+   * Default: `1000`
+   */
   top_coins?: "300" | "500" | "1000" | "all";
-
 }
 export declare namespace TopGainersLosers {
-  export { type TopGainersLosersItem as TopGainersLosersItem, type TopGainersLosers as TopGainersLosers, type TopGainersLoserGetParams as TopGainersLoserGetParams };
+  export {
+    type TopGainersLosersItem as TopGainersLosersItem,
+    type TopGainersLosers2 as TopGainersLosers,
+    type TopGainersLoserGetParams as TopGainersLoserGetParams,
+  };
 }
 export { TopGainersLosers as TopGainersLoserResource };

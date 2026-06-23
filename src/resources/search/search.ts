@@ -3,19 +3,24 @@
 import { APIResource } from "../../resource";
 import { APIPromise } from "../../api-promise";
 import type { RequestOptions } from "../../internal/request-options";
-import { Trending } from "./trending";
+import { Trending, type TrendingGetResponse, type TrendingGetParams } from "./trending";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-export class Search extends APIResource {
+export class SearchResource extends APIResource {
   trending: Trending = new Trending(this._client);
 
   /**
    * To search for coins, categories and markets listed on CoinGecko
+   *
+   * @param {SearchGetParams} params - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<Search>} Search results
+   *
+   * @example
+   * ```ts
+   * const search = await client.search.get({
+   *   query: "query",
+   * });
+   * ```
    */
   get(params: SearchGetParams, options?: RequestOptions): APIPromise<Search> {
     const { query } = params ?? {};
@@ -32,14 +37,22 @@ export interface Search {
 }
 
 export interface SearchGetParams {
-/**
- * Search query
- */
+  /**
+   * Search query
+   */
   query: string;
+}
+SearchResource.Trending = Trending;
 
+export declare namespace SearchResource {
+  export {
+    type Search as Search,
+    type SearchGetParams as SearchGetParams,
+  };
+
+  export {
+    Trending as Trending,
+    type TrendingGetResponse as TrendingGetResponse,
+    type TrendingGetParams as TrendingGetParams,
+  };
 }
-export declare namespace Search {
-  export { Trending as Trending };
-  export { type Search as Search, type SearchGetParams as SearchGetParams };
-}
-export { Search as SearchResource };

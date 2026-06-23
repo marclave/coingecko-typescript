@@ -5,23 +5,38 @@ import { APIPromise } from "../../api-promise";
 import type { RequestOptions } from "../../internal/request-options";
 import { path as __scalarPath } from "../../internal/utils/path";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-export class MarketChart extends APIResource {
+export class MarketChart4 extends APIResource {
   /**
    * To query historical market data of a NFT collection, including floor price, market cap, and 24hr volume, by number of days away from now
+   *
+   * @param {string} id - NFT collection ID.
+   * @param {MarketChartGetParams} params - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<MarketChartGetResponse>} NFT collection historical chart data
+   *
+   * @example
+   * ```ts
+   * const get_ = await client.nfts.marketChart.get("pudgy-penguins", {
+   *   days: "1",
+   * });
+   * ```
    */
-  get(id: string, params: MarketChartGetParams, options?: RequestOptions): APIPromise<NftMarketChart> {
+  get(id: string, params: MarketChartGetParams, options?: RequestOptions): APIPromise<MarketChartGetResponse> {
     const { days } = params ?? {};
     return this._client.get(__scalarPath`/nfts/${id}/market_chart`, { query: { days: days }, ...options });
   }
 }
 
-export interface NftMarketChart {
+export interface MarketChartGetParams {
+  /**
+   * Data up to number of days ago.
+   * Valid values: any integer or `max`
+   * @default 1
+   */
+  days: string;
+}
+
+export interface MarketChartGetResponse {
   /**
    * NFT collection floor price in USD as [timestamp, price] pairs
    */
@@ -47,16 +62,10 @@ export interface NftMarketChart {
    */
   market_cap_native: Array<Array<number>>;
 }
-
-export interface MarketChartGetParams {
-/**
- * Data up to number of days ago.
- * Valid values: any integer or `max`
- */
-  days: string;
-
+export declare namespace MarketChart4 {
+  export {
+    type MarketChartGetResponse as MarketChartGetResponse,
+    type MarketChartGetParams as MarketChartGetParams,
+  };
 }
-export declare namespace MarketChart {
-  export { type NftMarketChart as NftMarketChart, type MarketChartGetParams as MarketChartGetParams };
-}
-export { MarketChart as MarketChartResource };
+export { MarketChart4 as MarketChartResource };
