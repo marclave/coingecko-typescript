@@ -68,8 +68,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.ping.get();\nconsole.log(get_);"
           },
           {
@@ -116,8 +116,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.key.get();\nconsole.log(get_);"
           },
           {
@@ -285,8 +285,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.simple.price.get({\n  vs_currencies: \"usd\",\n  ids: \"bitcoin\",\n  names: \"Bitcoin\",\n  symbols: \"btc\",\n});\nconsole.log(get_);"
           },
           {
@@ -474,8 +474,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.simple.supportedVsCurrencies.get();\nconsole.log(get_);"
           },
           {
@@ -620,8 +620,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getID = await client.simple.tokenPrice.getID(\"ethereum\", {\n  contract_addresses: \"0x2260fac5e5542a773aa44fbcfedf7c193bc2c599\",\n  vs_currencies: \"usd\",\n});\nconsole.log(getID);"
           },
           {
@@ -1165,8 +1165,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getID = await client.coins.getID(\"bitcoin\");\nconsole.log(getID);"
           },
           {
@@ -1450,8 +1450,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.coins.markets.get({\n  vs_currency: \"usd\",\n  ids: \"bitcoin\",\n  names: \"Bitcoin\",\n  symbols: \"btc\",\n});\nconsole.log(get_);"
           },
           {
@@ -1605,8 +1605,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.coins.tickers.get(\"bitcoin\");\nconsole.log(get_);"
           },
           {
@@ -1941,8 +1941,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.coins.history.get(\"bitcoin\", {\n  date: \"2025-12-30\",\n});\nconsole.log(get_);"
           },
           {
@@ -2088,8 +2088,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.coins.marketChart.get(\"bitcoin\", {\n  vs_currency: \"usd\",\n  days: \"1\",\n});\nconsole.log(get_);"
           },
           {
@@ -2245,8 +2245,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getRange = await client.coins.marketChart.getRange(\"bitcoin\", {\n  vs_currency: \"usd\",\n  from: \"2025-01-01\",\n  to: \"2025-12-31\",\n});\nconsole.log(getRange);"
           },
           {
@@ -2385,8 +2385,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.coins.ohlc.get(\"bitcoin\", {\n  vs_currency: \"usd\",\n  days: \"1\",\n});\nconsole.log(get_);"
           },
           {
@@ -2495,8 +2495,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getRange = await client.coins.ohlc.getRange(\"bitcoin\", {\n  vs_currency: \"usd\",\n  from: \"2025-12-01\",\n  to: \"2025-12-31\",\n  interval: \"daily\",\n});\nconsole.log(getRange);"
           },
           {
@@ -2849,8 +2849,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.coins.contract.get(\"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2\", {\n  id: \"ethereum\",\n});\nconsole.log(get_);"
           },
           {
@@ -3006,8 +3006,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.coins.contract.marketChart.get(\"0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\", {\n  id: \"ethereum\",\n  vs_currency: \"usd\",\n  days: \"1\",\n});\nconsole.log(get_);"
           },
           {
@@ -3173,8 +3173,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getRange = await client.coins.contract.marketChart.getRange(\"0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48\", {\n  id: \"ethereum\",\n  vs_currency: \"usd\",\n  from: \"2025-01-01\",\n  to: \"2025-12-31\",\n});\nconsole.log(getRange);"
           },
           {
@@ -3575,8 +3575,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getNew = await client.coins.list.getNew();\nconsole.log(getNew);"
           },
           {
@@ -3655,8 +3655,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.coins.list.get();\nconsole.log(get_);"
           },
           {
@@ -3814,8 +3814,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getAllJSON = await client.tokenLists.getAllJSON(\"ethereum\");\nconsole.log(getAllJSON);"
           },
           {
@@ -3862,8 +3862,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getList = await client.coins.categories.getList();\nconsole.log(getList);"
           },
           {
@@ -4112,8 +4112,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getList = await client.exchanges.getList();\nconsole.log(getList);"
           },
           {
@@ -4287,8 +4287,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getID = await client.exchanges.getID(\"binance\");\nconsole.log(getID);"
           },
           {
@@ -4481,8 +4481,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.exchanges.tickers.get(\"binance\");\nconsole.log(get_);"
           },
           {
@@ -4560,8 +4560,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.exchanges.volumeChart.get(\"binance\", {\n  days: \"1\",\n});\nconsole.log(get_);"
           },
           {
@@ -4640,8 +4640,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getRange = await client.exchanges.volumeChart.getRange(\"binance\", {\n  from: \"1767196800\",\n  to: \"1769702400\",\n});\nconsole.log(getRange);"
           },
           {
@@ -4712,8 +4712,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.derivatives.get();\nconsole.log(get_);"
           },
           {
@@ -4815,8 +4815,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.derivatives.exchanges.get();\nconsole.log(get_);"
           },
           {
@@ -4950,8 +4950,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getID = await client.derivatives.exchanges.getID(\"binance_futures\");\nconsole.log(getID);"
           },
           {
@@ -4998,8 +4998,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getList = await client.derivatives.exchanges.getList();\nconsole.log(getList);"
           },
           {
@@ -5083,8 +5083,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getList = await client.entities.getList();\nconsole.log(getList);"
           },
           {
@@ -5203,8 +5203,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst publicTreasury = await client.publicTreasury.getCoinID(\"bitcoin\", {\n  entity: \"companies\",\n});\nconsole.log(publicTreasury);"
           },
           {
@@ -5313,8 +5313,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getEntityID = await client.publicTreasury.getEntityID(\"strategy\");\nconsole.log(getEntityID);"
           },
           {
@@ -5414,8 +5414,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getHoldingChart = await client.publicTreasury.getHoldingChart(\"bitcoin\", {\n  entity_id: \"strategy\",\n  days: \"365\",\n});\nconsole.log(getHoldingChart);"
           },
           {
@@ -5534,8 +5534,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getTransactionHistory = await client.publicTreasury.getTransactionHistory(\"strategy\");\nconsole.log(getTransactionHistory);"
           },
           {
@@ -5629,8 +5629,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getList = await client.nfts.getList();\nconsole.log(getList);"
           },
           {
@@ -5777,8 +5777,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getID = await client.nfts.getID(\"pudgy-penguins\");\nconsole.log(getID);"
           },
           {
@@ -5935,8 +5935,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getContractAddress = await client.nfts.contract.getContractAddress(\"0xBd3531dA5CF5857e7CfAA92426877b022e612cf8\", {\n  asset_platform_id: \"ethereum\",\n});\nconsole.log(getContractAddress);"
           },
           {
@@ -6115,8 +6115,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getMarkets = await client.nfts.getMarkets();\nconsole.log(getMarkets);"
           },
           {
@@ -6237,8 +6237,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.nfts.marketChart.get(\"pudgy-penguins\", {\n  days: \"1\",\n});\nconsole.log(get_);"
           },
           {
@@ -6369,8 +6369,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.nfts.contract.marketChart.get(\"0xBd3531dA5CF5857e7CfAA92426877b022e612cf8\", {\n  asset_platform_id: \"ethereum\",\n  days: \"1\",\n});\nconsole.log(get_);"
           },
           {
@@ -6445,8 +6445,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.nfts.tickers.get(\"pudgy-penguins\");\nconsole.log(get_);"
           },
           {
@@ -7070,8 +7070,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.search.trending.get();\nconsole.log(get_);"
           },
           {
@@ -7338,8 +7338,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.global.decentralizedFinanceDefi.get();\nconsole.log(get_);"
           },
           {
@@ -7431,8 +7431,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.global.marketCapChart.get({\n  days: \"1\",\n});\nconsole.log(get_);"
           },
           {
@@ -7676,8 +7676,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getAddress = await client.onchain.networks.pools.getAddress(\"0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640\", {\n  network: \"eth\",\n});\nconsole.log(getAddress);"
           },
           {
@@ -7904,8 +7904,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.trendingPools.get();\nconsole.log(get_);"
           },
           {
@@ -8128,8 +8128,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getNetwork = await client.onchain.networks.trendingPools.getNetwork(\"eth\");\nconsole.log(getNetwork);"
           },
           {
@@ -8350,8 +8350,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.pools.get(\"eth\");\nconsole.log(get_);"
           },
           {
@@ -8582,8 +8582,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst dexGetPools = await client.onchain.networks.dexes.getPools(\"sushiswap\", {\n  network: \"eth\",\n});\nconsole.log(dexGetPools);"
           },
           {
@@ -9093,8 +9093,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.pools.megafilter.get();\nconsole.log(get_);"
           },
           {
@@ -9238,8 +9238,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.pools.trendingSearch.get();\nconsole.log(get_);"
           },
           {
@@ -9481,8 +9481,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.tokens.pools.get(\"0xdac17f958d2ee523a2206206994597c13d831ec7\", {\n  network: \"eth\",\n});\nconsole.log(get_);"
           },
           {
@@ -9701,8 +9701,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getAddress = await client.onchain.networks.tokens.getAddress(\"0xdac17f958d2ee523a2206206994597c13d831ec7\", {\n  network: \"eth\",\n});\nconsole.log(getAddress);"
           },
           {
@@ -9952,8 +9952,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getAddresses = await client.onchain.networks.tokens.multi.getAddresses(\"6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN,2g4LS3y2myPe6vj9wTvoBE1wKqxvhnZPoZA9QU9upump\", {\n  network: \"solana\",\n});\nconsole.log(getAddresses);"
           },
           {
@@ -10071,8 +10071,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.tokens.info.get(\"Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump\", {\n  network: \"solana\",\n});\nconsole.log(get_);"
           },
           {
@@ -10210,8 +10210,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.pools.info.get(\"8WwcNqdZjCY5Pt7AkhupAFknV2txca9sq6YBkGzLbvdt\", {\n  network: \"solana\",\n});\nconsole.log(get_);"
           },
           {
@@ -10355,8 +10355,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.tokens.infoRecentlyUpdated.get();\nconsole.log(get_);"
           },
           {
@@ -10494,8 +10494,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.tokens.topTraders.get(\"Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump\", {\n  network_id: \"solana\",\n});\nconsole.log(get_);"
           },
           {
@@ -10615,8 +10615,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.tokens.topHolders.get(\"Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump\", {\n  network: \"solana\",\n});\nconsole.log(get_);"
           },
           {
@@ -10715,8 +10715,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.tokens.holdersChart.get(\"Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump\", {\n  network: \"solana\",\n});\nconsole.log(get_);"
           },
           {
@@ -10889,8 +10889,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getTimeframe = await client.onchain.networks.pools.ohlcv.getTimeframe(\"day\", {\n  network: \"eth\",\n  pool_address: \"0x06da0fd433c1a5d7a4faa01111c044910a184553\",\n});\nconsole.log(getTimeframe);"
           },
           {
@@ -11063,8 +11063,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getTimeframe = await client.onchain.networks.tokens.ohlcv.getTimeframe(\"day\", {\n  network: \"solana\",\n  token_address: \"So11111111111111111111111111111111111111112\",\n});\nconsole.log(getTimeframe);"
           },
           {
@@ -11185,8 +11185,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.pools.trades.get(\"0x06da0fd433c1a5d7a4faa01111c044910a184553\", {\n  network: \"eth\",\n});\nconsole.log(get_);"
           },
           {
@@ -11302,8 +11302,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.tokens.trades.get(\"0xdac17f958d2ee523a2206206994597c13d831ec7\", {\n  network: \"eth\",\n});\nconsole.log(get_);"
           },
           {
@@ -11409,8 +11409,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.categories.get();\nconsole.log(get_);"
           },
           {
@@ -11595,8 +11595,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getPools = await client.onchain.categories.getPools(\"pump-fun\");\nconsole.log(getPools);"
           },
           {
@@ -11800,8 +11800,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.newPools.get();\nconsole.log(get_);"
           },
           {
@@ -12009,8 +12009,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getNetwork = await client.onchain.networks.newPools.getNetwork(\"eth\");\nconsole.log(getNetwork);"
           },
           {
@@ -12256,8 +12256,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getAddresses = await client.onchain.networks.pools.multi.getAddresses(\"0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640\", {\n  network: \"eth\",\n});\nconsole.log(getAddresses);"
           },
           {
@@ -12462,8 +12462,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.search.pools.get({\n  query: \"weth\",\n});\nconsole.log(get_);"
           },
           {
@@ -12602,8 +12602,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst getAddresses = await client.onchain.simple.networks.tokenPrice.getAddresses(\"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2\", {\n  network: \"eth\",\n});\nconsole.log(getAddresses);"
           },
           {
@@ -12671,8 +12671,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst get_ = await client.onchain.networks.get();\nconsole.log(get_);"
           },
           {
@@ -12748,8 +12748,8 @@
         },
         "x-codeSamples": [
           {
-            "lang": "TypeScript",
             "label": "TypeScript",
+            "lang": "TypeScript",
             "source": "import Coingecko from \"@coingecko/coingecko-typescript\";\n\nconst client = new Coingecko({\n  proKeyAuth: process.env[\"PRO_KEY_AUTH\"], // defaults to the PRO_KEY_AUTH env var\n  environment: \"pro\",\n});\n\nconst dexGet = await client.onchain.networks.dexes.get(\"eth\");\nconsole.log(dexGet);"
           },
           {

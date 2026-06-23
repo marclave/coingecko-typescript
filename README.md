@@ -1,6 +1,6 @@
-# Coingecko
+# coingecko
 
-Generated TypeScript SDK for Coingecko API.
+Generated TypeScript SDK for coingecko API.
 
 <br />
 
