@@ -3,23 +3,18 @@
 import { APIResource } from "../../../resource";
 import { APIPromise } from "../../../api-promise";
 import type { RequestOptions } from "../../../internal/request-options";
-import { Networks } from "./networks/networks";
+import { Networks2 } from "./networks/networks";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
-  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
-
-export class Simple extends APIResource {
-  networks: Networks = new Networks(this._client);
+export class Simple2 extends APIResource {
+  networks: Networks2 = new Networks2(this._client);
 
 }
 
-export declare namespace Simple {
-  export { Networks as Networks };
+Simple2.Networks2 = Networks2;
+
+export declare namespace Simple2 {
+  export {
+    Networks2 as Networks2,
+  };
 }
-export { Simple as SimpleResource };
+export { Simple2 as SimpleResource };

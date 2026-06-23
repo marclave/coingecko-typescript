@@ -1,47 +1,46 @@
 // File generated from our OpenAPI spec by Scalar. See README.md for details.
 
 import { APIPromise, type APIResponseProps } from './api-promise';
-import { CoingeckoError, APIError, APIConnectionError, APIConnectionTimeoutError, APIUserAbortError, NotFoundError, ConflictError, RateLimitError, BadRequestError, AuthenticationError, InternalServerError, PermissionDeniedError, UnprocessableEntityError } from './error';
+import * as Errors from './error';
+import { uuid4 } from './internal/utils/uuid';
+import { validatePositiveInteger, isAbsoluteURL, safeJSON, isEmptyObj } from './internal/utils/values';
+import { sleep } from './internal/utils/sleep';
+import { castToError, isAbortError } from './internal/errors';
+import { getPlatformHeaders } from './internal/detect-platform';
+import * as Shims from './internal/shims';
+import * as Opts from './internal/request-options';
 import { readEnv } from './internal/utils/env';
-import type { Fetch, RequestInfo } from './internal/builtin-types';
-import type { HeadersLike } from './internal/headers';
+import { formatRequestDetails, loggerFor, parseLogLevel, type LogLevel, type Logger } from './internal/utils/log';
+export type { Logger, LogLevel } from './internal/utils/log';
+import type { RequestInit, RequestInfo, BodyInit, Fetch } from './internal/builtin-types';
+import { buildHeaders, type HeadersLike } from './internal/headers';
 import type { FinalRequestOptions, RequestOptions } from './internal/request-options';
-import type { FinalizedRequestInit, MergedRequestInit, PromiseOrValue } from './internal/types';
-import { toFile } from './uploads';
-import { Ping } from "./resources/ping";
-import { Key } from "./resources/key";
+import type { HTTPMethod, FinalizedRequestInit, MergedRequestInit, PromiseOrValue } from './internal/types';
+import { stringify as stringifyQuery } from './internal/qs/stringify';
+import type { StringifyOptions } from './internal/qs/types';
+import { toFile } from './core/uploads';
+import { VERSION } from './version';
+import { Ping, type PingGetResponse } from "./resources/ping";
+import { Key, type KeyGetResponse } from "./resources/key";
 import { Simple } from "./resources/simple/simple";
-import { Search } from "./resources/search/search";
-import { Coins } from "./resources/coins/coins";
-import { AssetPlatforms } from "./resources/asset-platforms";
-import { TokenLists } from "./resources/token-lists";
-import { Exchanges } from "./resources/exchanges/exchanges";
-import { Derivatives } from "./resources/derivatives/derivatives";
-import { Entities } from "./resources/entities";
-import { PublicTreasury } from "./resources/public-treasury";
-import { Nfts } from "./resources/nfts/nfts";
-import { ExchangeRates } from "./resources/exchange-rates";
-import { News } from "./resources/news";
-import { Global } from "./resources/global/global";
+import { SearchResource, type Search, type SearchGetParams } from "./resources/search/search";
+import { Coins, type TopGainersLosers2 as TopGainersLosers, type CoinGetIDResponse, type CoinGetIDParams } from "./resources/coins/coins";
+import { AssetPlatformResource, type AssetPlatforms, type AssetPlatformGetParams } from "./resources/asset-platforms";
+import { TokenLists, type TokenListGetAllJSONResponse } from "./resources/token-lists";
+import { ExchangeResource, type Exchanges, type ExchangeGetListResponse, type ExchangeGetIDResponse, type ExchangeGetParams, type ExchangeGetListParams, type ExchangeGetIDParams } from "./resources/exchanges/exchanges";
+import { Derivatives, type DerivativeGetResponse } from "./resources/derivatives/derivatives";
+import { Entities, type EntityGetListResponse, type EntityGetListParams } from "./resources/entities";
+import { PublicTreasuryResource, type PublicTreasury, type PublicTreasuryGetEntityIDResponse, type PublicTreasuryGetHoldingChartResponse, type PublicTreasuryGetTransactionHistoryResponse, type PublicTreasuryGetCoinIDParams, type PublicTreasuryGetEntityIDParams, type PublicTreasuryGetHoldingChartParams, type PublicTreasuryGetTransactionHistoryParams } from "./resources/public-treasury";
+import { NFTs, type NFTGetListResponse, type NFTGetIDResponse, type NFTGetMarketsResponse, type NFTGetListParams, type NFTGetMarketsParams } from "./resources/nfts/nfts";
+import { ExchangeRateResource, type ExchangeRates } from "./resources/exchange-rates";
+import { NewResource, type News, type NewGetParams } from "./resources/news";
+import { GlobalResource, type Global } from "./resources/global/global";
 import { Onchain } from "./resources/onchain/onchain";
-
-type LogFn = (message: string, ...rest: readonly unknown[]) => void;
-
-export type Logger = {
-  error: LogFn;
-  warn: LogFn;
-  info: LogFn;
-  debug: LogFn;
-};
-
-export type LogLevel = 'off' | 'error' | 'warn' | 'info' | 'debug';
 
 export type AuthTokenProvider = () => string | Promise<string>;
 
-const isLogLevel = (value: string | undefined): value is LogLevel => {
-  if (value === undefined) return false;
-  return ['off', 'error', 'warn', 'info', 'debug'].includes(value);
-};
+const queryArrayFormat: NonNullable<StringifyOptions["arrayFormat"]> = "indices";
+const queryAllowDots = false;
 
 const environments = {
   pro: "https://pro-api.coingecko.com/api/v3",
@@ -52,14 +51,14 @@ const environments = {
 type Environment = keyof typeof environments;
 
 export interface ClientOptions {
-/**
- * CoinGecko Pro API Key
- */
+  /**
+   * CoinGecko Pro API Key
+   */
   proKeyAuth?: string | AuthTokenProvider | undefined;
 
-/**
- * CoinGecko Demo API Key
- */
+  /**
+   * CoinGecko Demo API Key
+   */
   demoKeyAuth?: string | AuthTokenProvider | undefined;
 
   /**
@@ -74,186 +73,171 @@ export interface ClientOptions {
   environment?: Environment | undefined;
 
   /**
-   * Override the default base URL for the API.
+   * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
    * Defaults to process.env["COIN-GECKO_BASE_URL"].
    */
   baseURL?: string | null | undefined;
 
   /**
-   * The maximum amount of time, in milliseconds, to wait for a response before aborting a request.
+   * The maximum amount of time (in milliseconds) that the client should wait for a response
+   * from the server before timing out a single request.
    *
-   * Request timeouts are retried by default, so the total time may be longer when retries are enabled.
+   * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
+   * much longer than this timeout before the promise succeeds or fails.
+   *
+   * @unit milliseconds
    */
   timeout?: number | undefined;
 
   /**
-   * The maximum number of times to retry temporary failures such as network errors, 408, 409, 429, and 5xx responses.
+   * Additional `RequestInit` options to be passed to `fetch` calls.
+   * Properties will be overridden by per-request `fetchOptions`.
+   */
+  fetchOptions?: MergedRequestInit | undefined;
+
+  /**
+   * Specify a custom `fetch` function implementation.
+   *
+   * If not provided, we expect that `fetch` is defined globally.
+   */
+  fetch?: Fetch | undefined;
+
+  /**
+   * The maximum number of times that the client will retry a request in case of a
+   * temporary failure, like a network error or a 5XX error from the server.
    *
    * @default 2
    */
   maxRetries?: number | undefined;
 
   /**
-   * Default headers to include with every request.
+   * Default headers to include with every request to the API.
+   *
+   * These can be removed in individual requests by explicitly setting the
+   * header to `null` in request options.
    */
   defaultHeaders?: HeadersLike | undefined;
 
   /**
-   * Default query parameters to include with every request.
+   * Default query parameters to include with every request to the API.
+   *
+   * These can be removed in individual requests by explicitly setting the
+   * param to `undefined` in request options.
    */
   defaultQuery?: Record<string, string | undefined> | undefined;
 
   /**
-   * Additional `RequestInit` options to pass to `fetch` calls.
-   *
-   * Per-request `fetchOptions` override these values.
-   */
-  fetchOptions?: MergedRequestInit | undefined;
-
-  /**
-   * Specify a custom `fetch` implementation.
-   *
-   * If omitted, the generated client uses global `fetch`.
-   */
-  fetch?: Fetch | undefined;
-
-  /**
    * Set the log level.
    *
-   * Defaults to process.env["COIN-GECKO_LOG"].
+   * Defaults to process.env["COIN-GECKO_LOG"] or 'warn' if it isn't set.
    */
-  logLevel?: LogLevel | undefined | null;
+  logLevel?: LogLevel | undefined;
 
   /**
-   * Set the logger implementation.
+   * Set the logger.
    *
-   * Defaults to `console`.
+   * Defaults to globalThis.console.
    */
-  logger?: Logger | undefined | null;
+  logger?: Logger | undefined;
 }
 
 export type CoingeckoOptions = ClientOptions;
 
 /**
  * API Client for interfacing with the Coingecko API.
- *
- * @param {string | AuthTokenProvider | undefined} [opts.proKeyAuth=process.env["PRO_KEY_AUTH"] ?? undefined]
- * @param {string | AuthTokenProvider | undefined} [opts.demoKeyAuth=process.env["DEMO_KEY_AUTH"] ?? undefined]
- * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
- * @param {string | null | undefined} [opts.baseURL=process.env["COIN-GECKO_BASE_URL"] ?? https://pro-api.coingecko.com/api/v3] - Override the default base URL for the API.
- * @param {number} [opts.timeout=60000] - The maximum amount of time, in milliseconds, to wait for a response before aborting a request.
- * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to pass to `fetch` calls.
- * @param {Fetch} [opts.fetch] - Specify a custom `fetch` implementation.
- * @param {number} [opts.maxRetries=2] - The maximum number of times the client will retry a request.
- * @param {HeadersLike} opts.defaultHeaders - Default headers to include with every request.
- * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request.
- * @param {LogLevel | undefined | null} opts.logLevel - Set the log level.
- * @param {Logger | undefined | null} opts.logger - Set the logger implementation.
  */
 export class Coingecko {
-  static Coingecko = this;
-  static DEFAULT_TIMEOUT = 60000;
-  static CoingeckoError = CoingeckoError;
-  static APIError = APIError;
-  static APIConnectionError = APIConnectionError;
-  static APIConnectionTimeoutError = APIConnectionTimeoutError;
-  static APIUserAbortError = APIUserAbortError;
-  static NotFoundError = NotFoundError;
-  static ConflictError = ConflictError;
-  static RateLimitError = RateLimitError;
-  static BadRequestError = BadRequestError;
-  static AuthenticationError = AuthenticationError;
-  static InternalServerError = InternalServerError;
-  static PermissionDeniedError = PermissionDeniedError;
-  static UnprocessableEntityError = UnprocessableEntityError;
-  static toFile = toFile;
-  static Ping = Ping;
-  static Key = Key;
-  static Simple = Simple;
-  static Search = Search;
-  static Coins = Coins;
-  static AssetPlatforms = AssetPlatforms;
-  static TokenLists = TokenLists;
-  static Exchanges = Exchanges;
-  static Derivatives = Derivatives;
-  static Entities = Entities;
-  static PublicTreasury = PublicTreasury;
-  static Nfts = Nfts;
-  static ExchangeRates = ExchangeRates;
-  static News = News;
-  static Global = Global;
-  static Onchain = Onchain;
+  proKeyAuth: string | AuthTokenProvider | undefined;
+  demoKeyAuth: string | AuthTokenProvider | undefined;
 
   baseURL: string;
   maxRetries: number;
   timeout: number;
-  logger: Logger | undefined;
+  logger: Logger;
   logLevel: LogLevel | undefined;
   fetchOptions: MergedRequestInit | undefined;
-  private fetchImpl: Fetch;
-  private options: ClientOptions;
+  private fetch: Fetch;
+  #encoder: Opts.RequestEncoder;
   protected idempotencyHeader?: string;
-  proKeyAuth: string | AuthTokenProvider | undefined;
-  demoKeyAuth: string | AuthTokenProvider | undefined;
+  private _baseURLOverridden: boolean;
+  private _defaultBaseURL: string;
+  private _options: ClientOptions;
 
-  ping: Ping;
-  key: Key;
-  simple: Simple;
-  search: Search;
-  coins: Coins;
-  assetPlatforms: AssetPlatforms;
-  tokenLists: TokenLists;
-  exchanges: Exchanges;
-  derivatives: Derivatives;
-  entities: Entities;
-  publicTreasury: PublicTreasury;
-  nfts: Nfts;
-  exchangeRates: ExchangeRates;
-  news: News;
-  global: Global;
-  onchain: Onchain;
-
-  constructor(options: ClientOptions = {}) {
-    const baseURL = options.baseURL === undefined ? readEnv("COIN-GECKO_BASE_URL") : options.baseURL;
+  /**
+   * API Client for interfacing with the Coingecko API.
+   *
+   * @param {string | AuthTokenProvider | undefined} [opts.proKeyAuth=process.env["PRO_KEY_AUTH"] ?? undefined]
+   * @param {string | AuthTokenProvider | undefined} [opts.demoKeyAuth=process.env["DEMO_KEY_AUTH"] ?? undefined]
+   * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
+   * @param {string} [opts.baseURL=process.env["COIN-GECKO_BASE_URL"] ?? https://pro-api.coingecko.com/api/v3] - Override the default base URL for the API.
+   * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
+   * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
+   * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
+   * @param {number} [opts.maxRetries=2] - The maximum number of times the client will retry a request.
+   * @param {HeadersLike} opts.defaultHeaders - Default headers to include with every request to the API.
+   * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
+   */
+  constructor({
+    baseURL = readEnv("COIN-GECKO_BASE_URL"),
+    proKeyAuth = readEnv("PRO_KEY_AUTH"),
+    demoKeyAuth = readEnv("DEMO_KEY_AUTH"),
+    ...opts
+  }: ClientOptions = {}) {
+    const options: ClientOptions = {
+      proKeyAuth,
+      demoKeyAuth,
+      ...opts,
+      baseURL: baseURL || null,
+    };
     const environment = options.environment ?? "production";
-    if (baseURL && options.environment) throw new CoingeckoError("Ambiguous URL; The `baseURL` option (or COIN-GECKO_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null");
-    this.baseURL = baseURL ?? environments[environment];
-    this.timeout = options.timeout ?? 60000;
-    this.maxRetries = options.maxRetries ?? 2;
-    this.fetchImpl = options.fetch ?? defaultFetch();
-    this.fetchOptions = options.fetchOptions;
+    const baseURLOverridden = baseURL !== null && baseURL !== undefined && baseURL !== "";
+    if (baseURLOverridden && options.environment) throw new Errors.CoingeckoError("Ambiguous URL; The `baseURL` option (or COIN-GECKO_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null");
+    const defaultBaseURL = environments[environment];
+    this.baseURL = options.baseURL || defaultBaseURL;
+    this.timeout = options.timeout ?? Coingecko.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
-    const envLogLevel = readEnv("COIN-GECKO_LOG");
-    this.logLevel = options.logLevel === null ? undefined : (options.logLevel ?? (isLogLevel(envLogLevel) ? envLogLevel : 'warn'));
-    this.options = { ...options, baseURL, environment };
-    this.proKeyAuth = options.proKeyAuth ?? readEnv("PRO_KEY_AUTH");
-    this.demoKeyAuth = options.demoKeyAuth ?? readEnv("DEMO_KEY_AUTH");
-    this.ping = new Ping(this);
-    this.key = new Key(this);
-    this.simple = new Simple(this);
-    this.search = new Search(this);
-    this.coins = new Coins(this);
-    this.assetPlatforms = new AssetPlatforms(this);
-    this.tokenLists = new TokenLists(this);
-    this.exchanges = new Exchanges(this);
-    this.derivatives = new Derivatives(this);
-    this.entities = new Entities(this);
-    this.publicTreasury = new PublicTreasury(this);
-    this.nfts = new Nfts(this);
-    this.exchangeRates = new ExchangeRates(this);
-    this.news = new News(this);
-    this.global = new Global(this);
-    this.onchain = new Onchain(this);
+    const defaultLogLevel = 'warn';
+    // Set default logLevel early so that we can log a warning in parseLogLevel.
+    this.logLevel = defaultLogLevel;
+    this.logLevel =
+      parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
+      parseLogLevel(readEnv("COIN-GECKO_LOG"), "process.env[\"COIN-GECKO_LOG\"]", this) ??
+      defaultLogLevel;
+    this.fetchOptions = options.fetchOptions;
+    this.maxRetries = options.maxRetries ?? 2;
+    this.fetch = options.fetch ?? Shims.getDefaultFetch();
+    this.#encoder = Opts.FallbackEncoder;
+
+    const customHeadersEnv = readEnv("COIN-GECKO_CUSTOM_HEADERS");
+    if (customHeadersEnv) {
+      const parsed: Record<string, string> = {};
+      for (const line of customHeadersEnv.split('\n')) {
+        const colon = line.indexOf(':');
+        if (colon >= 0) {
+          parsed[line.substring(0, colon).trim()] = line.substring(colon + 1).trim();
+        }
+      }
+      options.defaultHeaders = { ...parsed, ...options.defaultHeaders };
+    }
+
+    this._options = { ...options, baseURL: baseURLOverridden ? this.baseURL : undefined, environment };
+    this._baseURLOverridden = baseURLOverridden;
+    this._defaultBaseURL = defaultBaseURL;
+
+    this.proKeyAuth = proKeyAuth;
+    this.demoKeyAuth = demoKeyAuth;
   }
 
   withOptions(options: Partial<ClientOptions>): this {
     const client = new (this.constructor as new (props: ClientOptions) => this)({
-      ...this.options,
-      baseURL: this.baseURL,
+      ...this._options,
+      ...(this.#baseURLOverridden() ? { baseURL: this.baseURL } : {}),
       maxRetries: this.maxRetries,
       timeout: this.timeout,
-      fetch: this.fetchImpl,
+      logger: this.logger,
+      logLevel: this.logLevel,
+      fetch: this.fetch,
       fetchOptions: this.fetchOptions,
       proKeyAuth: this.proKeyAuth,
       demoKeyAuth: this.demoKeyAuth,
@@ -262,161 +246,515 @@ export class Coingecko {
     return client;
   }
 
-  buildURL(path: string, query: object | null | undefined, defaultBaseURL?: string | undefined): string {
-    const url = buildUrl(defaultBaseURL ?? this.baseURL, path);
+  #baseURLOverridden(): boolean {
+    // A named environment selects a default URL; only explicit overrides should bypass per-request defaults.
+    return this._baseURLOverridden || this.baseURL !== this._defaultBaseURL;
+  }
+
+  protected defaultQuery(): Record<string, string | undefined> | undefined {
+    return this._options.defaultQuery;
+  }
+
+  protected stringifyQuery(query: object | Record<string, unknown>): string {
+    return stringifyQuery(query, { arrayFormat: queryArrayFormat, allowDots: queryAllowDots });
+  }
+
+  private getUserAgent(): string {
+    return `${this.constructor.name}/JS ${VERSION}`;
+  }
+
+  protected defaultIdempotencyKey(): string {
+    return `scalar-node-retry-${uuid4()}`;
+  }
+
+  protected makeStatusError(
+    status: number,
+    error: object | undefined,
+    message: string | undefined,
+    headers: Headers,
+  ): Errors.APIError {
+    return Errors.APIError.generate(status, error, message, headers);
+  }
+
+  buildURL(
+    path: string,
+    query: Record<string, unknown> | null | undefined,
+    defaultBaseURL?: string | undefined,
+  ): string {
+    const baseURL = (!this.#baseURLOverridden() && defaultBaseURL) || this.baseURL;
+    // Guarantee exactly one "/" between baseURL and path so that bases without a trailing slash
+    // and paths without a leading slash do not fuse into a malformed URL (e.g. ".../v1" + "widgets").
+    const url =
+      isAbsoluteURL(path) ?
+        new URL(path)
+      : new URL((baseURL.endsWith('/') ? baseURL : baseURL + '/') + (path.startsWith('/') ? path.slice(1) : path));
+
+    const defaultQuery = this.defaultQuery();
     const pathQuery = Object.fromEntries(url.searchParams);
-    const mergedQuery = { ...pathQuery, ...this.options.defaultQuery, ...(query ?? {}) };
-    url.search = stringifyQuery(mergedQuery);
+    if (!isEmptyObj(defaultQuery) || !isEmptyObj(pathQuery)) {
+      query = { ...pathQuery, ...defaultQuery, ...query };
+    }
+
+    if (typeof query === "object" && query && !Array.isArray(query)) {
+      url.search = this.stringifyQuery(query);
+    }
+
     return url.toString();
   }
 
-  request<T>(options: PromiseOrValue<FinalRequestOptions>, remainingRetries: number | null = null): APIPromise<T> {
-    return new APIPromise(this, this.makeRequest(options, remainingRetries));
+  /**
+   * Used as a callback for mutating the given `FinalRequestOptions` object.
+   */
+  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {}
+
+  /**
+   * Used as a callback for mutating the given `RequestInit` object.
+   *
+   * This is useful for cases where you want to add certain headers based off of
+   * the request properties, e.g. `method` or `url`.
+   */
+  protected async prepareRequest(
+    request: RequestInit,
+    { url, options }: { url: string; options: FinalRequestOptions },
+  ): Promise<void> {}
+
+  get<Rsp>(path: string, opts?: PromiseOrValue<RequestOptions>): APIPromise<Rsp> {
+    return this.methodRequest('get', path, opts);
   }
 
-  protected async prepareOptions(_options: FinalRequestOptions): Promise<void> {}
+  post<Rsp>(path: string, opts?: PromiseOrValue<RequestOptions>): APIPromise<Rsp> {
+    return this.methodRequest('post', path, opts);
+  }
 
-  protected async prepareRequest(_request: RequestInit, _props: { url: string; options: FinalRequestOptions }): Promise<void> {}
+  patch<Rsp>(path: string, opts?: PromiseOrValue<RequestOptions>): APIPromise<Rsp> {
+    return this.methodRequest('patch', path, opts);
+  }
+
+  put<Rsp>(path: string, opts?: PromiseOrValue<RequestOptions>): APIPromise<Rsp> {
+    return this.methodRequest('put', path, opts);
+  }
+
+  delete<Rsp>(path: string, opts?: PromiseOrValue<RequestOptions>): APIPromise<Rsp> {
+    return this.methodRequest('delete', path, opts);
+  }
+
+  private methodRequest<Rsp>(
+    method: HTTPMethod,
+    path: string,
+    opts?: PromiseOrValue<RequestOptions>,
+  ): APIPromise<Rsp> {
+    return this.request(
+      Promise.resolve(opts).then((opts) => {
+        return { method, path, ...opts } as FinalRequestOptions;
+      }),
+    );
+  }
+
+  request<Rsp>(
+    options: PromiseOrValue<FinalRequestOptions>,
+    remainingRetries: number | null = null,
+  ): APIPromise<Rsp> {
+    return new APIPromise(this, this.makeRequest(options, remainingRetries, undefined));
+  }
+
+  private async makeRequest(
+    optionsInput: PromiseOrValue<FinalRequestOptions>,
+    retriesRemaining: number | null,
+    retryOfRequestLogID: string | undefined,
+  ): Promise<APIResponseProps> {
+    const options = await optionsInput;
+    const maxRetries = options.maxRetries ?? this.maxRetries;
+    if (retriesRemaining == null) {
+      retriesRemaining = maxRetries;
+    }
+
+    await this.prepareOptions(options);
+
+    const { req, url, timeout } = await this.buildRequest(options, {
+      retryCount: maxRetries - retriesRemaining,
+    });
+
+    await this.prepareRequest(req, { url, options });
+
+    /** Not an API request ID, just for correlating local log entries. */
+    const requestLogID = 'log_' + ((Math.random() * (1 << 24)) | 0).toString(16).padStart(6, '0');
+    const retryLogStr = retryOfRequestLogID === undefined ? '' : `, retryOf: ${retryOfRequestLogID}`;
+    const startTime = Date.now();
+
+    loggerFor(this).debug(
+      `[${requestLogID}] sending request`,
+      formatRequestDetails({
+        retryOfRequestLogID,
+        method: options.method,
+        url,
+        options,
+        headers: req.headers,
+      }),
+    );
+
+    if (options.signal?.aborted) {
+      throw new Errors.APIUserAbortError();
+    }
+
+    const controller = new AbortController();
+    const response = await this.fetchWithTimeout(url, req, timeout, controller).catch(castToError);
+    const headersTime = Date.now();
+
+    if (response instanceof globalThis.Error) {
+      const retryMessage = `retrying, ${retriesRemaining} attempts remaining`;
+      if (options.signal?.aborted) {
+        throw new Errors.APIUserAbortError();
+      }
+      // detect native connection timeout errors
+      // deno throws "TypeError: error sending request for url (https://example/): client error (Connect): tcp connect error: Operation timed out (os error 60): Operation timed out (os error 60)"
+      // undici throws "TypeError: fetch failed" with cause "ConnectTimeoutError: Connect Timeout Error (attempted address: example:443, timeout: 1ms)"
+      // others do not provide enough information to distinguish timeouts from other connection errors
+      const isTimeout =
+        isAbortError(response) ||
+        /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''));
+      if (retriesRemaining) {
+        loggerFor(this).info(
+          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`,
+        );
+        loggerFor(this).debug(
+          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`,
+          formatRequestDetails({
+            retryOfRequestLogID,
+            url,
+            durationMs: headersTime - startTime,
+            message: response.message,
+          }),
+        );
+        return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID);
+      }
+      loggerFor(this).info(
+        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`,
+      );
+      loggerFor(this).debug(
+        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`,
+        formatRequestDetails({
+          retryOfRequestLogID,
+          url,
+          durationMs: headersTime - startTime,
+          message: response.message,
+        }),
+      );
+      if (isTimeout) {
+        throw new Errors.APIConnectionTimeoutError();
+      }
+      throw new Errors.APIConnectionError({ cause: response });
+    }
+
+    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${
+      response.ok ? 'succeeded' : 'failed'
+    } with status ${response.status} in ${headersTime - startTime}ms`;
+
+    if (!response.ok) {
+      const shouldRetry = await this.shouldRetry(response);
+      if (retriesRemaining && shouldRetry) {
+        const retryMessage = `retrying, ${retriesRemaining} attempts remaining`;
+
+        // We don't need the body of this response.
+        await Shims.CancelReadableStream(response.body);
+        loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
+        loggerFor(this).debug(
+          `[${requestLogID}] response error (${retryMessage})`,
+          formatRequestDetails({
+            retryOfRequestLogID,
+            url: response.url,
+            status: response.status,
+            headers: response.headers,
+            durationMs: headersTime - startTime,
+          }),
+        );
+        return this.retryRequest(
+          options,
+          retriesRemaining,
+          retryOfRequestLogID ?? requestLogID,
+          response.headers,
+        );
+      }
+
+      const retryMessage = shouldRetry ? `error; no more retries left` : `error; not retryable`;
+
+      loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
+
+      const errText = await response.text().catch((err: any) => castToError(err).message);
+      const errJSON = safeJSON(errText) as any;
+      const errMessage = errJSON ? undefined : errText;
+
+      loggerFor(this).debug(
+        `[${requestLogID}] response error (${retryMessage})`,
+        formatRequestDetails({
+          retryOfRequestLogID,
+          url: response.url,
+          status: response.status,
+          headers: response.headers,
+          message: errMessage,
+          durationMs: Date.now() - startTime,
+        }),
+      );
+
+      const err = this.makeStatusError(response.status, errJSON, errMessage, response.headers);
+      throw err;
+    }
+
+    loggerFor(this).info(responseInfo);
+    loggerFor(this).debug(
+      `[${requestLogID}] response start`,
+      formatRequestDetails({
+        retryOfRequestLogID,
+        url: response.url,
+        status: response.status,
+        headers: response.headers,
+        durationMs: headersTime - startTime,
+      }),
+    );
+
+    return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
+  }
+
+  async fetchWithTimeout(url: RequestInfo, init: RequestInit | undefined, ms: number, controller: AbortController): Promise<Response> {
+    const { signal, method, ...options } = init || {};
+    const abort = this._makeAbort(controller);
+    if (signal) signal.addEventListener('abort', abort, { once: true });
+
+    const timeout = setTimeout(abort, ms);
+
+    const isReadableBody =
+      ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
+      (typeof options.body === 'object' && options.body !== null && Symbol.asyncIterator in options.body);
+
+    const fetchOptions: RequestInit = {
+      signal: controller.signal as any,
+      ...(isReadableBody ? { duplex: 'half' } : {}),
+      method: 'GET',
+      ...options,
+    };
+    if (method) {
+      // Custom methods like 'patch' need to be uppercased
+      // See https://github.com/nodejs/undici/issues/2294
+      fetchOptions.method = method.toUpperCase();
+    }
+
+    try {
+      // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
+      return await this.fetch.call(undefined, url, fetchOptions);
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  private async shouldRetry(response: Response): Promise<boolean> {
+    // Note this is not a standard header.
+    const shouldRetryHeader = response.headers.get('x-should-retry');
+
+    // If the server explicitly says whether or not to retry, obey.
+    if (shouldRetryHeader === 'true') return true;
+    if (shouldRetryHeader === 'false') return false;
+
+    // Retry on request timeouts.
+    if (response.status === 408) return true;
+
+    // Retry on lock timeouts.
+    if (response.status === 409) return true;
+
+    // Retry on rate limits.
+    if (response.status === 429) return true;
+
+    // Retry internal errors.
+    if (response.status >= 500) return true;
+
+    return false;
+  }
+
+  private async retryRequest(
+    options: FinalRequestOptions,
+    retriesRemaining: number,
+    requestLogID: string,
+    responseHeaders?: Headers | undefined,
+  ): Promise<APIResponseProps> {
+    let timeoutMillis: number | undefined;
+
+    // Note the `retry-after-ms` header may not be standard, but is a good idea and we'd like proactive support for it.
+    const retryAfterMillisHeader = responseHeaders?.get('retry-after-ms');
+    if (retryAfterMillisHeader) {
+      const timeoutMs = parseFloat(retryAfterMillisHeader);
+      if (!Number.isNaN(timeoutMs)) {
+        timeoutMillis = timeoutMs;
+      }
+    }
+
+    // About the Retry-After header: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
+    const retryAfterHeader = responseHeaders?.get('retry-after');
+    if (retryAfterHeader && !timeoutMillis) {
+      const timeoutSeconds = parseFloat(retryAfterHeader);
+      if (!Number.isNaN(timeoutSeconds)) {
+        timeoutMillis = timeoutSeconds * 1000;
+      } else {
+        timeoutMillis = Date.parse(retryAfterHeader) - Date.now();
+      }
+    }
+
+    // If the API asks us to wait a certain amount of time, just do what it says,
+    // but cap server-provided delays at 60s so an oversized or malformed Retry-After
+    // (e.g. `retry-after-ms: 999999999`, a past HTTP-date, or a value that Date.parse
+    // failed on) cannot block retries for an unbounded amount of time. Otherwise fall
+    // back to the default exponential-backoff calculation.
+    const maxRetryAfterMillis = 60 * 1000;
+    if (
+      timeoutMillis === undefined ||
+      !Number.isFinite(timeoutMillis) ||
+      timeoutMillis <= 0 ||
+      timeoutMillis > maxRetryAfterMillis
+    ) {
+      const maxRetries = options.maxRetries ?? this.maxRetries;
+      timeoutMillis = this.calculateDefaultRetryTimeoutMillis(retriesRemaining, maxRetries);
+    }
+    await sleep(timeoutMillis);
+
+    return this.makeRequest(options, retriesRemaining - 1, requestLogID);
+  }
+
+  private calculateDefaultRetryTimeoutMillis(retriesRemaining: number, maxRetries: number): number {
+    const initialRetryDelay = 0.5;
+    const maxRetryDelay = 8.0;
+
+    const numRetries = maxRetries - retriesRemaining;
+
+    // Apply exponential backoff, but not more than the max.
+    const sleepSeconds = Math.min(initialRetryDelay * Math.pow(2, numRetries), maxRetryDelay);
+
+    // Apply some jitter, take up to at most 25 percent of the retry time.
+    const jitter = 1 - Math.random() * 0.25;
+
+    return sleepSeconds * jitter * 1000;
+  }
 
   async buildRequest(
     inputOptions: FinalRequestOptions,
     { retryCount = 0 }: { retryCount?: number } = {},
   ): Promise<{ req: FinalizedRequestInit; url: string; timeout: number }> {
     const options = { ...inputOptions };
-    const timeout = options.timeout ?? this.timeout;
-    const url = this.buildURL(options.path, { ...await this.authQueryAsync(), ...(options.query ?? {}) }, options.defaultBaseURL);
-    const headers = normalizeHeaders(await this.authHeadersAsync(), this.options.defaultHeaders, options.headers);
-    appendAuthCookies(headers, await this.authCookiesAsync());
-    headers.set("X-Scalar-Retry-Count", String(retryCount));
-    headers.set("X-Scalar-Timeout", String(timeout));
-    if (this.idempotencyHeader && options.method !== "get" && !headers.has(this.idempotencyHeader)) {
-      const idempotencyKey = inputOptions.idempotencyKey ?? createIdempotencyKey();
-      inputOptions.idempotencyKey = idempotencyKey;
-      headers.set(this.idempotencyHeader, idempotencyKey);
-    }
-    const body = serializeBody(options.body);
-    // A JSON body must declare its Content-Type, or fetch omits it and the server can't tell the
-    // request is JSON. Never override a content-type the caller already set.
-    const contentType = bodyContentType(options.body);
-    if (contentType && !headers.has('content-type')) headers.set('content-type', contentType);
+    const { method, path, query, defaultBaseURL } = options;
+
+    const url = this.buildURL(path!, query as Record<string, unknown>, defaultBaseURL);
+    if ('timeout' in options) validatePositiveInteger('timeout', options.timeout);
+    options.timeout = options.timeout ?? this.timeout;
+    const { bodyHeaders, body } = this.buildBody({ options });
+    const reqHeaders = await this.buildHeaders({ options, method, bodyHeaders, retryCount, url });
+
     const req: FinalizedRequestInit = {
-      ...(options.signal ? { signal: options.signal } : {}),
-      ...(body !== undefined ? { body } : {}),
-      ...this.fetchOptions,
-      ...options.fetchOptions,
-      method: options.method,
-      headers,
+      method,
+      headers: reqHeaders,
+      ...(options.signal && { signal: options.signal }),
+      ...((globalThis as any).ReadableStream &&
+        body instanceof (globalThis as any).ReadableStream && { duplex: 'half' }),
+      // `buildBody` already collapses no-body into `undefined`; here we only need to drop that
+      // sentinel. A truthiness spread would also strip an intentional empty-string body.
+      ...(body !== undefined && { body }),
+      ...((this.fetchOptions as any) ?? {}),
+      ...((options.fetchOptions as any) ?? {}),
     };
-    return { req, url, timeout };
+    return { req, url, timeout: options.timeout };
   }
 
-  private async makeRequest(optionsInput: PromiseOrValue<FinalRequestOptions>, retriesRemaining: number | null = null): Promise<APIResponseProps> {
-    const finalOptions: FinalRequestOptions = await optionsInput;
-    const maxRetries = finalOptions.maxRetries ?? this.maxRetries;
-    retriesRemaining ??= maxRetries;
-    await this.prepareOptions(finalOptions);
-    const url = this.buildURL(finalOptions.path, { ...await this.authQueryAsync(), ...(finalOptions.query ?? {}) }, finalOptions.defaultBaseURL);
-    const headers = normalizeHeaders(await this.authHeadersAsync(), this.options.defaultHeaders, finalOptions.headers);
-    appendAuthCookies(headers, await this.authCookiesAsync());
-    this.validateAuth(url, headers, finalOptions);
-    const retryCount = maxRetries - retriesRemaining;
-    headers.set("X-Scalar-Retry-Count", String(retryCount));
-    headers.set("X-Scalar-Timeout", String(finalOptions.timeout ?? this.timeout));
-    if (this.idempotencyHeader && finalOptions.method !== "get" && !headers.has(this.idempotencyHeader)) {
-      const idempotencyKey = finalOptions.idempotencyKey ?? createIdempotencyKey();
-      finalOptions.idempotencyKey = idempotencyKey;
-      headers.set(this.idempotencyHeader, idempotencyKey);
+  private async buildHeaders({
+    options,
+    method,
+    bodyHeaders,
+    retryCount,
+    url,
+  }: {
+    options: FinalRequestOptions;
+    method: HTTPMethod;
+    bodyHeaders: HeadersLike;
+    retryCount: number;
+    url: string;
+  }): Promise<Headers> {
+    let idempotencyHeaders: HeadersLike = {};
+    if (this.idempotencyHeader && method !== 'get') {
+      if (!options.idempotencyKey) options.idempotencyKey = this.defaultIdempotencyKey();
+      idempotencyHeaders[this.idempotencyHeader] = options.idempotencyKey;
     }
-    const body = serializeBody(finalOptions.body);
-    // Match buildRequest: JSON bodies need an explicit Content-Type; don't clobber a caller's.
-    const contentType = bodyContentType(finalOptions.body);
-    if (contentType && !headers.has('content-type')) headers.set('content-type', contentType);
-    const controller = new AbortController();
-    if (finalOptions.signal) finalOptions.signal.addEventListener("abort", () => controller.abort());
-    const init: RequestInit = {
-      method: finalOptions.method.toUpperCase(),
-      headers,
-      signal: controller.signal,
-      ...this.fetchOptions,
-      ...finalOptions.fetchOptions,
-    };
-    if (body !== undefined) init.body = body;
-    await this.prepareRequest(init, { url, options: finalOptions });
-    logDebug(this, "request", String(url), finalOptions, headers);
-    if (finalOptions.signal?.aborted) throw new APIUserAbortError();
-    let response: Response;
-    try {
-      response = await this.fetchWithTimeout(url, init, finalOptions.timeout ?? this.timeout, controller);
-    } catch (error) {
-      const cause = castToError(error);
-      if (finalOptions.signal?.aborted) throw new APIUserAbortError();
-      if (retriesRemaining > 0) return this.retryRequest(finalOptions, retriesRemaining);
-      if (isAbortError(cause)) throw new APIConnectionTimeoutError({ message: cause.message });
-      throw new APIConnectionError({ message: cause.message, cause });
-    }
-    if (!response.ok) {
-      if (retriesRemaining > 0 && this.shouldRetry(response)) {
-        logDebug(this, `response (error; retrying, ${retriesRemaining} attempts remaining)`, response.status, String(url), response.headers);
-        return this.retryRequest(finalOptions, retriesRemaining, response.headers);
-      }
-      const errText = await response.text().catch((err) => castToError(err).message);
-      const errJSON = safeJson(errText) as object | undefined;
-      const errMessage = errJSON ? undefined : errText;
-      logDebug(this, "response (error; (error; not retryable))", response.status, String(url), response.headers, errJSON ?? errMessage);
-      throw APIError.generate(response.status, errJSON, errMessage, response.headers);
-    }
-    return { response, options: finalOptions, controller };
+
+    const headers = buildHeaders([
+      idempotencyHeaders,
+      {
+        Accept: 'application/json',
+        'User-Agent': this.getUserAgent(),
+        'X-Scalar-Retry-Count': String(retryCount),
+        ...(options.timeout ? { 'X-Scalar-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
+        ...getPlatformHeaders(),
+      },
+      await this.authHeaders(options),
+      this._options.defaultHeaders,
+      bodyHeaders,
+      options.headers,
+    ]);
+    appendAuthCookies(headers.values, await this.authCookiesAsync());
+
+    this.validateAuth(url, headers.values, options);
+
+    return headers.values;
   }
 
-  async fetchWithTimeout(url: RequestInfo, init: RequestInit | undefined, ms: number, controller: AbortController): Promise<Response> {
-    const timeout = setTimeout(() => controller.abort(), ms);
-    try {
-      return await this.fetchImpl(url, init);
-    } finally {
-      clearTimeout(timeout);
+  private _makeAbort(controller: AbortController) {
+    // note: we can't just inline this method inside `fetchWithTimeout()` because then the closure
+    //       would capture all request options, and cause a memory leak.
+    return () => controller.abort();
+  }
+
+  private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
+    bodyHeaders: HeadersLike;
+    body: BodyInit | undefined;
+  } {
+    // Skip only `null`/`undefined` so an intentional empty-string (or 0/false) payload still
+    // reaches the encoder. A plain `!body` check would silently drop those falsy-but-valid bodies,
+    // and `null` must be excluded here too because the iterator check below uses `in`, which
+    // throws on null.
+    if (body == null) {
+      return { bodyHeaders: undefined, body: undefined };
     }
-  }
-
-  private shouldRetry(response: Response): boolean {
-    const shouldRetryHeader = response.headers.get('x-should-retry');
-    if (shouldRetryHeader === 'true') return true;
-    if (shouldRetryHeader === 'false') return false;
-    if (response.status === 408 || response.status === 409 || response.status === 429) return true;
-    return response.status >= 500;
-  }
-
-  private async retryRequest(options: FinalRequestOptions, retriesRemaining: number, responseHeaders?: Headers): Promise<APIResponseProps> {
-    await sleep(this.retryDelayMillis(options, retriesRemaining, responseHeaders));
-    return this.makeRequest(options, retriesRemaining - 1);
-  }
-
-  private retryDelayMillis(options: FinalRequestOptions, retriesRemaining: number, responseHeaders?: Headers): number {
-    const retryAfterMillisHeader = responseHeaders?.get('retry-after-ms');
-    if (retryAfterMillisHeader) {
-      const millis = Number.parseFloat(retryAfterMillisHeader);
-      if (!Number.isNaN(millis) && millis >= 0 && millis < 60000) return millis;
+    const headers = buildHeaders([rawHeaders]);
+    if (
+      // Pass raw type verbatim
+      ArrayBuffer.isView(body) ||
+      body instanceof ArrayBuffer ||
+      body instanceof DataView ||
+      // Always pass strings through verbatim. The previous guard required a caller-set
+      // `content-type` and otherwise fell through to `FallbackEncoder`, which JSON.stringifies
+      // the value and labels it `application/json` — silently quoting plain-text payloads and
+      // mislabeling them as JSON. fetch defaults a string body to `text/plain;charset=UTF-8`
+      // when no `content-type` is set, which is a safer default than misclaiming JSON.
+      typeof body === 'string' ||
+      // `Blob` is superset of `File`
+      ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
+      // `FormData` -> `multipart/form-data`
+      body instanceof FormData ||
+      // `URLSearchParams` -> `application/x-www-form-urlencoded`
+      body instanceof URLSearchParams ||
+      // Send chunked stream (each chunk has own `length`)
+      ((globalThis as any).ReadableStream && body instanceof (globalThis as any).ReadableStream)
+    ) {
+      return { bodyHeaders: undefined, body: body as BodyInit };
+    } else if (
+      typeof body === 'object' &&
+      (Symbol.asyncIterator in body ||
+        (Symbol.iterator in body && 'next' in body && typeof body.next === 'function'))
+    ) {
+      return { bodyHeaders: undefined, body: Shims.ReadableStreamFrom(body as AsyncIterable<Uint8Array>) };
+    } else if (
+      typeof body === 'object' &&
+      headers.values.get('content-type') === 'application/x-www-form-urlencoded'
+    ) {
+      return {
+        bodyHeaders: { 'content-type': 'application/x-www-form-urlencoded' },
+        body: this.stringifyQuery(body),
+      };
+    } else {
+      return this.#encoder({ body, headers });
     }
-    const retryAfterHeader = responseHeaders?.get('retry-after');
-    if (retryAfterHeader) {
-      const seconds = Number.parseFloat(retryAfterHeader);
-      const millis = Number.isNaN(seconds) ? Date.parse(retryAfterHeader) - Date.now() : seconds * 1000;
-      if (millis >= 0 && millis < 60000) return millis;
-    }
-    const maxRetries = options.maxRetries ?? this.maxRetries;
-    const retryCount = maxRetries - retriesRemaining;
-    const delay = Math.min(0.5 * 2 ** retryCount, 8);
-    return delay * (1 - Math.random() * 0.25) * 1000;
-  }
-
-  get<T>(path: string, options?: PromiseOrValue<RequestOptions>): APIPromise<T> { return this.methodRequest<T>('get', path, options); }
-  post<T>(path: string, options?: PromiseOrValue<RequestOptions>): APIPromise<T> { return this.methodRequest<T>('post', path, options); }
-  put<T>(path: string, options?: PromiseOrValue<RequestOptions>): APIPromise<T> { return this.methodRequest<T>('put', path, options); }
-  patch<T>(path: string, options?: PromiseOrValue<RequestOptions>): APIPromise<T> { return this.methodRequest<T>('patch', path, options); }
-  delete<T>(path: string, options?: PromiseOrValue<RequestOptions>): APIPromise<T> { return this.methodRequest<T>('delete', path, options); }
-
-  private methodRequest<T>(method: FinalRequestOptions["method"], path: string, options?: PromiseOrValue<RequestOptions>): APIPromise<T> {
-    const requestOptions = Promise.resolve(options).then((opts) => ({ ...opts, method, path }));
-    return this.request<T>(requestOptions);
   }
 
   private validateAuth(url: string, headers: Headers, options: FinalRequestOptions): void {
@@ -424,10 +762,10 @@ export class Coingecko {
     if (headerExplicitlyOmitted(options.headers, "x-cg-pro-api-key")) return;
     if (headers.has("x-cg-demo-api-key")) return;
     if (headerExplicitlyOmitted(options.headers, "x-cg-demo-api-key")) return;
-    throw new AuthenticationError(401, {}, "Could not resolve authentication method. Expected x-cg-pro-api-key or x-cg-demo-api-key to be set.", headers);
+    throw new Errors.AuthenticationError(401, {}, "Could not resolve authentication method. Expected x-cg-pro-api-key or x-cg-demo-api-key to be set.", headers);
   }
 
-  authHeaders(): Record<string, string> {
+  authHeadersSync(): Record<string, string> {
     const headers: Record<string, string> = {};
     const proKeyAuth = this.resolveAuthOptionSync("proKeyAuth", this.proKeyAuth);
     if (proKeyAuth) headers["x-cg-pro-api-key"] = proKeyAuth;
@@ -440,6 +778,10 @@ export class Coingecko {
     const proKeyAuth = this.resolveAuthOptionSync("proKeyAuth", this.proKeyAuth);
     if (proKeyAuth) return { "x-cg-pro-api-key": proKeyAuth };
     return {};
+  }
+
+  protected async authHeaders(options: FinalRequestOptions): Promise<HeadersLike | undefined> {
+    return buildHeaders([await this.authHeadersAsync()]);
   }
 
   private async authQueryAsync(): Promise<Record<string, string>> {
@@ -464,213 +806,174 @@ export class Coingecko {
   private async resolveAuthOption(optionName: string, value: string | AuthTokenProvider | null | undefined): Promise<string | undefined> {
     if (value == null) return undefined;
     const token = typeof value === "function" ? await value() : value;
-    if (!token) throw new CoingeckoError(`Expected '${optionName}' to resolve to a non-empty string.`);
+    if (!token) throw new Errors.CoingeckoError(`Expected '${optionName}' to resolve to a non-empty string.`);
     return token;
   }
 
   private resolveAuthOptionSync(optionName: string, value: string | AuthTokenProvider | null | undefined): string | undefined {
     if (value == null) return undefined;
     const token = typeof value === "function" ? value() : value;
-    if (typeof token !== "string" || !token) throw new CoingeckoError(`Expected '${optionName}' to resolve to a non-empty string.`);
+    if (typeof token !== "string" || !token) throw new Errors.CoingeckoError(`Expected '${optionName}' to resolve to a non-empty string.`);
     return token;
   }
+
+  static Coingecko = this;
+  static DEFAULT_TIMEOUT = 60000; // 1 minute
+
+  static CoingeckoError = Errors.CoingeckoError;
+  static APIError = Errors.APIError;
+  static APIConnectionError = Errors.APIConnectionError;
+  static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
+  static APIUserAbortError = Errors.APIUserAbortError;
+  static NotFoundError = Errors.NotFoundError;
+  static ConflictError = Errors.ConflictError;
+  static RateLimitError = Errors.RateLimitError;
+  static BadRequestError = Errors.BadRequestError;
+  static AuthenticationError = Errors.AuthenticationError;
+  static InternalServerError = Errors.InternalServerError;
+  static PermissionDeniedError = Errors.PermissionDeniedError;
+  static UnprocessableEntityError = Errors.UnprocessableEntityError;
+
+  static toFile = toFile;
+
+  ping: Ping = new Ping(this);
+  key: Key = new Key(this);
+  simple: Simple = new Simple(this);
+  search: SearchResource = new SearchResource(this);
+  coins: Coins = new Coins(this);
+  assetPlatforms: AssetPlatformResource = new AssetPlatformResource(this);
+  tokenLists: TokenLists = new TokenLists(this);
+  exchanges: ExchangeResource = new ExchangeResource(this);
+  derivatives: Derivatives = new Derivatives(this);
+  entities: Entities = new Entities(this);
+  publicTreasury: PublicTreasuryResource = new PublicTreasuryResource(this);
+  nfts: NFTs = new NFTs(this);
+  exchangeRates: ExchangeRateResource = new ExchangeRateResource(this);
+  news: NewResource = new NewResource(this);
+  global: GlobalResource = new GlobalResource(this);
+  onchain: Onchain = new Onchain(this);
 }
+
+Coingecko.Ping = Ping;
+Coingecko.Key = Key;
+Coingecko.Simple = Simple;
+Coingecko.SearchResource = SearchResource;
+Coingecko.Coins = Coins;
+Coingecko.AssetPlatformResource = AssetPlatformResource;
+Coingecko.TokenLists = TokenLists;
+Coingecko.ExchangeResource = ExchangeResource;
+Coingecko.Derivatives = Derivatives;
+Coingecko.Entities = Entities;
+Coingecko.PublicTreasuryResource = PublicTreasuryResource;
+Coingecko.NFTs = NFTs;
+Coingecko.ExchangeRateResource = ExchangeRateResource;
+Coingecko.NewResource = NewResource;
+Coingecko.GlobalResource = GlobalResource;
+Coingecko.Onchain = Onchain;
 
 export declare namespace Coingecko {
-  export type RequestOptions = import("./internal/request-options").RequestOptions;
-  export type PingServer = import("./resources/ping").PingServer;
-  export type ApiUsage = import("./resources/key").ApiUsage;
-  export type SimplePrice = import("./resources/simple/price").SimplePrice;
-  export type PriceGetParams = import("./resources/simple/price").PriceGetParams;
-  export type SupportedCurrencies = import("./resources/simple/supported-vs-currencies").SupportedCurrencies;
-  export type TokenPriceGetIdParams = import("./resources/simple/token-price").TokenPriceGetIdParams;
-  export type SearchSearch = import("./resources/search/search").Search2;
-  export type SearchGetParams = import("./resources/search/search").SearchGetParams;
-  export type TrendingSearch = import("./resources/search/trending").TrendingSearch;
-  export type TrendingGetParams = import("./resources/search/trending").TrendingGetParams;
-  export type TopGainersLosers = import("./resources/coins/coins").TopGainersLosers2;
-  export type CoinsId = import("./resources/coins/coins").CoinsId;
-  export type CoinGetIdParams = import("./resources/coins/coins").CoinGetIdParams;
-  export type TopGainersLosersItem = import("./resources/coins/top-gainers-losers").TopGainersLosersItem;
-  export type TopGainersLoserGetParams = import("./resources/coins/top-gainers-losers").TopGainersLoserGetParams;
-  export type CoinsMarkets = import("./resources/coins/markets").CoinsMarkets;
-  export type MarketGetParams = import("./resources/coins/markets").MarketGetParams;
-  export type CoinsIdTickers = import("./resources/coins/tickers").CoinsIdTickers;
-  export type TickerGetParams = import("./resources/coins/tickers").TickerGetParams;
-  export type CoinsIdHistory = import("./resources/coins/history").CoinsIdHistory;
-  export type HistoryGetParams = import("./resources/coins/history").HistoryGetParams;
-  export type CoinsMarketChart = import("./resources/coins/market-chart").CoinsMarketChart;
-  export type MarketChartGetParams = import("./resources/coins/market-chart").MarketChartGetParams;
-  export type MarketChartGetRangeParams = import("./resources/coins/market-chart").MarketChartGetRangeParams;
-  export type CoinsOhlc = import("./resources/coins/ohlc").CoinsOhlc;
-  export type OhlcGetParams = import("./resources/coins/ohlc").OhlcGetParams;
-  export type OhlcGetRangeParams = import("./resources/coins/ohlc").OhlcGetRangeParams;
-  export type CoinsContractAddress = import("./resources/coins/contract/contract").CoinsContractAddress;
-  export type CirculatingSupplyChart = import("./resources/coins/circulating-supply-chart").CirculatingSupplyChart2;
-  export type CirculatingSupplyChartGetParams = import("./resources/coins/circulating-supply-chart").CirculatingSupplyChartGetParams;
-  export type CirculatingSupplyChartGetRangeParams = import("./resources/coins/circulating-supply-chart").CirculatingSupplyChartGetRangeParams;
-  export type TotalSupplyChart = import("./resources/coins/total-supply-chart").TotalSupplyChart2;
-  export type TotalSupplyChartGetParams = import("./resources/coins/total-supply-chart").TotalSupplyChartGetParams;
-  export type TotalSupplyChartGetRangeParams = import("./resources/coins/total-supply-chart").TotalSupplyChartGetRangeParams;
-  export type CoinsListNew = import("./resources/coins/list").CoinsListNew;
-  export type CoinsList = import("./resources/coins/list").CoinsList;
-  export type ListGetParams = import("./resources/coins/list").ListGetParams;
-  export type Categories = import("./resources/coins/categories").Categories2;
-  export type CategoriesList = import("./resources/coins/categories").CategoriesList;
-  export type CategoryGetParams = import("./resources/coins/categories").CategoryGetParams;
-  export type AssetPlatformAssetPlatforms = import("./resources/asset-platforms").AssetPlatforms2;
-  export type AssetPlatformGetParams = import("./resources/asset-platforms").AssetPlatformGetParams;
-  export type TokenListTokenLists = import("./resources/token-lists").TokenLists2;
-  export type ExchangeExchanges = import("./resources/exchanges/exchanges").Exchanges2;
-  export type ExchangesList = import("./resources/exchanges/exchanges").ExchangesList;
-  export type ExchangesId = import("./resources/exchanges/exchanges").ExchangesId;
-  export type ExchangeGetParams = import("./resources/exchanges/exchanges").ExchangeGetParams;
-  export type ExchangeGetListParams = import("./resources/exchanges/exchanges").ExchangeGetListParams;
-  export type ExchangeGetIdParams = import("./resources/exchanges/exchanges").ExchangeGetIdParams;
-  export type TickerTickerGetParams = import("./resources/exchanges/tickers").TickerGetParams;
-  export type ExchangeVolumeChart = import("./resources/exchanges/volume-chart").ExchangeVolumeChart;
-  export type VolumeChartGetParams = import("./resources/exchanges/volume-chart").VolumeChartGetParams;
-  export type VolumeChartGetRangeParams = import("./resources/exchanges/volume-chart").VolumeChartGetRangeParams;
-  export type DerivativesTickers = import("./resources/derivatives/derivatives").DerivativesTickers;
-  export type DerivativesExchanges = import("./resources/derivatives/exchanges").DerivativesExchanges;
-  export type DerivativesExchangesId = import("./resources/derivatives/exchanges").DerivativesExchangesId;
-  export type DerivativesExchangesList = import("./resources/derivatives/exchanges").DerivativesExchangesList;
-  export type ExchangeExchangeGetParams = import("./resources/derivatives/exchanges").ExchangeGetParams;
-  export type ExchangeExchangeGetIdParams = import("./resources/derivatives/exchanges").ExchangeGetIdParams;
-  export type EntitiesList = import("./resources/entities").EntitiesList;
-  export type EntityGetListParams = import("./resources/entities").EntityGetListParams;
-  export type PublicTreasuryPublicTreasury = import("./resources/public-treasury").PublicTreasury2;
-  export type PublicTreasuryEntity = import("./resources/public-treasury").PublicTreasuryEntity;
-  export type PublicTreasuryEntityChart = import("./resources/public-treasury").PublicTreasuryEntityChart;
-  export type PublicTreasuryTransactionHistory = import("./resources/public-treasury").PublicTreasuryTransactionHistory;
-  export type PublicTreasuryGetCoinIdParams = import("./resources/public-treasury").PublicTreasuryGetCoinIdParams;
-  export type PublicTreasuryGetEntityIdParams = import("./resources/public-treasury").PublicTreasuryGetEntityIdParams;
-  export type PublicTreasuryGetHoldingChartParams = import("./resources/public-treasury").PublicTreasuryGetHoldingChartParams;
-  export type PublicTreasuryGetTransactionHistoryParams = import("./resources/public-treasury").PublicTreasuryGetTransactionHistoryParams;
-  export type NfTsList = import("./resources/nfts/nfts").NfTsList;
-  export type NftData = import("./resources/nfts/nfts").NftData;
-  export type NfTsMarkets = import("./resources/nfts/nfts").NfTsMarkets;
-  export type NftGetListParams = import("./resources/nfts/nfts").NftGetListParams;
-  export type NftGetMarketsParams = import("./resources/nfts/nfts").NftGetMarketsParams;
-  export type NftMarketChart = import("./resources/nfts/market-chart").NftMarketChart;
-  export type MarketChartMarketChartGetParams = import("./resources/nfts/market-chart").MarketChartGetParams;
-  export type NftTickers = import("./resources/nfts/tickers").NftTickers;
-  export type ExchangeRateExchangeRates = import("./resources/exchange-rates").ExchangeRates2;
-  export type NewNews = import("./resources/news").News2;
-  export type NewGetParams = import("./resources/news").NewGetParams;
-  export type GlobalGlobal = import("./resources/global/global").Global2;
-  export type GlobalDeFi = import("./resources/global/decentralized-finance-defi").GlobalDeFi;
-  export type GlobalMarketCapChart = import("./resources/global/market-cap-chart").GlobalMarketCapChart;
-  export type MarketCapChartGetParams = import("./resources/global/market-cap-chart").MarketCapChartGetParams;
-  export type TokenInfoRecentlyUpdated = import("./resources/onchain/tokens/info-recently-updated").TokenInfoRecentlyUpdated;
-  export type InfoRecentlyUpdatedGetParams = import("./resources/onchain/tokens/info-recently-updated").InfoRecentlyUpdatedGetParams;
-  export type PoolSearch = import("./resources/onchain/search/pools").PoolSearch;
-  export type PoolGetParams = import("./resources/onchain/search/pools").PoolGetParams;
-  export type OnchainSimplePrice = import("./resources/onchain/simple/networks/token-price").OnchainSimplePrice;
-  export type TokenPriceGetAddressesParams = import("./resources/onchain/simple/networks/token-price").TokenPriceGetAddressesParams;
-  export type NetworksList = import("./resources/onchain/networks/networks").NetworksList;
-  export type NetworkGetParams = import("./resources/onchain/networks/networks").NetworkGetParams;
-  export type PoolAddressItem = import("./resources/onchain/networks/pools/pools").PoolAddressItem;
-  export type PoolAddressData = import("./resources/onchain/networks/pools/pools").PoolAddressData;
-  export type Pool = import("./resources/onchain/networks/pools/pools").Pool;
-  export type PoolGetAddressParams = import("./resources/onchain/networks/pools/pools").PoolGetAddressParams;
-  export type PoolPoolGetParams = import("./resources/onchain/networks/pools/pools").PoolGetParams;
-  export type PoolTokensInfo = import("./resources/onchain/networks/pools/info").PoolTokensInfo;
-  export type InfoGetParams = import("./resources/onchain/networks/pools/info").InfoGetParams;
-  export type Ohlcv = import("./resources/onchain/networks/pools/ohlcv").Ohlcv2;
-  export type OhlcvGetTimeframeParams = import("./resources/onchain/networks/pools/ohlcv").OhlcvGetTimeframeParams;
-  export type Trades = import("./resources/onchain/networks/pools/trades").Trades2;
-  export type TradeGetParams = import("./resources/onchain/networks/pools/trades").TradeGetParams;
-  export type MultiPoolAddressData = import("./resources/onchain/networks/pools/multi").MultiPoolAddressData;
-  export type MultiGetAddressesParams = import("./resources/onchain/networks/pools/multi").MultiGetAddressesParams;
-  export type TrendingPoolGetParams = import("./resources/onchain/networks/trending-pools").TrendingPoolGetParams;
-  export type TrendingPoolGetNetworkParams = import("./resources/onchain/networks/trending-pools").TrendingPoolGetNetworkParams;
-  export type DexesList = import("./resources/onchain/networks/dexes").DexesList;
-  export type DexGetPoolsParams = import("./resources/onchain/networks/dexes").DexGetPoolsParams;
-  export type DexGetParams = import("./resources/onchain/networks/dexes").DexGetParams;
-  export type TokenItem = import("./resources/onchain/networks/tokens/tokens").TokenItem;
-  export type TokenData = import("./resources/onchain/networks/tokens/tokens").TokenData;
-  export type TokenGetAddressParams = import("./resources/onchain/networks/tokens/tokens").TokenGetAddressParams;
-  export type PoolPoolGetParams2 = import("./resources/onchain/networks/tokens/pools").PoolGetParams;
-  export type MultiTokenData = import("./resources/onchain/networks/tokens/multi").MultiTokenData;
-  export type MultiMultiGetAddressesParams = import("./resources/onchain/networks/tokens/multi").MultiGetAddressesParams;
-  export type TokenInfo = import("./resources/onchain/networks/tokens/info").TokenInfo;
-  export type TokenInfoItem = import("./resources/onchain/networks/tokens/info").TokenInfoItem;
-  export type TopTokenTraders = import("./resources/onchain/networks/tokens/top-traders").TopTokenTraders;
-  export type TopTraderGetParams = import("./resources/onchain/networks/tokens/top-traders").TopTraderGetParams;
-  export type TopTokenHolders = import("./resources/onchain/networks/tokens/top-holders").TopTokenHolders;
-  export type TopHolderGetParams = import("./resources/onchain/networks/tokens/top-holders").TopHolderGetParams;
-  export type TokenHoldersChart = import("./resources/onchain/networks/tokens/holders-chart").TokenHoldersChart;
-  export type HoldersChartGetParams = import("./resources/onchain/networks/tokens/holders-chart").HoldersChartGetParams;
-  export type OhlcvOhlcvGetTimeframeParams = import("./resources/onchain/networks/tokens/ohlcv").OhlcvGetTimeframeParams;
-  export type TokenTrades = import("./resources/onchain/networks/tokens/trades").TokenTrades;
-  export type TradeTradeGetParams = import("./resources/onchain/networks/tokens/trades").TradeGetParams;
-  export type NewPoolGetParams = import("./resources/onchain/networks/new-pools").NewPoolGetParams;
-  export type NewPoolGetNetworkParams = import("./resources/onchain/networks/new-pools").NewPoolGetNetworkParams;
-  export type MegafilterGetParams = import("./resources/onchain/pools/megafilter").MegafilterGetParams;
-  export type TrendingSearchPools = import("./resources/onchain/pools/trending-search").TrendingSearchPools;
-  export type TrendingSearchGetParams = import("./resources/onchain/pools/trending-search").TrendingSearchGetParams;
-  export type OnchainCategoriesList = import("./resources/onchain/categories").OnchainCategoriesList;
-  export type CategoriesPools = import("./resources/onchain/categories").CategoriesPools;
-  export type CategoryCategoryGetParams = import("./resources/onchain/categories").CategoryGetParams;
-  export type CategoryGetPoolsParams = import("./resources/onchain/categories").CategoryGetPoolsParams;
+  export type RequestOptions = Opts.RequestOptions;
+  export {
+    Ping as Ping,
+    type PingGetResponse as PingGetResponse,
+  };
+
+  export {
+    Key as Key,
+    type KeyGetResponse as KeyGetResponse,
+  };
+
+  export {
+    Simple as Simple,
+  };
+
+  export {
+    SearchResource as SearchResource,
+    type Search as Search,
+    type SearchGetParams as SearchGetParams,
+  };
+
+  export {
+    Coins as Coins,
+    type TopGainersLosers as TopGainersLosers,
+    type CoinGetIDResponse as CoinGetIDResponse,
+    type CoinGetIDParams as CoinGetIDParams,
+  };
+
+  export {
+    AssetPlatformResource as AssetPlatformResource,
+    type AssetPlatforms as AssetPlatforms,
+    type AssetPlatformGetParams as AssetPlatformGetParams,
+  };
+
+  export {
+    TokenLists as TokenLists,
+    type TokenListGetAllJSONResponse as TokenListGetAllJSONResponse,
+  };
+
+  export {
+    ExchangeResource as ExchangeResource,
+    type Exchanges as Exchanges,
+    type ExchangeGetListResponse as ExchangeGetListResponse,
+    type ExchangeGetIDResponse as ExchangeGetIDResponse,
+    type ExchangeGetParams as ExchangeGetParams,
+    type ExchangeGetListParams as ExchangeGetListParams,
+    type ExchangeGetIDParams as ExchangeGetIDParams,
+  };
+
+  export {
+    Derivatives as Derivatives,
+    type DerivativeGetResponse as DerivativeGetResponse,
+  };
+
+  export {
+    Entities as Entities,
+    type EntityGetListResponse as EntityGetListResponse,
+    type EntityGetListParams as EntityGetListParams,
+  };
+
+  export {
+    PublicTreasuryResource as PublicTreasuryResource,
+    type PublicTreasury as PublicTreasury,
+    type PublicTreasuryGetEntityIDResponse as PublicTreasuryGetEntityIDResponse,
+    type PublicTreasuryGetHoldingChartResponse as PublicTreasuryGetHoldingChartResponse,
+    type PublicTreasuryGetTransactionHistoryResponse as PublicTreasuryGetTransactionHistoryResponse,
+    type PublicTreasuryGetCoinIDParams as PublicTreasuryGetCoinIDParams,
+    type PublicTreasuryGetEntityIDParams as PublicTreasuryGetEntityIDParams,
+    type PublicTreasuryGetHoldingChartParams as PublicTreasuryGetHoldingChartParams,
+    type PublicTreasuryGetTransactionHistoryParams as PublicTreasuryGetTransactionHistoryParams,
+  };
+
+  export {
+    NFTs as NFTs,
+    type NFTGetListResponse as NFTGetListResponse,
+    type NFTGetIDResponse as NFTGetIDResponse,
+    type NFTGetMarketsResponse as NFTGetMarketsResponse,
+    type NFTGetListParams as NFTGetListParams,
+    type NFTGetMarketsParams as NFTGetMarketsParams,
+  };
+
+  export {
+    ExchangeRateResource as ExchangeRateResource,
+    type ExchangeRates as ExchangeRates,
+  };
+
+  export {
+    NewResource as NewResource,
+    type News as News,
+    type NewGetParams as NewGetParams,
+  };
+
+  export {
+    GlobalResource as GlobalResource,
+    type Global as Global,
+  };
+
+  export {
+    Onchain as Onchain,
+  };
 }
 
-
-const serializeBody = (body: unknown): BodyInit | undefined => {
-  if (body === undefined) return undefined;
-  if (typeof body === 'string' || body instanceof Blob || body instanceof FormData || body instanceof URLSearchParams) return body;
-  return JSON.stringify(body);
-};
-
-// The Content-Type implied by a serialized body. Mirrors `serializeBody`: only plain values
-// (objects/arrays) are JSON-encoded and need `application/json`; string/Blob/FormData/
-// URLSearchParams bodies carry or self-assign their own type (e.g. fetch sets the multipart
-// boundary for FormData), so we leave those alone.
-const bodyContentType = (body: unknown): string | undefined => {
-  if (body === undefined) return undefined;
-  if (typeof body === 'string' || body instanceof Blob || body instanceof FormData || body instanceof URLSearchParams) return undefined;
-  return 'application/json';
-};
-
-const buildUrl = (baseURL: string, path: string): URL => {
-  const base = baseURL.endsWith("/") ? baseURL : `${baseURL}/`;
-  return new URL(path.replace(/^\/+/, ""), base);
-};
-
-const stringifyQuery = (query: object | Record<string, unknown>): string => {
-  const params = new URLSearchParams();
-  for (const [key, value] of Object.entries(query)) appendQuery(params, key, value);
-  const serialized = params.toString();
-  return serialized ? `?${serialized}` : "";
-};
-
-const appendQuery = (params: URLSearchParams, key: string, value: unknown): void => {
-  if (value === undefined) return;
-  if (value === null) { params.append(key, ""); return; }
-  if (Array.isArray(value)) { for (const item of value) appendQuery(params, key, item); return; }
-  if (typeof value === "object") {
-    for (const [nestedKey, nestedValue] of Object.entries(value as Record<string, unknown>)) appendQuery(params, `${key}[${nestedKey}]`, nestedValue);
-    return;
-  }
-  params.append(key, String(value));
-};
-
-const normalizeHeaders = (...sources: readonly (HeadersLike | undefined)[]): Headers => {
-  const headers = new Headers();
-  for (const source of sources) {
-    if (!source) continue;
-    if (Array.isArray(source) || source instanceof Headers) {
-      new Headers(source).forEach((value, key) => headers.set(key, value));
-      continue;
-    }
-    for (const [key, value] of Object.entries(source)) {
-      if (value === null) headers.delete(key);
-      else if (value !== undefined) headers.set(key, String(value));
-    }
-  }
-  return headers;
-};
 
 const headerExplicitlyOmitted = (source: HeadersLike | undefined, name: string): boolean => {
   if (!source || Array.isArray(source) || source instanceof Headers) return false;
@@ -693,26 +996,3 @@ const cookieHeaderHas = (value: string | null, name: string): boolean => {
   return value.split(";").some((cookie) => cookie.trim().startsWith(target));
 };
 
-const safeJson = (value: string): unknown | undefined => {
-  try { return JSON.parse(value); } catch { return undefined; }
-};
-
-const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
-
-const createIdempotencyKey = (): string => "scalar-sdk-" + Date.now() + "-" + Math.random().toString(16).slice(2);
-
-const castToError = (error: unknown): Error => (error instanceof Error ? error : new Error(String(error)));
-
-const isAbortError = (error: Error): boolean => error.name === "AbortError";
-
-const defaultFetch = (): Fetch => {
-  const fetchImpl = globalThis.fetch;
-  if (typeof fetchImpl !== "function") {
-    throw new CoingeckoError('No fetch implementation found; pass `fetch` in client options.');
-  }
-  return fetchImpl.bind(globalThis) as Fetch;
-};
-
-const logDebug = (client: { logger: Logger | undefined; logLevel: LogLevel | undefined }, message: string, ...rest: readonly unknown[]): void => {
-  if (client.logLevel === 'debug') client.logger?.debug(message, ...rest);
-};

@@ -3,23 +3,20 @@
 import { APIResource } from "../../../resource";
 import { APIPromise } from "../../../api-promise";
 import type { RequestOptions } from "../../../internal/request-options";
-import { Pools } from "./pools";
-
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
-  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
+import { Pools4, type PoolGetResponse, type PoolGetParams } from "./pools";
 
 export class Search extends APIResource {
-  pools: Pools = new Pools(this._client);
+  pools: Pools4 = new Pools4(this._client);
 
 }
 
+Search.Pools4 = Pools4;
+
 export declare namespace Search {
-  export { Pools as Pools };
+  export {
+    Pools4 as Pools4,
+    type PoolGetResponse as PoolGetResponse,
+    type PoolGetParams as PoolGetParams,
+  };
 }
 export { Search as SearchResource };

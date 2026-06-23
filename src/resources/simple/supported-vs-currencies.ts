@@ -4,26 +4,27 @@ import { APIResource } from "../../resource";
 import { APIPromise } from "../../api-promise";
 import type { RequestOptions } from "../../internal/request-options";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
-  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
-
 export class SupportedVsCurrencies extends APIResource {
   /**
    * To query all the supported currencies on CoinGecko
+   *
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<SupportedVsCurrencyGetResponse>} List of supported currencies
+   *
+   * @example
+   * ```ts
+   * const get_ = await client.simple.supportedVsCurrencies.get();
+   * ```
    */
-  get(options?: RequestOptions): APIPromise<SupportedCurrencies> {
+  get(options?: RequestOptions): APIPromise<SupportedVsCurrencyGetResponse> {
     return this._client.get("/simple/supported_vs_currencies", options);
   }
 }
 
-export type SupportedCurrencies = Array<string>;
+export type SupportedVsCurrencyGetResponse = Array<string>;
 export declare namespace SupportedVsCurrencies {
-  export { type SupportedCurrencies as SupportedCurrencies };
+  export {
+    type SupportedVsCurrencyGetResponse as SupportedVsCurrencyGetResponse,
+  };
 }
 export { SupportedVsCurrencies as SupportedVsCurrencyResource };

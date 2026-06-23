@@ -38,8 +38,8 @@ const client = new Coingecko({
   environment: "pro",
 });
 
-const server = await client.ping.get();
-console.log(server);
+const get_ = await client.ping.get();
+console.log(get_);
 ```
 
 The examples in the following sections assume a `client` configured as shown above.
@@ -72,7 +72,7 @@ Non-success responses throw generated API errors. Error objects expose status, h
 import { APIError } from "@coingecko/coingecko-typescript";
 
 try {
-  const server = await client.ping.get();
+  const get_ = await client.ping.get();
 } catch (err) {
   if (err instanceof APIError) {
     console.log(err.status, err.name, err.headers);

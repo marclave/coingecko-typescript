@@ -4,49 +4,110 @@ import { APIResource } from "../../resource";
 import { APIPromise } from "../../api-promise";
 import type { RequestOptions } from "../../internal/request-options";
 import { path as __scalarPath } from "../../internal/utils/path";
-import { MarketChart } from "./market-chart";
-import { Tickers } from "./tickers";
-import { Contract } from "./contract/contract";
+import { Contract2, type ContractGetContractAddressResponse, type ContractGetContractAddressParams } from "./contract/contract";
+import { MarketChart4, type MarketChartGetResponse, type MarketChartGetParams } from "./market-chart";
+import { Tickers3, type TickerGetResponse } from "./tickers";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
-  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
-
-export class Nfts extends APIResource {
-  marketChart: MarketChart = new MarketChart(this._client);
-  tickers: Tickers = new Tickers(this._client);
-  contract: Contract = new Contract(this._client);
+export class NFTs extends APIResource {
+  contract: Contract2 = new Contract2(this._client);
+  marketChart: MarketChart4 = new MarketChart4(this._client);
+  tickers: Tickers3 = new Tickers3(this._client);
 
   /**
    * To query all supported NFTs with ID, contract address, name, asset platform ID and symbol on CoinGecko
+   *
+   * @param {NFTGetListParams} [params] - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<NFTGetListResponse>} List of supported NFTs
+   *
+   * @example
+   * ```ts
+   * const getList = await client.nfts.getList();
+   * ```
    */
-  getList(params: NftGetListParams | null | undefined = {}, options?: RequestOptions): APIPromise<NfTsList> {
+  getList(params: NFTGetListParams | null | undefined = {}, options?: RequestOptions): APIPromise<NFTGetListResponse> {
     const { order, per_page, page } = params ?? {};
     return this._client.get("/nfts/list", { query: { order: order, per_page: per_page, page: page }, ...options });
   }
+
   /**
    * To query all the NFT data (name, floor price, 24hr volume, ...) based on the NFT collection ID
+   *
+   * @param {string} id - NFT collection ID.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<NFTGetIDResponse>} NFT collection data
+   *
+   * @example
+   * ```ts
+   * const getID = await client.nfts.getID("pudgy-penguins");
+   * ```
    */
-  getId(id: string, options?: RequestOptions): APIPromise<NftData> {
+  getID(id: string, options?: RequestOptions): APIPromise<NFTGetIDResponse> {
     return this._client.get(__scalarPath`/nfts/${id}`, options);
   }
+
   /**
    * To query all the supported NFT collections with floor price, market cap, volume and market related data on CoinGecko
+   *
+   * @param {NFTGetMarketsParams} [params] - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<NFTGetMarketsResponse>} List of NFT collections with market data
+   *
+   * @example
+   * ```ts
+   * const getMarkets = await client.nfts.getMarkets();
+   * ```
    */
-  getMarkets(params: NftGetMarketsParams | null | undefined = {}, options?: RequestOptions): APIPromise<NfTsMarkets> {
+  getMarkets(params: NFTGetMarketsParams | null | undefined = {}, options?: RequestOptions): APIPromise<NFTGetMarketsResponse> {
     const { asset_platform_id, order, per_page, page } = params ?? {};
     return this._client.get("/nfts/markets", { query: { asset_platform_id: asset_platform_id, order: order, per_page: per_page, page: page }, ...options });
   }
 }
 
-export type NfTsList = Array<{ id: string; contract_address: string; name: string; asset_platform_id: string; symbol: string }>;
+export interface NFTGetListParams {
+  /**
+   * Sort order of responses.
+   */
+  order?: "h24_volume_usd_asc" | "h24_volume_usd_desc" | "h24_volume_native_asc" | "h24_volume_native_desc" | "floor_price_native_asc" | "floor_price_native_desc" | "market_cap_native_asc" | "market_cap_native_desc" | "market_cap_usd_asc" | "market_cap_usd_desc";
+  /**
+   * Total results per page.
+   * Valid values: 1...250
+   */
+  per_page?: number;
+  /**
+   * Page through results.
+   */
+  page?: number;
+}
 
-export interface NftData {
+export type NFTGetListResponse = Array<NFTGetListResponse.NFTGetListResponseItem>;
+
+export namespace NFTGetListResponse {
+  export interface NFTGetListResponseItem {
+    /**
+     * NFT collection ID
+     */
+    id: string;
+    /**
+     * NFT collection contract address
+     */
+    contract_address: string;
+    /**
+     * NFT collection name
+     */
+    name: string;
+    /**
+     * NFT collection asset platform ID
+     */
+    asset_platform_id: string;
+    /**
+     * NFT collection symbol
+     */
+    symbol: string;
+  }
+}
+
+export interface NFTGetIDResponse {
   /**
    * NFT collection ID
    */
@@ -74,7 +135,7 @@ export interface NftData {
   /**
    * NFT collection image URLs
    */
-  image: { small?: string; small_2x?: string };
+  image: NFTGetIDResponse.Image;
   /**
    * NFT collection banner image URL
    */
@@ -98,15 +159,15 @@ export interface NftData {
   /**
    * NFT collection floor price
    */
-  floor_price: { native_currency?: number; usd?: number };
+  floor_price: NFTGetIDResponse.FloorPrice;
   /**
    * NFT collection market cap
    */
-  market_cap: { native_currency?: number; usd?: number };
+  market_cap: NFTGetIDResponse.MarketCap;
   /**
    * NFT collection volume in 24 hours
    */
-  volume_24h: { native_currency?: number; usd?: number };
+  volume_24h: NFTGetIDResponse.Volume24h;
   /**
    * NFT collection floor price in USD 24 hours percentage change
    */
@@ -114,15 +175,15 @@ export interface NftData {
   /**
    * NFT collection floor price 24 hours percentage change
    */
-  floor_price_24h_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_24h_percentage_change: NFTGetIDResponse.FloorPrice24hPercentageChange;
   /**
    * NFT collection market cap 24 hours percentage change
    */
-  market_cap_24h_percentage_change: { usd?: number; native_currency?: number };
+  market_cap_24h_percentage_change: NFTGetIDResponse.MarketCap24hPercentageChange;
   /**
    * NFT collection volume in 24 hours percentage change
    */
-  volume_24h_percentage_change: { usd?: number; native_currency?: number };
+  volume_24h_percentage_change: NFTGetIDResponse.Volume24hPercentageChange;
   /**
    * Number of unique addresses owning the NFTs
    */
@@ -158,31 +219,31 @@ export interface NftData {
   /**
    * NFT collection links
    */
-  links: { homepage?: string; twitter?: string; discord?: string };
+  links: NFTGetIDResponse.Links;
   /**
    * NFT collection floor price 7 days percentage change
    */
-  floor_price_7d_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_7d_percentage_change: NFTGetIDResponse.FloorPrice7dPercentageChange;
   /**
    * NFT collection floor price 14 days percentage change
    */
-  floor_price_14d_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_14d_percentage_change: NFTGetIDResponse.FloorPrice14dPercentageChange;
   /**
    * NFT collection floor price 30 days percentage change
    */
-  floor_price_30d_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_30d_percentage_change: NFTGetIDResponse.FloorPrice30dPercentageChange;
   /**
    * NFT collection floor price 60 days percentage change
    */
-  floor_price_60d_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_60d_percentage_change: NFTGetIDResponse.FloorPrice60dPercentageChange;
   /**
    * NFT collection floor price 1 year percentage change
    */
-  floor_price_1y_percentage_change: { usd?: number; native_currency?: number };
+  floor_price_1y_percentage_change: NFTGetIDResponse.FloorPrice1yPercentageChange;
   /**
    * NFT collection block explorer links
    */
-  explorers: Array<{ name?: string; link?: string }>;
+  explorers: Array<NFTGetIDResponse.Explorer>;
   /**
    * NFT collection user favorites count
    */
@@ -190,67 +251,302 @@ export interface NftData {
   /**
    * NFT collection all time highs
    */
-  ath: { native_currency?: number; usd?: number };
+  ath: NFTGetIDResponse.Ath;
   /**
    * NFT collection all time highs change percentage
    */
-  ath_change_percentage: { native_currency?: number; usd?: number };
+  ath_change_percentage: NFTGetIDResponse.AthChangePercentage;
   /**
    * NFT collection all time highs date
    */
-  ath_date: { native_currency?: string; usd?: string };
+  ath_date: NFTGetIDResponse.AthDate;
 }
 
-export type NfTsMarkets = Array<{ id: string; contract_address: string | null; asset_platform_id: string; name: string; symbol: string; image: { small?: string; small_2x?: string }; description: string | null; native_currency: string; native_currency_symbol: string; floor_price: { native_currency?: number; usd?: number }; market_cap: { native_currency?: number; usd?: number }; volume_24h: { native_currency?: number; usd?: number }; floor_price_in_usd_24h_percentage_change: number; floor_price_24h_percentage_change: { usd?: number; native_currency?: number }; market_cap_24h_percentage_change: { usd?: number; native_currency?: number }; volume_24h_percentage_change: { usd?: number; native_currency?: number }; number_of_unique_addresses: number | null; number_of_unique_addresses_24h_percentage_change: number; volume_in_usd_24h_percentage_change: number; total_supply: number | null; one_day_sales: number | null; one_day_sales_24h_percentage_change: number; one_day_average_sale_price: number | null; one_day_average_sale_price_24h_percentage_change: number }>;
+export namespace NFTGetIDResponse {
+  export interface Image {
+    small?: string;
+    small_2x?: string;
+  }
 
-export interface NftGetListParams {
-/**
- * Sort order of responses.
- */
-  order?: "h24_volume_usd_asc" | "h24_volume_usd_desc" | "h24_volume_native_asc" | "h24_volume_native_desc" | "floor_price_native_asc" | "floor_price_native_desc" | "market_cap_native_asc" | "market_cap_native_desc" | "market_cap_usd_asc" | "market_cap_usd_desc";
+  export interface FloorPrice {
+    native_currency?: number;
+    usd?: number;
+  }
 
-/**
- * Total results per page.
- * Valid values: 1...250
- */
-  per_page?: number;
+  export interface MarketCap {
+    native_currency?: number;
+    usd?: number;
+  }
 
-/**
- * Page through results.
- */
-  page?: number;
+  export interface Volume24h {
+    native_currency?: number;
+    usd?: number;
+  }
 
+  export interface FloorPrice24hPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface MarketCap24hPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface Volume24hPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface Links {
+    homepage?: string;
+    twitter?: string;
+    discord?: string;
+  }
+
+  export interface FloorPrice7dPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface FloorPrice14dPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface FloorPrice30dPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface FloorPrice60dPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface FloorPrice1yPercentageChange {
+    usd?: number;
+    native_currency?: number;
+  }
+
+  export interface Explorer {
+    name?: string;
+    link?: string;
+  }
+
+  export interface Ath {
+    native_currency?: number;
+    usd?: number;
+  }
+
+  export interface AthChangePercentage {
+    native_currency?: number;
+    usd?: number;
+  }
+
+  export interface AthDate {
+    /**
+     * @format date-time
+     */
+    native_currency?: string;
+    /**
+     * @format date-time
+     */
+    usd?: string;
+  }
 }
 
-export interface NftGetMarketsParams {
-/**
- * Filter result by asset platform (blockchain network).
- * *refers to [`/asset_platforms`](/reference/asset-platforms-list) filter=`nft`.
- */
+export interface NFTGetMarketsParams {
+  /**
+   * Filter result by asset platform (blockchain network).
+   * *refers to [`/asset_platforms`](/reference/asset-platforms-list) filter=`nft`.
+   */
   asset_platform_id?: string;
-
-/**
- * Sort results by field.
- * Default: `market_cap_usd_desc`
- */
+  /**
+   * Sort results by field.
+   * Default: `market_cap_usd_desc`
+   */
   order?: "h24_volume_native_asc" | "h24_volume_native_desc" | "h24_volume_usd_asc" | "h24_volume_usd_desc" | "market_cap_usd_asc" | "market_cap_usd_desc";
-
-/**
- * Total results per page.
- * Default value: 100
- * Valid values: 1...250
- */
+  /**
+   * Total results per page.
+   * Default value: 100
+   * Valid values: 1...250
+   */
   per_page?: number;
-
-/**
- * Page through results.
- * Default value: 1
- */
+  /**
+   * Page through results.
+   * Default value: 1
+   */
   page?: number;
+}
 
+export type NFTGetMarketsResponse = Array<NFTGetMarketsResponse.NFTGetMarketsResponseItem>;
+
+export namespace NFTGetMarketsResponse {
+  export interface NFTGetMarketsResponseItem {
+    /**
+     * NFT collection ID
+     */
+    id: string;
+    /**
+     * NFT collection contract address
+     */
+    contract_address: string | null;
+    /**
+     * NFT collection asset platform ID
+     */
+    asset_platform_id: string;
+    /**
+     * NFT collection name
+     */
+    name: string;
+    /**
+     * NFT collection symbol
+     */
+    symbol: string;
+    /**
+     * NFT collection image URLs
+     */
+    image: NFTGetMarketsResponseItem.Image;
+    /**
+     * NFT collection description
+     */
+    description: string | null;
+    /**
+     * NFT collection native currency
+     */
+    native_currency: string;
+    /**
+     * NFT collection native currency symbol
+     */
+    native_currency_symbol: string;
+    /**
+     * NFT collection floor price
+     */
+    floor_price: NFTGetMarketsResponseItem.FloorPrice;
+    /**
+     * NFT collection market cap
+     */
+    market_cap: NFTGetMarketsResponseItem.MarketCap;
+    /**
+     * NFT collection volume in 24 hours
+     */
+    volume_24h: NFTGetMarketsResponseItem.Volume24h;
+    /**
+     * NFT collection floor price in USD 24 hours percentage change
+     */
+    floor_price_in_usd_24h_percentage_change: number;
+    /**
+     * NFT collection floor price 24 hours percentage change
+     */
+    floor_price_24h_percentage_change: NFTGetMarketsResponseItem.FloorPrice24hPercentageChange;
+    /**
+     * NFT collection market cap 24 hours percentage change
+     */
+    market_cap_24h_percentage_change: NFTGetMarketsResponseItem.MarketCap24hPercentageChange;
+    /**
+     * NFT collection volume in 24 hours percentage change
+     */
+    volume_24h_percentage_change: NFTGetMarketsResponseItem.Volume24hPercentageChange;
+    /**
+     * Number of unique addresses owning the NFTs
+     */
+    number_of_unique_addresses: number | null;
+    /**
+     * Number of unique addresses 24 hours percentage change
+     */
+    number_of_unique_addresses_24h_percentage_change: number;
+    /**
+     * NFT collection volume in USD 24 hours percentage change
+     */
+    volume_in_usd_24h_percentage_change: number;
+    /**
+     * NFT collection total supply
+     */
+    total_supply: number | null;
+    /**
+     * NFT collection one day sales
+     */
+    one_day_sales: number | null;
+    /**
+     * NFT collection one day sales 24 hours percentage change
+     */
+    one_day_sales_24h_percentage_change: number;
+    /**
+     * NFT collection one day average sale price
+     */
+    one_day_average_sale_price: number | null;
+    /**
+     * NFT collection one day average sale price 24 hours percentage change
+     */
+    one_day_average_sale_price_24h_percentage_change: number;
+  }
+
+  export namespace NFTGetMarketsResponseItem {
+    export interface Image {
+      small?: string;
+      small_2x?: string;
+    }
+
+    export interface FloorPrice {
+      native_currency?: number;
+      usd?: number;
+    }
+
+    export interface MarketCap {
+      native_currency?: number;
+      usd?: number;
+    }
+
+    export interface Volume24h {
+      native_currency?: number;
+      usd?: number;
+    }
+
+    export interface FloorPrice24hPercentageChange {
+      usd?: number;
+      native_currency?: number;
+    }
+
+    export interface MarketCap24hPercentageChange {
+      usd?: number;
+      native_currency?: number;
+    }
+
+    export interface Volume24hPercentageChange {
+      usd?: number;
+      native_currency?: number;
+    }
+  }
 }
-export declare namespace Nfts {
-  export { MarketChart as MarketChart, Tickers as Tickers, Contract as Contract };
-  export { type NfTsList as NfTsList, type NftData as NftData, type NfTsMarkets as NfTsMarkets, type NftGetListParams as NftGetListParams, type NftGetMarketsParams as NftGetMarketsParams };
+NFTs.Contract2 = Contract2;
+NFTs.MarketChart4 = MarketChart4;
+NFTs.Tickers3 = Tickers3;
+
+export declare namespace NFTs {
+  export {
+    type NFTGetListResponse as NFTGetListResponse,
+    type NFTGetIDResponse as NFTGetIDResponse,
+    type NFTGetMarketsResponse as NFTGetMarketsResponse,
+    type NFTGetListParams as NFTGetListParams,
+    type NFTGetMarketsParams as NFTGetMarketsParams,
+  };
+
+  export {
+    Contract2 as Contract2,
+    type ContractGetContractAddressResponse as ContractGetContractAddressResponse,
+    type ContractGetContractAddressParams as ContractGetContractAddressParams,
+  };
+
+  export {
+    MarketChart4 as MarketChart4,
+    type MarketChartGetResponse as MarketChartGetResponse,
+    type MarketChartGetParams as MarketChartGetParams,
+  };
+
+  export {
+    Tickers3 as Tickers3,
+    type TickerGetResponse as TickerGetResponse,
+  };
 }
-export { Nfts as NftResource };
+export { NFTs as NFTResource };

@@ -1,12 +1,15 @@
 // File generated from our OpenAPI spec by Scalar. See README.md for details.
 
-import type { Coingecko } from './client.js';
+import type { Coingecko } from './client';
 import type { FinalRequestOptions } from './internal/request-options';
 
 export type APIResponseProps = {
   readonly response: Response;
   readonly options: FinalRequestOptions;
   readonly controller: AbortController;
+  readonly requestLogID?: string | undefined;
+  readonly retryOfRequestLogID?: string | undefined;
+  readonly startTime?: number | undefined;
 };
 
 export type ParseResponse<T> = (client: Coingecko, props: APIResponseProps) => T | Promise<T>;
@@ -14,9 +17,11 @@ export type ParseResponse<T> = (client: Coingecko, props: APIResponseProps) => T
 export const defaultParseResponse = async <T>(_client: unknown, props: APIResponseProps): Promise<T> => {
   const { response } = props;
   if (response.status === 204) return null as T;
-  if (props.options.__binaryResponse) return response as unknown as T;
+  if (props.options.__binaryResponse) return response as T;
   const contentType = response.headers.get('content-type');
-  const isJson = contentType?.includes('application/json') || contentType?.includes('application/vnd.api+json');
+  const mediaType = contentType?.split(';')[0]?.trim();
+  const isJson = mediaType?.includes('application/json') || mediaType?.endsWith('+json');
+  if (isJson && response.headers.get('content-length') === '0') return undefined as T;
   if (isJson) return (await response.json()) as T;
   return (await response.text()) as unknown as T;
 };

@@ -37,7 +37,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/ping",
     run: async () => {
-      const server = await client.ping.get();
+      const get_ = await client.ping.get();
     },
   },
 
@@ -46,7 +46,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/key",
     run: async () => {
-      const apiUsage = await client.key.get();
+      const get_ = await client.key.get();
     },
   },
 
@@ -55,7 +55,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/simple/price",
     run: async () => {
-      const simplePrice = await client.simple.price.get({
+      const get_ = await client.simple.price.get({
         vs_currencies: "usd",
         ids: "bitcoin",
         names: "Bitcoin",
@@ -69,7 +69,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/simple/supported_vs_currencies",
     run: async () => {
-      const supportedCurrencies = await client.simple.supportedVsCurrencies.get();
+      const get_ = await client.simple.supportedVsCurrencies.get();
     },
   },
 
@@ -78,7 +78,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/simple/token_price/{id}",
     run: async () => {
-      const simplePrice = await client.simple.tokenPrice.getId("ethereum", {
+      const getID = await client.simple.tokenPrice.getID("ethereum", {
         contract_addresses: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
         vs_currencies: "usd",
       });
@@ -101,7 +101,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/search/trending",
     run: async () => {
-      const search = await client.search.trending.get();
+      const get_ = await client.search.trending.get();
     },
   },
 
@@ -110,52 +110,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/{id}",
     run: async () => {
-      const sId = await client.coins.getId("bitcoin");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/coins/top_gainers_losers",
-    run: async () => {
-      const s = await client.coins.topGainersLosers.get({
-        vs_currency: "usd",
-      });
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/coins/markets",
-    run: async () => {
-      const coinsMarkets = await client.coins.markets.get({
-        vs_currency: "usd",
-        ids: "bitcoin",
-        names: "Bitcoin",
-        symbols: "btc",
-      });
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/coins/{id}/tickers",
-    run: async () => {
-      const coinsIdTickers = await client.coins.tickers.get("bitcoin");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/coins/{id}/history",
-    run: async () => {
-      const coinsIdHistory = await client.coins.history.get("bitcoin", {
-        date: "2025-12-30",
-      });
+      const getID = await client.coins.getID("bitcoin");
     },
   },
 
@@ -164,7 +119,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/{id}/market_chart",
     run: async () => {
-      const coinsMarketChart = await client.coins.marketChart.get("bitcoin", {
+      const get_ = await client.coins.marketChart.get("bitcoin", {
         vs_currency: "usd",
         days: "1",
       });
@@ -176,7 +131,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/{id}/market_chart/range",
     run: async () => {
-      const coinsMarketChart = await client.coins.marketChart.getRange("bitcoin", {
+      const getRange = await client.coins.marketChart.getRange("bitcoin", {
         vs_currency: "usd",
         from: "2025-01-01",
         to: "2025-12-31",
@@ -189,7 +144,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/{id}/ohlc",
     run: async () => {
-      const coinsOhlc = await client.coins.ohlc.get("bitcoin", {
+      const get_ = await client.coins.ohlc.get("bitcoin", {
         vs_currency: "usd",
         days: "1",
       });
@@ -201,7 +156,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/{id}/ohlc/range",
     run: async () => {
-      const coinsOhlc = await client.coins.ohlc.getRange("bitcoin", {
+      const getRange = await client.coins.ohlc.getRange("bitcoin", {
         vs_currency: "usd",
         from: "2025-12-01",
         to: "2025-12-31",
@@ -215,7 +170,9 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/{id}/contract/{contract_address}",
     run: async () => {
-      const coinsContractAddress = await client.coins.contract.get("ethereum", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2");
+      const get_ = await client.coins.contract.get("0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", {
+        id: "ethereum",
+      });
     },
   },
 
@@ -224,7 +181,8 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/{id}/contract/{contract_address}/market_chart",
     run: async () => {
-      const coinsMarketChart = await client.coins.contract.marketChart.get("ethereum", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", {
+      const get_ = await client.coins.contract.marketChart.get("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", {
+        id: "ethereum",
         vs_currency: "usd",
         days: "1",
       });
@@ -236,7 +194,8 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/{id}/contract/{contract_address}/market_chart/range",
     run: async () => {
-      const coinsMarketChart = await client.coins.contract.marketChart.getRange("ethereum", "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", {
+      const getRange = await client.coins.contract.marketChart.getRange("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", {
+        id: "ethereum",
         vs_currency: "usd",
         from: "2025-01-01",
         to: "2025-12-31",
@@ -295,7 +254,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/list/new",
     run: async () => {
-      const coinsListNew = await client.coins.list.getNew();
+      const getNew = await client.coins.list.getNew();
     },
   },
 
@@ -304,7 +263,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/list",
     run: async () => {
-      const coinsList = await client.coins.list.get();
+      const get_ = await client.coins.list.get();
     },
   },
 
@@ -313,7 +272,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/coins/categories/list",
     run: async () => {
-      const categoriesList = await client.coins.categories.getList();
+      const getList = await client.coins.categories.getList();
     },
   },
 
@@ -323,6 +282,51 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     path: "/coins/categories",
     run: async () => {
       const categories = await client.coins.categories.get();
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/coins/{id}/history",
+    run: async () => {
+      const get_ = await client.coins.history.get("bitcoin", {
+        date: "2025-12-30",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/coins/markets",
+    run: async () => {
+      const get_ = await client.coins.markets.get({
+        vs_currency: "usd",
+        ids: "bitcoin",
+        names: "Bitcoin",
+        symbols: "btc",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/coins/{id}/tickers",
+    run: async () => {
+      const get_ = await client.coins.tickers.get("bitcoin");
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/coins/top_gainers_losers",
+    run: async () => {
+      const s = await client.coins.topGainersLosers.get({
+        vs_currency: "usd",
+      });
     },
   },
 
@@ -340,7 +344,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/token_lists/{asset_platform_id}/all.json",
     run: async () => {
-      const s = await client.tokenLists.getAllJson("ethereum");
+      const getAllJSON = await client.tokenLists.getAllJSON("ethereum");
     },
   },
 
@@ -358,7 +362,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/exchanges/list",
     run: async () => {
-      const sList = await client.exchanges.getList();
+      const getList = await client.exchanges.getList();
     },
   },
 
@@ -367,16 +371,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/exchanges/{id}",
     run: async () => {
-      const sId = await client.exchanges.getId("binance");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/exchanges/{id}/tickers",
-    run: async () => {
-      const coinsIdTickers = await client.exchanges.tickers.get("binance");
+      const getID = await client.exchanges.getID("binance");
     },
   },
 
@@ -385,7 +380,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/exchanges/{id}/volume_chart",
     run: async () => {
-      const exchangeVolumeChart = await client.exchanges.volumeChart.get("binance", {
+      const get_ = await client.exchanges.volumeChart.get("binance", {
         days: "1",
       });
     },
@@ -396,7 +391,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/exchanges/{id}/volume_chart/range",
     run: async () => {
-      const exchangeVolumeChart = await client.exchanges.volumeChart.getRange("binance", {
+      const getRange = await client.exchanges.volumeChart.getRange("binance", {
         from: "1767196800",
         to: "1769702400",
       });
@@ -406,9 +401,18 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
   {
     operation: "get",
     method: "GET",
+    path: "/exchanges/{id}/tickers",
+    run: async () => {
+      const get_ = await client.exchanges.tickers.get("binance");
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
     path: "/derivatives",
     run: async () => {
-      const sTickers = await client.derivatives.get();
+      const get_ = await client.derivatives.get();
     },
   },
 
@@ -417,7 +421,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/derivatives/exchanges",
     run: async () => {
-      const derivativesExchanges = await client.derivatives.exchanges.get();
+      const get_ = await client.derivatives.exchanges.get();
     },
   },
 
@@ -426,7 +430,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/derivatives/exchanges/{id}",
     run: async () => {
-      const derivativesExchangesId = await client.derivatives.exchanges.getId("binance_futures");
+      const getID = await client.derivatives.exchanges.getID("binance_futures");
     },
   },
 
@@ -435,7 +439,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/derivatives/exchanges/list",
     run: async () => {
-      const derivativesExchangesList = await client.derivatives.exchanges.getList();
+      const getList = await client.derivatives.exchanges.getList();
     },
   },
 
@@ -444,7 +448,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/entities/list",
     run: async () => {
-      const entitiesList = await client.entities.getList();
+      const getList = await client.entities.getList();
     },
   },
 
@@ -453,7 +457,9 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/{entity}/public_treasury/{coin_id}",
     run: async () => {
-      const publicTreasury = await client.publicTreasury.getCoinId("companies", "bitcoin");
+      const publicTreasury = await client.publicTreasury.getCoinID("bitcoin", {
+        entity: "companies",
+      });
     },
   },
 
@@ -462,7 +468,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/public_treasury/{entity_id}",
     run: async () => {
-      const entity = await client.publicTreasury.getEntityId("strategy");
+      const getEntityID = await client.publicTreasury.getEntityID("strategy");
     },
   },
 
@@ -471,7 +477,8 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/public_treasury/{entity_id}/{coin_id}/holding_chart",
     run: async () => {
-      const entityChart = await client.publicTreasury.getHoldingChart("strategy", "bitcoin", {
+      const getHoldingChart = await client.publicTreasury.getHoldingChart("bitcoin", {
+        entity_id: "strategy",
         days: "365",
       });
     },
@@ -482,7 +489,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/public_treasury/{entity_id}/transaction_history",
     run: async () => {
-      const transactionHistory = await client.publicTreasury.getTransactionHistory("strategy");
+      const getTransactionHistory = await client.publicTreasury.getTransactionHistory("strategy");
     },
   },
 
@@ -491,7 +498,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/nfts/list",
     run: async () => {
-      const nfTsList = await client.nfts.getList();
+      const getList = await client.nfts.getList();
     },
   },
 
@@ -500,7 +507,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/nfts/{id}",
     run: async () => {
-      const data = await client.nfts.getId("pudgy-penguins");
+      const getID = await client.nfts.getID("pudgy-penguins");
     },
   },
 
@@ -509,7 +516,30 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/nfts/markets",
     run: async () => {
-      const nfTsMarkets = await client.nfts.getMarkets();
+      const getMarkets = await client.nfts.getMarkets();
+    },
+  },
+
+  {
+    operation: "getContractAddress",
+    method: "GET",
+    path: "/nfts/{asset_platform_id}/contract/{contract_address}",
+    run: async () => {
+      const getContractAddress = await client.nfts.contract.getContractAddress("0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
+        asset_platform_id: "ethereum",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/nfts/{asset_platform_id}/contract/{contract_address}/market_chart",
+    run: async () => {
+      const get_ = await client.nfts.contract.marketChart.get("0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
+        asset_platform_id: "ethereum",
+        days: "1",
+      });
     },
   },
 
@@ -518,7 +548,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/nfts/{id}/market_chart",
     run: async () => {
-      const nftMarketChart = await client.nfts.marketChart.get("pudgy-penguins", {
+      const get_ = await client.nfts.marketChart.get("pudgy-penguins", {
         days: "1",
       });
     },
@@ -529,27 +559,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/nfts/{id}/tickers",
     run: async () => {
-      const nftTickers = await client.nfts.tickers.get("pudgy-penguins");
-    },
-  },
-
-  {
-    operation: "getContractAddress",
-    method: "GET",
-    path: "/nfts/{asset_platform_id}/contract/{contract_address}",
-    run: async () => {
-      const nftData = await client.nfts.contract.getContractAddress("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/nfts/{asset_platform_id}/contract/{contract_address}/market_chart",
-    run: async () => {
-      const nftMarketChart = await client.nfts.contract.marketChart.get("ethereum", "0xBd3531dA5CF5857e7CfAA92426877b022e612cf8", {
-        days: "1",
-      });
+      const get_ = await client.nfts.tickers.get("pudgy-penguins");
     },
   },
 
@@ -585,7 +595,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/global/decentralized_finance_defi",
     run: async () => {
-      const globalDeFi = await client.global.decentralizedFinanceDefi.get();
+      const get_ = await client.global.decentralizedFinanceDefi.get();
     },
   },
 
@@ -594,7 +604,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/global/market_cap_chart",
     run: async () => {
-      const globalMarketCapChart = await client.global.marketCapChart.get({
+      const get_ = await client.global.marketCapChart.get({
         days: "1",
       });
     },
@@ -603,9 +613,266 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
   {
     operation: "get",
     method: "GET",
-    path: "/onchain/tokens/info_recently_updated",
+    path: "/onchain/networks",
     run: async () => {
-      const tokenInfoRecentlyUpdated = await client.onchain.tokens.infoRecentlyUpdated.get();
+      const get_ = await client.onchain.networks.get();
+    },
+  },
+
+  {
+    operation: "getPools",
+    method: "GET",
+    path: "/onchain/networks/{network}/dexes/{dex}/pools",
+    run: async () => {
+      const dexGetPools = await client.onchain.networks.dexes.getPools("sushiswap", {
+        network: "eth",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/dexes",
+    run: async () => {
+      const dexGet = await client.onchain.networks.dexes.get("eth");
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/new_pools",
+    run: async () => {
+      const get_ = await client.onchain.networks.newPools.get();
+    },
+  },
+
+  {
+    operation: "getNetwork",
+    method: "GET",
+    path: "/onchain/networks/{network}/new_pools",
+    run: async () => {
+      const getNetwork = await client.onchain.networks.newPools.getNetwork("eth");
+    },
+  },
+
+  {
+    operation: "getAddress",
+    method: "GET",
+    path: "/onchain/networks/{network}/pools/{address}",
+    run: async () => {
+      const getAddress = await client.onchain.networks.pools.getAddress("0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640", {
+        network: "eth",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/pools",
+    run: async () => {
+      const get_ = await client.onchain.networks.pools.get("eth");
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/pools/{pool_address}/info",
+    run: async () => {
+      const get_ = await client.onchain.networks.pools.info.get("8WwcNqdZjCY5Pt7AkhupAFknV2txca9sq6YBkGzLbvdt", {
+        network: "solana",
+      });
+    },
+  },
+
+  {
+    operation: "getAddresses",
+    method: "GET",
+    path: "/onchain/networks/{network}/pools/multi/{addresses}",
+    run: async () => {
+      const getAddresses = await client.onchain.networks.pools.multi.getAddresses("0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640", {
+        network: "eth",
+      });
+    },
+  },
+
+  {
+    operation: "getTimeframe",
+    method: "GET",
+    path: "/onchain/networks/{network}/pools/{pool_address}/ohlcv/{timeframe}",
+    run: async () => {
+      const getTimeframe = await client.onchain.networks.pools.ohlcv.getTimeframe("day", {
+        network: "eth",
+        pool_address: "0x06da0fd433c1a5d7a4faa01111c044910a184553",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/pools/{pool_address}/trades",
+    run: async () => {
+      const get_ = await client.onchain.networks.pools.trades.get("0x06da0fd433c1a5d7a4faa01111c044910a184553", {
+        network: "eth",
+      });
+    },
+  },
+
+  {
+    operation: "getAddress",
+    method: "GET",
+    path: "/onchain/networks/{network}/tokens/{address}",
+    run: async () => {
+      const getAddress = await client.onchain.networks.tokens.getAddress("0xdac17f958d2ee523a2206206994597c13d831ec7", {
+        network: "eth",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/tokens/{token_address}/holders_chart",
+    run: async () => {
+      const get_ = await client.onchain.networks.tokens.holdersChart.get("Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump", {
+        network: "solana",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/tokens/{address}/info",
+    run: async () => {
+      const get_ = await client.onchain.networks.tokens.info.get("Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump", {
+        network: "solana",
+      });
+    },
+  },
+
+  {
+    operation: "getAddresses",
+    method: "GET",
+    path: "/onchain/networks/{network}/tokens/multi/{addresses}",
+    run: async () => {
+      const getAddresses = await client.onchain.networks.tokens.multi.getAddresses("6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN,2g4LS3y2myPe6vj9wTvoBE1wKqxvhnZPoZA9QU9upump", {
+        network: "solana",
+      });
+    },
+  },
+
+  {
+    operation: "getTimeframe",
+    method: "GET",
+    path: "/onchain/networks/{network}/tokens/{token_address}/ohlcv/{timeframe}",
+    run: async () => {
+      const getTimeframe = await client.onchain.networks.tokens.ohlcv.getTimeframe("day", {
+        network: "solana",
+        token_address: "So11111111111111111111111111111111111111112",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/tokens/{token_address}/pools",
+    run: async () => {
+      const get_ = await client.onchain.networks.tokens.pools.get("0xdac17f958d2ee523a2206206994597c13d831ec7", {
+        network: "eth",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/tokens/{address}/top_holders",
+    run: async () => {
+      const get_ = await client.onchain.networks.tokens.topHolders.get("Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump", {
+        network: "solana",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network_id}/tokens/{token_address}/top_traders",
+    run: async () => {
+      const get_ = await client.onchain.networks.tokens.topTraders.get("Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump", {
+        network_id: "solana",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/{network}/tokens/{token_address}/trades",
+    run: async () => {
+      const get_ = await client.onchain.networks.tokens.trades.get("0xdac17f958d2ee523a2206206994597c13d831ec7", {
+        network: "eth",
+      });
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/networks/trending_pools",
+    run: async () => {
+      const get_ = await client.onchain.networks.trendingPools.get();
+    },
+  },
+
+  {
+    operation: "getNetwork",
+    method: "GET",
+    path: "/onchain/networks/{network}/trending_pools",
+    run: async () => {
+      const getNetwork = await client.onchain.networks.trendingPools.getNetwork("eth");
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/pools/megafilter",
+    run: async () => {
+      const get_ = await client.onchain.pools.megafilter.get();
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/pools/trending_search",
+    run: async () => {
+      const get_ = await client.onchain.pools.trendingSearch.get();
+    },
+  },
+
+  {
+    operation: "get",
+    method: "GET",
+    path: "/onchain/categories",
+    run: async () => {
+      const get_ = await client.onchain.categories.get();
+    },
+  },
+
+  {
+    operation: "getPools",
+    method: "GET",
+    path: "/onchain/categories/{category_id}/pools",
+    run: async () => {
+      const getPools = await client.onchain.categories.getPools("pump-fun");
     },
   },
 
@@ -614,7 +881,7 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/onchain/search/pools",
     run: async () => {
-      const search = await client.onchain.search.pools.get({
+      const get_ = await client.onchain.search.pools.get({
         query: "weth",
       });
     },
@@ -625,241 +892,18 @@ const cases: { operation: string; method: string; path: string; run: () => Promi
     method: "GET",
     path: "/onchain/simple/networks/{network}/token_price/{addresses}",
     run: async () => {
-      const onchainSimplePrice = await client.onchain.simple.networks.tokenPrice.getAddresses("eth", "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2");
+      const getAddresses = await client.onchain.simple.networks.tokenPrice.getAddresses("0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", {
+        network: "eth",
+      });
     },
   },
 
   {
     operation: "get",
     method: "GET",
-    path: "/onchain/networks",
+    path: "/onchain/tokens/info_recently_updated",
     run: async () => {
-      const sList = await client.onchain.networks.get();
-    },
-  },
-
-  {
-    operation: "getAddress",
-    method: "GET",
-    path: "/onchain/networks/{network}/pools/{address}",
-    run: async () => {
-      const addressData = await client.onchain.networks.pools.getAddress("eth", "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/pools",
-    run: async () => {
-      const pool = await client.onchain.networks.pools.get("eth");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/pools/{pool_address}/info",
-    run: async () => {
-      const poolTokensInfo = await client.onchain.networks.pools.info.get("solana", "8WwcNqdZjCY5Pt7AkhupAFknV2txca9sq6YBkGzLbvdt");
-    },
-  },
-
-  {
-    operation: "getTimeframe",
-    method: "GET",
-    path: "/onchain/networks/{network}/pools/{pool_address}/ohlcv/{timeframe}",
-    run: async () => {
-      const ohlcv = await client.onchain.networks.pools.ohlcv.getTimeframe("eth", "0x06da0fd433c1a5d7a4faa01111c044910a184553", "day");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/pools/{pool_address}/trades",
-    run: async () => {
-      const s = await client.onchain.networks.pools.trades.get("eth", "0x06da0fd433c1a5d7a4faa01111c044910a184553");
-    },
-  },
-
-  {
-    operation: "getAddresses",
-    method: "GET",
-    path: "/onchain/networks/{network}/pools/multi/{addresses}",
-    run: async () => {
-      const poolAddressData = await client.onchain.networks.pools.multi.getAddresses("eth", "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/trending_pools",
-    run: async () => {
-      const pool = await client.onchain.networks.trendingPools.get();
-    },
-  },
-
-  {
-    operation: "getNetwork",
-    method: "GET",
-    path: "/onchain/networks/{network}/trending_pools",
-    run: async () => {
-      const pool = await client.onchain.networks.trendingPools.getNetwork("eth");
-    },
-  },
-
-  {
-    operation: "getPools",
-    method: "GET",
-    path: "/onchain/networks/{network}/dexes/{dex}/pools",
-    run: async () => {
-      const pool = await client.onchain.networks.dexes.getPools("eth", "sushiswap");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/dexes",
-    run: async () => {
-      const sList = await client.onchain.networks.dexes.get("eth");
-    },
-  },
-
-  {
-    operation: "getAddress",
-    method: "GET",
-    path: "/onchain/networks/{network}/tokens/{address}",
-    run: async () => {
-      const data = await client.onchain.networks.tokens.getAddress("eth", "0xdac17f958d2ee523a2206206994597c13d831ec7");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/tokens/{token_address}/pools",
-    run: async () => {
-      const pool = await client.onchain.networks.tokens.pools.get("eth", "0xdac17f958d2ee523a2206206994597c13d831ec7");
-    },
-  },
-
-  {
-    operation: "getAddresses",
-    method: "GET",
-    path: "/onchain/networks/{network}/tokens/multi/{addresses}",
-    run: async () => {
-      const tokenData = await client.onchain.networks.tokens.multi.getAddresses("solana", "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN,2g4LS3y2myPe6vj9wTvoBE1wKqxvhnZPoZA9QU9upump");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/tokens/{address}/info",
-    run: async () => {
-      const tokenInfo = await client.onchain.networks.tokens.info.get("solana", "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network_id}/tokens/{token_address}/top_traders",
-    run: async () => {
-      const topTokenTraders = await client.onchain.networks.tokens.topTraders.get("solana", "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/tokens/{address}/top_holders",
-    run: async () => {
-      const topTokenHolders = await client.onchain.networks.tokens.topHolders.get("solana", "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/tokens/{token_address}/holders_chart",
-    run: async () => {
-      const tokenHoldersChart = await client.onchain.networks.tokens.holdersChart.get("solana", "Dfh5DzRgSvvCFDoYc2ciTkMrbDfRKybA4SoFbPmApump");
-    },
-  },
-
-  {
-    operation: "getTimeframe",
-    method: "GET",
-    path: "/onchain/networks/{network}/tokens/{token_address}/ohlcv/{timeframe}",
-    run: async () => {
-      const ohlcv = await client.onchain.networks.tokens.ohlcv.getTimeframe("solana", "So11111111111111111111111111111111111111112", "day");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/{network}/tokens/{token_address}/trades",
-    run: async () => {
-      const tokenTrades = await client.onchain.networks.tokens.trades.get("eth", "0xdac17f958d2ee523a2206206994597c13d831ec7");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/networks/new_pools",
-    run: async () => {
-      const pool = await client.onchain.networks.newPools.get();
-    },
-  },
-
-  {
-    operation: "getNetwork",
-    method: "GET",
-    path: "/onchain/networks/{network}/new_pools",
-    run: async () => {
-      const pool = await client.onchain.networks.newPools.getNetwork("eth");
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/pools/megafilter",
-    run: async () => {
-      const pool = await client.onchain.pools.megafilter.get();
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/pools/trending_search",
-    run: async () => {
-      const pools = await client.onchain.pools.trendingSearch.get();
-    },
-  },
-
-  {
-    operation: "get",
-    method: "GET",
-    path: "/onchain/categories",
-    run: async () => {
-      const onchainCategoriesList = await client.onchain.categories.get();
-    },
-  },
-
-  {
-    operation: "getPools",
-    method: "GET",
-    path: "/onchain/categories/{category_id}/pools",
-    run: async () => {
-      const categoriesPools = await client.onchain.categories.getPools("pump-fun");
+      const get_ = await client.onchain.tokens.infoRecentlyUpdated.get();
     },
   },
 

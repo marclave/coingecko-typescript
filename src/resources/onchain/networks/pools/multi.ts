@@ -5,31 +5,26 @@ import { APIPromise } from "../../../../api-promise";
 import type { RequestOptions } from "../../../../internal/request-options";
 import { path as __scalarPath } from "../../../../internal/utils/path";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
-  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
-
 export class Multi extends APIResource {
   /**
    * To query multiple pools based on the provided network and pool addresses
+   *
+   * @param {string} addresses - Pool contract address, comma-separated if more than one pool contract address.
+   * @param {MultiGetAddressesParams} params - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<MultiGetAddressesResponse>} Multiple pools data
+   *
+   * @example
+   * ```ts
+   * const getAddresses = await client.onchain.networks.pools.multi.getAddresses("0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640", {
+   *   network: "eth",
+   * });
+   * ```
    */
-  getAddresses(network: string, addresses: string, params: MultiGetAddressesParams | null | undefined = {}, options?: RequestOptions): APIPromise<MultiPoolAddressData> {
-    const { include, include_volume_breakdown, include_composition } = params ?? {};
+  getAddresses(addresses: string, params: MultiGetAddressesParams, options?: RequestOptions): APIPromise<MultiGetAddressesResponse> {
+    const { network, include, include_volume_breakdown, include_composition } = params ?? {};
     return this._client.get(__scalarPath`/onchain/networks/${network}/pools/multi/${addresses}`, { query: { include: include, include_volume_breakdown: include_volume_breakdown, include_composition: include_composition }, ...options });
   }
-}
-
-export interface MultiPoolAddressData {
-  data: Array<PoolAddressItem>;
-  /**
-   * Included related resources, present when include parameter is specified
-   */
-  included?: Array<{ id?: string; type?: string; attributes?: { address?: string; name?: string; symbol?: string; decimals?: number; image_url?: string; coingecko_coin_id?: string } }>;
 }
 
 export interface PoolAddressItem {
@@ -49,26 +44,59 @@ export interface PoolAddressItem {
 }
 
 export interface MultiGetAddressesParams {
-/**
- * Attributes to include, comma-separated if more than one.
- * Available values: `base_token`, `quote_token`, `dex`
- */
+  /**
+   * Path param: Network ID.
+   * *refers to [`/onchain/networks`](/reference/networks-list).
+   * @default eth
+   */
+  network: string;
+  /**
+   * Query param: Attributes to include, comma-separated if more than one.
+   * Available values: `base_token`, `quote_token`, `dex`
+   */
   include?: string;
-
-/**
- * Include volume breakdown.
- * Default: `false`
- */
+  /**
+   * Query param: Include volume breakdown.
+   * Default: `false`
+   */
   include_volume_breakdown?: boolean;
-
-/**
- * Include pool composition.
- * Default: `false`
- */
+  /**
+   * Query param: Include pool composition.
+   * Default: `false`
+   */
   include_composition?: boolean;
+}
 
+export interface MultiGetAddressesResponse {
+  data: Array<PoolAddressItem>;
+  /**
+   * Included related resources, present when include parameter is specified
+   */
+  included?: Array<MultiGetAddressesResponse.Included>;
+}
+
+export namespace MultiGetAddressesResponse {
+  export interface Included {
+    id?: string;
+    type?: string;
+    attributes?: Included.Attributes;
+  }
+
+  export namespace Included {
+    export interface Attributes {
+      address?: string;
+      name?: string;
+      symbol?: string;
+      decimals?: number;
+      image_url?: string;
+      coingecko_coin_id?: string;
+    }
+  }
 }
 export declare namespace Multi {
-  export { type MultiPoolAddressData as MultiPoolAddressData, type PoolAddressItem as PoolAddressItem, type MultiGetAddressesParams as MultiGetAddressesParams };
+  export {
+    type MultiGetAddressesResponse as MultiGetAddressesResponse,
+    type MultiGetAddressesParams as MultiGetAddressesParams,
+  };
 }
 export { Multi as MultiResource };

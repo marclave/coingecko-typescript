@@ -5,45 +5,130 @@ import { APIPromise } from "../../../../api-promise";
 import type { RequestOptions } from "../../../../internal/request-options";
 import { path as __scalarPath } from "../../../../internal/utils/path";
 
-const omitParams = (params: object, names: readonly string[]): Record<string, unknown> => {
-  const out: Record<string, unknown> = { ...(params as Record<string, unknown>) };
-  for (const name of names) delete out[name];
-  return out;
-};
-
-const mergeBody = (base: unknown, fields: Record<string, unknown>): Record<string, unknown> =>
-  typeof base === "object" && base !== null && !Array.isArray(base) ? { ...base, ...fields } : { ...fields };
-
 export class Trades extends APIResource {
   /**
    * To query the last 300 trades in the past 24 hours based on the provided pool address
+   *
+   * @param {string} pool_address - Pool contract address.
+   * @param {TradeGetParams} params - The parameters to send with the request.
+   * @param {RequestOptions} [options] - Options to apply to the request, such as headers and an abort signal.
+   * @returns {APIPromise<TradeGetResponse>} Last 300 trades in past 24 hours from a pool
+   *
+   * @example
+   * ```ts
+   * const get_ = await client.onchain.networks.pools.trades.get("0x06da0fd433c1a5d7a4faa01111c044910a184553", {
+   *   network: "eth",
+   * });
+   * ```
    */
-  get(network: string, pool_address: string, params: TradeGetParams | null | undefined = {}, options?: RequestOptions): APIPromise<Trades2> {
-    const { trade_volume_in_usd_greater_than, token } = params ?? {};
+  get(pool_address: string, params: TradeGetParams, options?: RequestOptions): APIPromise<TradeGetResponse> {
+    const { network, trade_volume_in_usd_greater_than, token } = params ?? {};
     return this._client.get(__scalarPath`/onchain/networks/${network}/pools/${pool_address}/trades`, { query: { trade_volume_in_usd_greater_than: trade_volume_in_usd_greater_than, token: token }, ...options });
   }
 }
 
-export interface Trades2 {
-  data: Array<{ id: string; type: string; attributes: { block_number: number; tx_hash: string; tx_from_address: string; from_token_amount: string; to_token_amount: string; price_from_in_currency_token: string; price_to_in_currency_token: string; price_from_in_usd: string; price_to_in_usd: string; block_timestamp: string; kind: string; volume_in_usd: string; from_token_address: string; to_token_address: string } }>;
+export interface TradeGetParams {
+  /**
+   * Path param: Network ID.
+   * *refers to [`/onchain/networks`](/reference/networks-list).
+   * @default eth
+   */
+  network: string;
+  /**
+   * Query param: Filter trades by trade volume in USD greater than this value.
+   * Default value: 0
+   */
+  trade_volume_in_usd_greater_than?: number;
+  /**
+   * Query param: Return trades for token, use this to invert the chart.
+   * Available values: `base`, `quote`, or token address.
+   * Default: `base`
+   */
+  token?: string;
 }
 
-export interface TradeGetParams {
-/**
- * Filter trades by trade volume in USD greater than this value.
- * Default value: 0
- */
-  trade_volume_in_usd_greater_than?: number;
+export interface TradeGetResponse {
+  data: Array<TradeGetResponse.Data>;
+}
 
-/**
- * Return trades for token, use this to invert the chart.
- * Available values: `base`, `quote`, or token address.
- * Default: `base`
- */
-  token?: string;
+export namespace TradeGetResponse {
+  export interface Data {
+    /**
+     * Trade identifier
+     */
+    id: string;
+    /**
+     * Resource type
+     */
+    type: string;
+    attributes: Data.Attributes;
+  }
 
+  export namespace Data {
+    export interface Attributes {
+      /**
+       * Block number of the trade
+       */
+      block_number: number;
+      /**
+       * Transaction hash
+       */
+      tx_hash: string;
+      /**
+       * Transaction sender address
+       */
+      tx_from_address: string;
+      /**
+       * Amount of token sent
+       */
+      from_token_amount: string;
+      /**
+       * Amount of token received
+       */
+      to_token_amount: string;
+      /**
+       * Price of from-token in currency token
+       */
+      price_from_in_currency_token: string;
+      /**
+       * Price of to-token in currency token
+       */
+      price_to_in_currency_token: string;
+      /**
+       * Price of from-token in USD
+       */
+      price_from_in_usd: string;
+      /**
+       * Price of to-token in USD
+       */
+      price_to_in_usd: string;
+      /**
+       * Block timestamp
+       */
+      block_timestamp: string;
+      /**
+       * Trade kind (buy or sell)
+       */
+      kind: string;
+      /**
+       * Trade volume in USD
+       */
+      volume_in_usd: string;
+      /**
+       * From-token contract address
+       */
+      from_token_address: string;
+      /**
+       * To-token contract address
+       */
+      to_token_address: string;
+    }
+  }
 }
 export declare namespace Trades {
-  export { type Trades2 as Trades, type TradeGetParams as TradeGetParams };
+  export {
+    type TradeGetResponse as TradeGetResponse,
+    type TradeGetParams as TradeGetParams,
+  };
 }
 export { Trades as TradeResource };
